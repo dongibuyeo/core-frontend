@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import pretendard from '@/utils/fonts'
 import './globals.css'
 
-import ReactQueryProviders from '@/hooks/useReactQuery.jsx'
+import ReactQueryProviders from '@/hooks/useReactQuery'
+import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
   title: 'DONGIBUYEO',
@@ -16,8 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.variable} font-pretendard`}>
+      <body
+        className={`${pretendard.variable} font-pretendard w-full h-dvh min-h-screen`}
+      >
         <ReactQueryProviders>{children}</ReactQueryProviders>
+        <Toaster />
       </body>
     </html>
   )
