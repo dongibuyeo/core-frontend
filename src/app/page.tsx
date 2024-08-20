@@ -1,5 +1,6 @@
 'use client'
 
+import Button from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
@@ -19,13 +20,7 @@ export default function Home() {
 
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <button
-        type="button"
-        className="px-5 py-2 border rounded-xl bg-[#4BAFF5] text-white"
-        onClick={handleRedirect}
-      >
-        로그인
-      </button>
+      <Button text="로그인" onClick={handleRedirect} />
     </div>
   )
 }

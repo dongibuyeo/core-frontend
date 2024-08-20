@@ -4,6 +4,9 @@ import './globals.css'
 
 import ReactQueryProviders from '@/hooks/useReactQuery'
 import { Toaster } from 'react-hot-toast'
+import Navbar from '@/components/Navbar'
+import Menubar from '@/components/Menubar'
+import Container from '@/components/ui/Container'
 
 export const metadata: Metadata = {
   title: 'DONGIBUYEO',
@@ -17,10 +20,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body
-        className={`${pretendard.variable} font-pretendard w-full h-dvh min-h-screen`}
-      >
-        <ReactQueryProviders>{children}</ReactQueryProviders>
+      <body className={`${pretendard.variable} font-pretendard w-full h-auto`}>
+        <ReactQueryProviders>
+          <Container>
+            <Navbar />
+            {children}
+            <Menubar />
+          </Container>
+        </ReactQueryProviders>
         <Toaster />
       </body>
     </html>
