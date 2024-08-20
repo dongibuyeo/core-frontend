@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 import { Home, Challenge, Chat, Profile } from '@/public/svg/index'
+import { useMenuState } from '@/hooks/useMenuState'
 
 const getIconColor = (path: string, currentPath: string) =>
   currentPath.includes(path) ? '#0046FF' : '#D2D2D2'
@@ -14,10 +15,11 @@ const MenuDetails = [
 ]
 
 export default function Menubar() {
+  const menuState = useMenuState()
   const router = useRouter()
   const pathname = usePathname()
 
-  if (pathname === '/' || pathname === '/signup') return null
+  if (!menuState) return null
 
   return (
     <nav className="fixed bottom-0 flex items-center px-5 justify-between py-[.625rem] w-full">
