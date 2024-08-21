@@ -60,15 +60,19 @@ export default function ChallengeCard({
       </div>
       <div className="mt-2 mb-1">
         <h3 className="text-base font-medium">
-          <span className="text-primary">{calculateDday(startDate)}</span>
-          <span className="text-black ml-2">{title}</span>
+          <span className="text-primary text-lg">
+            {calculateDday(startDate)}
+          </span>
+          <span className="text-black ml-2 text-lg">{title}</span>
         </h3>
       </div>
-      <div className="mt-auto flex justify-between w-full text-xs">
-        <span className="text-_grey-300">{dateRange}</span>
-        <span>
-          <span className="text-_grey-300">누적 기금 </span>
-          <span className="text-_blue-300 ml-1 font-medium">
+      <div className="mt-auto flex justify-between items-center w-full">
+        <span className="text-_grey-300 text-sm leading-none">{dateRange}</span>
+        <span className="flex items-center">
+          <span className="text-_grey-300 text-sm leading-none">
+            누적 기금{' '}
+          </span>
+          <span className="text-_blue-300 ml-1 font-medium leading-none">
             {fund.toLocaleString()} 원
           </span>
         </span>
