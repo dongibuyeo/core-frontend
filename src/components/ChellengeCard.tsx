@@ -3,6 +3,7 @@
 import { KeyboardEvent } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { calculateDday } from '@/utils/calculateDday'
 
 type Props = {
   id: number
@@ -12,19 +13,6 @@ type Props = {
   participants: number
   fund: number
   imageUrl: string
-}
-
-const calculateDday = (startDate: string) => {
-  const today = new Date()
-  const start = new Date(startDate)
-
-  const diffTime = start.getTime() - today.getTime()
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-
-  if (diffDays > 0) {
-    return `D-${diffDays}`
-  }
-  return '진행중'
 }
 
 export default function ChallengeCard({
