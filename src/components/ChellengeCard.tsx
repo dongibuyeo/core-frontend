@@ -58,7 +58,7 @@ export default function ChallengeCard({
         </div>
       </div>
       <div className="mt-2 mb-1">
-        <h3 className="text-base font-bold">
+        <h3 className="text-base font-medium">
           <span className="text-primary">{calculateDday(startDate)}</span>
           <span className="text-black ml-2">{title}</span>
         </h3>
@@ -67,7 +67,7 @@ export default function ChallengeCard({
         <span className="text-_grey-300">{dateRange}</span>
         <span>
           <span className="text-_grey-300">누적 기금 </span>
-          <span className="text-_blue-300 ml-1 font-bold">
+          <span className="text-_blue-300 ml-1 font-medium">
             {fund.toLocaleString()} 원
           </span>
         </span>
