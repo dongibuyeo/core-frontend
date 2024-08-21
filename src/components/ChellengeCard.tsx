@@ -4,7 +4,7 @@ import { KeyboardEvent } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-interface ChallengeCardProps {
+type Props = {
   id: number
   title: string
   startDate: string
@@ -35,7 +35,7 @@ export default function ChallengeCard({
   participants,
   fund,
   imageUrl,
-}: ChallengeCardProps) {
+}: Props) {
   const router = useRouter()
 
   const dateRange = `${startDate} ~ ${endDate}`
