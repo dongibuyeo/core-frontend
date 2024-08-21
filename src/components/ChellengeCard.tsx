@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import { KeyboardEvent } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
@@ -44,7 +44,7 @@ export default function ChallengeCard({
     router.push(`/challenge/${id}`)
   }
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
+  const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Enter' || event.key === ' ') {
       handleClick()
     }
