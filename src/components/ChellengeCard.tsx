@@ -67,7 +67,7 @@ export default function ChallengeCard({
           className="rounded-2xl"
         />
         <div className="absolute top-3 right-4 bg-black text-white text-xs px-5 py-1 rounded-xl">
-          {participants}명 참여 중
+          {participants.toLocaleString()}명 참여 중
         </div>
       </div>
       <div className="mt-2 mb-1">
