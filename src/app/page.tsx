@@ -14,7 +14,7 @@ export default function Home() {
       router.push('/home')
     } else {
       toast.success('아직 회원이 아니시군요\n회원가입을 시작합니다!')
-      router.push('/signup')
+      router.push('/signup/emailCheck')
     }
   }
 

@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import pretendard from '@/utils/fonts'
 import './globals.css'
 
-import ReactQueryProviders from '@/hooks/useReactQuery'
 import { Toaster } from 'react-hot-toast'
 import Navbar from '@/components/Navbar'
 import Menubar from '@/components/Menubar'
 import Container from '@/components/ui/Container'
+import Provider from '@/components/Provider'
 
 export const metadata: Metadata = {
   title: 'DONGIBUYEO',
@@ -21,13 +21,13 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard w-full h-auto`}>
-        <ReactQueryProviders>
+        <Provider>
           <Container>
             <Navbar />
             {children}
             <Menubar />
           </Container>
-        </ReactQueryProviders>
+        </Provider>
         <Toaster />
       </body>
     </html>
