@@ -28,8 +28,12 @@ export default function ChallengeCard({
 
   const dateRange = `${startDate} ~ ${endDate}`
 
+  const isChallengeEnded = new Date(endDate) < new Date()
+
   const handleClick = () => {
-    router.push(`/challenge/${id}`)
+    if (!isChallengeEnded) {
+      router.push(`/challenge/${id}`)
+    }
   }
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -40,12 +44,19 @@ export default function ChallengeCard({
 
   return (
     <div
-      className="flex flex-col cursor-pointer relative"
+      className={`flex flex-col pb-2 cursor-pointer relative rounded-2xl ${isChallengeEnded ? 'pointer-events-none' : ''}`}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       role="button"
-      tabIndex={0}
+      tabIndex={isChallengeEnded ? -1 : 0}
     >
+      {isChallengeEnded && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-2xl z-10">
+          <span className="text-white text-xl font-medium">
+            마감된 챌린지입니다
+          </span>
+        </div>
+      )}
       <div className="relative w-full">
         <Image
           src={imageUrl}

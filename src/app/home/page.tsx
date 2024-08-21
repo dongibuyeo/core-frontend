@@ -8,8 +8,8 @@ export default function Home() {
         <ChallengeCard
           id={1}
           title="한 달 커피 소비 줄이기"
-          startDate="2024-09-01"
-          endDate="2024-09-31"
+          startDate="2024-07-01"
+          endDate="2024-07-31"
           participants={3786}
           fund={3201000}
           imageUrl="/image/coffee.jpg"
