@@ -46,12 +46,13 @@ export default function ChallengeCard({
       role="button"
       tabIndex={0}
     >
-      <div className="relative w-[350px] h-[180px]">
+      <div className="relative w-full">
         <Image
           src={imageUrl}
           alt="Challenge Image"
-          fill
-          className="rounded-2xl object-cover"
+          height={400}
+          width={400}
+          className="rounded-2xl object-cover aspect-video"
         />
         <div className="absolute top-3 right-4 bg-black text-white text-xs px-5 py-1 rounded-xl">
           {participants.toLocaleString()}명 참여 중
