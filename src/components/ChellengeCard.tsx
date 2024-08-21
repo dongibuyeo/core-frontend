@@ -62,9 +62,8 @@ export default function ChallengeCard({
         <Image
           src={imageUrl}
           alt="Challenge Image"
-          layout="fill"
-          objectFit="cover"
-          className="rounded-2xl"
+          fill
+          className="rounded-2xl object-cover"
         />
         <div className="absolute top-3 right-4 bg-black text-white text-xs px-5 py-1 rounded-xl">
           {participants.toLocaleString()}명 참여 중
