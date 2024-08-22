@@ -2,6 +2,7 @@
 
 import ChallengeStatusButton from '@/components/ChallengeStatusButton'
 import ChallengeCard from '@/components/ChellengeCard'
+import { ArrowLeft } from '@/public/svg/index'
 import { ChallengeStatus } from '@/types/ChallengeStatus'
 import { useState } from 'react'
 
@@ -10,8 +11,8 @@ export default function Home() {
     useState<ChallengeStatus>('SCHEDULED')
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
-      <div className="w-full h-[3.75rem] flex items-center">
+    <div className="w-full h-full flex flex-col">
+      <div className="w-full min-h-[3.75rem] flex items-center">
         <h1 className="text-xl font-bold">LOGO</h1>
       </div>
       <div className="py-2 sticky top-0 z-10 w-full">
@@ -21,7 +22,11 @@ export default function Home() {
           tabType="main"
         />
       </div>
-      <div className="w-full flex flex-col justify-center gap-7">
+      <div className="flex justify-between">
+        <h1 className="text-xl font-medium">인기 챌린지</h1>
+        <ArrowLeft className="w-6 h-76 rotate-180 cursor-pointer" />
+      </div>
+      <div className="w-full flex flex-col justify-center gap-7 mt-5">
         <ChallengeCard
           id={1}
           title="한 달 커피 소비 줄이기"

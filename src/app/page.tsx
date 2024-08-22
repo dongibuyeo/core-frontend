@@ -19,8 +19,8 @@ export default function Home() {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
-      <Button text="로그인" onClick={handleRedirect} />
+    <div className="w-full h-dvh flex items-center justify-center">
+      <Button text="로그인" onClick={handleRedirect} className="text-white" />
     </div>
   )
 }
