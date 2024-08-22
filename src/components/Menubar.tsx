@@ -22,7 +22,7 @@ export default function Menubar() {
   if (!menuState) return null
 
   return (
-    <nav className="fixed bottom-0 left-0 flex items-center px-5 justify-between py-[.625rem] w-full">
+    <nav className="bg-white z-10 fixed bottom-0 left-0 flex items-center px-5 justify-between py-[.625rem] w-full">
       {MenuDetails.map(({ path, component: IconComponent, label }) => (
         <div
           key={path}

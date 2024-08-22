@@ -10,7 +10,7 @@ export default function Container({
   const menuState = useMenuState()
   return (
     <div
-      className={`w-full h-dvh pt-[3.75rem] ${menuState ? 'pb-[4.5rem]' : ''} px-5`}
+      className={`relative w-full max-h-dvh overflow-y-scroll pt-[3.75rem] ${menuState ? 'pb-[4.5rem]' : ''} px-5`}
     >
       {children}
     </div>

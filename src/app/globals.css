@@ -18,3 +18,7 @@ input:-webkit-autofill:active {
 .translate-x-custom_200 {
   transform: translateX(calc(200% - 16px));
 }
+
+.aspect-half {
+  aspect-ratio: 2 / 1;
+}
