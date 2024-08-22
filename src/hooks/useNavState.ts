@@ -6,11 +6,11 @@ const useNavState = () => {
 
   const pathSegments = pathname.split('/').filter(Boolean)
 
-  const isPathWithoutMenu =
+  const isPathWithoutNav =
     pathSegments.some((segment) => URL_WITHOUT_NAV.includes(`/${segment}`)) ||
     pathSegments.length === 0
 
-  if (isPathWithoutMenu) return false
+  if (isPathWithoutNav) return false
 
   return true
 }
