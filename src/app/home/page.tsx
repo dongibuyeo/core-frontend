@@ -16,7 +16,25 @@ export default function Home() {
         challengeStatus={challengeStatus}
         setChallengeStatus={setChallengeStatus}
       />
-      <div className="w-full flex justify-center">
+      <div className="w-full flex flex-col justify-center gap-7">
+        <ChallengeCard
+          id={1}
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-07-01"
+          endDate="2024-07-31"
+          participants={3786}
+          fund={3201000}
+          imageUrl="/image/coffee.jpg"
+        />
+        <ChallengeCard
+          id={1}
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-07-01"
+          endDate="2024-07-31"
+          participants={3786}
+          fund={3201000}
+          imageUrl="/image/coffee.jpg"
+        />
         <ChallengeCard
           id={1}
           title="한 달 커피 소비 줄이기"
