@@ -11,6 +11,7 @@ import Provider from '@/components/Provider'
 export const metadata: Metadata = {
   title: 'DONGIBUYEO',
   description: '신한 해커톤은 역시 돈기부여',
+  manifest: '/manifest.json',
 }
 
 export default function RootLayout({
