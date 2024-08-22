@@ -10,3 +10,11 @@ input:-webkit-autofill:active {
   -webkit-transition: background-color 9999s ease-out;
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
+
+.translate-x-custom_100 {
+  transform: translateX(calc(100% - 8px));
+}
+
+.translate-x-custom_200 {
+  transform: translateX(calc(200% - 16px));
+}
