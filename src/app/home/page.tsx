@@ -11,11 +11,16 @@ export default function Home() {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
-      <h1 className="text-2xl mb-4">메인 페이지</h1>
-      <ChallengeStatusButton
-        challengeStatus={challengeStatus}
-        setChallengeStatus={setChallengeStatus}
-      />
+      <div className="w-full h-[3.75rem] flex items-center">
+        <h1 className="text-xl font-bold">LOGO</h1>
+      </div>
+      <div className="py-2 sticky top-0 z-10 w-full">
+        <ChallengeStatusButton
+          challengeStatus={challengeStatus}
+          setChallengeStatus={setChallengeStatus}
+          tabCount="three"
+        />
+      </div>
       <div className="w-full flex flex-col justify-center gap-7">
         <ChallengeCard
           id={1}
