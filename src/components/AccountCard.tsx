@@ -7,7 +7,7 @@ type Props = {
 
 function AccountCard({ account, balance }: Props) {
   return (
-    <div className="bg-white border-_grey-200 border-[0.5px] shadow-[0px_1px_4px_rgba(12, 12, 13, 0.05)] rounded-xl p-4 relative w-full">
+    <div className="bg-white border-_grey-200 border-[.0313rem] shadow-[0rem_.0625rem_.25rem_rgba(12, 12, 13, 0.05)] rounded-xl p-4 relative w-full">
       <div className="flex items-center mb-6">
         <div className="mr-1">
           <Image
@@ -27,7 +27,7 @@ function AccountCard({ account, balance }: Props) {
           <p className="text-sm text-[#7d7d7d]">신한 {account}</p>
         </div>
       </div>
-      <div className="text-[32px] text-end">
+      <div className="text-[2rem] text-end">
         <span className="font-bold mr-1">{balance.toLocaleString()}</span>
         <span>원</span>
       </div>
