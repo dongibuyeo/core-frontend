@@ -45,7 +45,7 @@ export default function EmailCheckStep() {
       )}
       <Button
         text="다음"
-        className="absolute bottom-5 right-0"
+        className="absolute bottom-3 w-full right-0 text-white"
         disabled={!isValidEmail(email)}
         onClick={() => router.push('/signup/profile')}
       />
