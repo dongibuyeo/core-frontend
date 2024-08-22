@@ -21,7 +21,7 @@ export default function Button({
   return (
     <button
       type="button"
-      className={`w-full py-3 text-white text-sm font-medium rounded-xl ${disabled ? 'bg-_grey-200' : 'bg-_blue-300'} ${className || ''}`}
+      className={`w-full py-3 text-sm font-medium rounded-xl ${disabled ? 'bg-_grey-200' : 'bg-_blue-300'} ${className || 'text-white'}`}
       onClick={() => (onClick ? onClick() : router.push(url as string))}
       disabled={!!disabled}
     >
