@@ -18,7 +18,7 @@ export default function Home() {
         <ChallengeStatusButton
           challengeStatus={challengeStatus}
           setChallengeStatus={setChallengeStatus}
-          tabCount="three"
+          tabType="main"
         />
       </div>
       <div className="w-full flex flex-col justify-center gap-7">

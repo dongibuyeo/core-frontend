@@ -11,11 +11,11 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
 
-.translate-x-custom_100_three {
+.translate-x-custom_100_my {
   transform: translateX(calc(100% - 8px));
 }
 
-.translate-x-custom_100_two {
+.translate-x-custom_100_main {
   transform: translateX(calc(100% - 16px));
 }
 
