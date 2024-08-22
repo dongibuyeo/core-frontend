@@ -1,0 +1,19 @@
+{
+  "short_name": "돈기부여",
+  "name": "돈기부여",
+  "description": "돈기부여와 함께 나만의 챌린지를 시작하세요",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/image/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
