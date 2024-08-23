@@ -47,15 +47,28 @@ export default function Home() {
           imageUrl="/image/coffee.jpg"
         />
       </div>
-      <div className="w-full flex justify-center mb-4">
-        <FundCard
-          title="한 달 커피 소비 줄이기 기금"
-          participants={3786}
-          fund={3201000}
-        />
-      </div>
-      <div className="w-full flex justify-center">
-        <AccountCard account="110-000-000000" balance={320100} />
+      <div className="w-full flex flex-col justify-center gap-5 mt-5">
+        <div className="w-full flex justify-center">
+          <FundCard
+            title="한 달 커피 소비 줄이기 기금"
+            participants={3786}
+            fund={3201000}
+          />
+        </div>
+        <div className="w-full flex justify-center">
+          <AccountCard
+            account="110-000-000000"
+            balance={210000}
+            accountType="deposit"
+          />
+        </div>
+        <div className="w-full flex justify-center">
+          <AccountCard
+            account="110-000-000000"
+            balance={70000}
+            accountType="saving"
+          />
+        </div>
       </div>
     </div>
   )
