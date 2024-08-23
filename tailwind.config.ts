@@ -16,6 +16,7 @@ const config: Config = {
         '_grey-100': '#EEEEEE',
         '_grey-200': '#D2D2D2',
         '_grey-300': '#929292',
+        '_grey-400': '#626262',
       },
     },
   },
