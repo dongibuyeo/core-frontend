@@ -16,7 +16,7 @@ function SettingItem({ icon, label, url, onClick, text }: Props) {
   return (
     <button
       type="button"
-      className="flex items-center py-6 w-full cursor-pointer"
+      className="flex items-center py-6 w-full bg-white cursor-pointer"
       onClick={() => (onClick ? onClick() : router.push(url as string))}
     >
       <div className="w-6 h-6 ml-8 mr-5">{icon}</div>
