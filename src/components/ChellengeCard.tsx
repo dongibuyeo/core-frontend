@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { calculateDday } from '@/utils/calculateDday'
 
-type Props = {
+interface Props {
   id: number
   title: string
   startDate: string
