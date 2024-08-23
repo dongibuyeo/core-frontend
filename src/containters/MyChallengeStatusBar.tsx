@@ -5,10 +5,10 @@ interface Props {
 
 function StatusItem({ count, label }: Props) {
   return (
-    <button type="button" className="flex-1 text-center">
+    <div className="flex-1 text-center">
       <div className="text-lg font-medium">{count}</div>
       <div className="text-_grey-400 text-xs">{label}</div>
-    </button>
+    </div>
   )
 }
 
