@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-type Props = {
+interface Props {
   title: string
   participants: number
   fund: number
