@@ -61,7 +61,7 @@ export default function ProfileStep() {
 
       <Button
         text="다음"
-        className="absolute bottom-5 right-0"
+        className="absolute bottom-3 right-0 text-white"
         disabled={!isValidNickname(nickname) || !username}
         onClick={() => router.push('/signup/push')}
       />
