@@ -25,6 +25,11 @@ export const URL_LABEL_MAP: UrlMap[] = [
     goBack: true,
   },
   {
+    path: '/mypage/settings',
+    label: '설정',
+    goBack: true,
+  },
+  {
     path: '/mypage',
     label: '마이페이지',
     goBack: true,
