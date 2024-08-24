@@ -14,7 +14,7 @@ import {
 export default function Settingpage() {
   return (
     <div className="w-full h-full">
-      <div className="absolute inset-0 bg-[#F5F5F5]" />
+      <div className="absolute inset-0 bg-_grey-100" />
       <div className="relative w-full h-full flex flex-col items-start justify-center">
         <div className="mb-3 w-full">
           <SettingItem icon={<EditProfile />} label="프로필 설정" />

@@ -1,9 +1,8 @@
 /* eslint-disable react/require-default-props */
-import { ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 
 interface Props {
-  icon: ReactNode
+  icon: React.ReactNode
   label: string
   url?: string
   onClick?: () => void
