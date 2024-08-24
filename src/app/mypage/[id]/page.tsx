@@ -1,5 +1,5 @@
 import ToggleSwitch from '@/components/ui/ToggleSwitch'
-import MyChallengeStatusBar from '@/containters/MyChallengeStatusBar'
+import MyChallengeStatusBar from '@/containters/mypage/MyChallengeStatusBar'
 
 export default function Mypage() {
   return (
