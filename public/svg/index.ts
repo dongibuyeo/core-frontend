@@ -3,6 +3,7 @@ import Challenge from './challenge.svg'
 import Home from './home.svg'
 import Profile from './profile.svg'
 import Chat from './chat.svg'
+import Info from './info-circle.svg'
 import EditProfile from './edit-profile.svg'
 import PushNotification from './push-notification.svg'
 import Announcement from './announcement.svg'
@@ -17,6 +18,7 @@ export {
   Challenge,
   Chat,
   Profile,
+  Info,
   EditProfile,
   PushNotification,
   Announcement,
