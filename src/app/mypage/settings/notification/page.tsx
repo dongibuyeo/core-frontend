@@ -9,7 +9,7 @@ export default function NotificationPage() {
     useState(false)
 
   return (
-    <div className="w-full max-w-lg mx-auto mt-6">
+    <div className="w-full mt-5">
       <ToggleSettingItem
         label="챌린지 관련 알림"
         isChecked={isChallengeAlertEnabled}
