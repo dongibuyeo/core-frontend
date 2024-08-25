@@ -30,7 +30,7 @@ function ProfileSelector({ onSelect }: Props) {
           key={image.alt}
           type="button"
           onClick={() => handleClick(image.alt, image.component)}
-          className={`w-[8.8125rem] h-[8.8125rem] p-2 rounded-xl bg-_grey-100
+          className={`w-36 h-36 p-2 rounded-xl bg-_grey-100
                       ${selectedAlt === image.alt ? 'border-2 border-_blue-300' : 'border-transparent'}`}
         >
           <div className="w-full h-full flex items-center justify-center">
