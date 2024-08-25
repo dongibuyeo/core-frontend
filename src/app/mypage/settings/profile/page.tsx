@@ -30,6 +30,12 @@ export default function ProfilePage() {
     inputRef.current?.focus()
   }, [])
 
+  const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.currentTarget === e.target) {
+      setProfileSelectorOpen(false)
+    }
+  }
+
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center">
       <div className="relative w-36 h-36 mt-9 mb-14">
@@ -59,8 +65,22 @@ export default function ProfilePage() {
       </div>
 
       {isProfileSelectorOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
-          <div className="bg-white p-4 rounded-lg">
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20"
+          onClick={handleOutsideClick}
+          role="button"
+          tabIndex={0}
+          aria-label="Close profile selector"
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setProfileSelectorOpen(false)
+          }}
+        >
+          <div
+            className="bg-white p-4 rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+            role="none"
+            tabIndex={-1}
+          >
             <ProfileSelector
               onSelect={(image: JSX.Element) => {
                 setProfileImage(image)
