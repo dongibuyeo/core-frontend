@@ -18,7 +18,11 @@ export default function Settingpage() {
       <div className="relative w-full h-full flex flex-col items-start justify-center">
         <div className="mb-3 w-full">
           <SettingItem icon={<EditProfile />} label="프로필 설정" />
-          <SettingItem icon={<PushNotification />} label="푸시알림 설정" />
+          <SettingItem
+            icon={<PushNotification />}
+            label="푸시알림 설정"
+            url="/mypage/settings/notification"
+          />
         </div>
         <div className="mb-3 w-full">
           <SettingItem icon={<Announcement />} label="공지사항" />

@@ -1,17 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+interface Props {
+  isChecked: boolean
+  onToggle: () => void
+}
 
-export default function ToggleSwitch() {
-  const [isChecked, setIsChecked] = useState<boolean>(false)
-
+export default function ToggleSwitch({ isChecked, onToggle }: Props) {
   return (
     <label className="relative inline-block w-[3.25rem] h-7">
       <input
-        id="toggle"
         type="checkbox"
         checked={isChecked}
-        onChange={() => setIsChecked(!isChecked)}
+        onChange={onToggle}
         className="sr-only peer"
         aria-label="Toggle Switch"
       />
