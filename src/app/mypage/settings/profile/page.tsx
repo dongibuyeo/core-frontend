@@ -43,7 +43,9 @@ export default function ProfilePage() {
         onChange={handleNicknameChange}
       />
 
-      <Button text="수정 완료" url="/mypage/settings" />
+      <div className="w-full fixed px-5 bottom-12">
+        <Button text="수정 완료" url="/mypage/settings" />
+      </div>
 
       {isProfileSelectorOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
