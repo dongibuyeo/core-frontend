@@ -8,12 +8,21 @@ import ProfileImage from '@/components/ui/ProfileImage'
 import ProfileSelector from '@/containters/settings/ProfileSelector'
 
 export default function ProfilePage() {
-  const [nickname, setNickname] = useState('')
+  const storedNickname =
+    typeof window !== 'undefined'
+      ? localStorage.getItem('nickname') || '강남건물주될거야'
+      : '강남건물주될거야'
+
+  const [nickname, setNickname] = useState(storedNickname)
   const [profileImage, setProfileImage] = useState<JSX.Element>(<Sol />)
   const [isProfileSelectorOpen, setProfileSelectorOpen] = useState(false)
 
   const handleNicknameChange = (value: string) => {
     setNickname(value)
+  }
+
+  const handleNicknameSave = () => {
+    localStorage.setItem('nickname', nickname)
   }
 
   const inputRef = useRef<HTMLInputElement>(null)
@@ -44,7 +53,7 @@ export default function ProfilePage() {
       />
 
       <div className="w-full fixed px-5 bottom-12">
-        <Button text="수정 완료" url="/mypage/settings" />
+        <Button text="수정 완료" onClick={handleNicknameSave} />
       </div>
 
       {isProfileSelectorOpen && (
