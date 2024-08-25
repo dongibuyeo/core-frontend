@@ -4,9 +4,9 @@ import './globals.css'
 
 import { Toaster } from 'react-hot-toast'
 import Navbar from '@/components/Navbar'
-import Menubar from '@/components/Menubar'
 import Container from '@/components/ui/Container'
 import Provider from '@/components/Provider'
+import RootLayoutClient from '@/containters/RootLayoutClient'
 
 export const metadata: Metadata = {
   title: 'DONGIBUYEO',
@@ -25,8 +25,7 @@ export default function RootLayout({
         <Provider>
           <Container>
             <Navbar />
-            {children}
-            <Menubar />
+            <RootLayoutClient>{children}</RootLayoutClient>
           </Container>
         </Provider>
         <Toaster />

@@ -11,6 +11,12 @@ import Contact from './contact.svg'
 import Logout from './logout.svg'
 import Delete from './delete.svg'
 import Version from './version.svg'
+import Settings from './settings.svg'
+import ProfileSetting from './profile-setting.svg'
+import Sol from './sol.svg'
+import Pli from './pli.svg'
+import Lay from './lay.svg'
+import Moli from './moli.svg'
 
 export {
   ArrowLeft,
@@ -26,4 +32,10 @@ export {
   Logout,
   Delete,
   Version,
+  Settings,
+  ProfileSetting,
+  Sol,
+  Pli,
+  Lay,
+  Moli,
 }
