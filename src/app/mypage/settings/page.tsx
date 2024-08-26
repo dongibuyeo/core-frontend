@@ -22,7 +22,11 @@ export default function SettingPage() {
             label="프로필 설정"
             url="/mypage/settings/profile"
           />
-          <SettingItem icon={<PushNotification />} label="푸시알림 설정" />
+          <SettingItem
+            icon={<PushNotification />}
+            label="푸시알림 설정"
+            url="/mypage/settings/notification"
+          />
         </div>
         <div className="mb-3 w-full">
           <SettingItem icon={<Announcement />} label="공지사항" />

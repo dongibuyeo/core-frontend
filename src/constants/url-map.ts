@@ -30,6 +30,11 @@ export const URL_LABEL_MAP: UrlMap[] = [
     goBack: true,
   },
   {
+    path: '/mypage/settings/notification',
+    label: '푸시알림 설정',
+    goBack: true,
+  },
+  {
     path: '/mypage/settings',
     label: '설정',
     goBack: true,
