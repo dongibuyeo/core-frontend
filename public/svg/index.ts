@@ -1,4 +1,5 @@
 import ArrowLeft from './arrow-left.svg'
+import ArrowRight from './arrow-right.svg'
 import Challenge from './challenge.svg'
 import Home from './home.svg'
 import Profile from './profile.svg'
@@ -17,9 +18,12 @@ import Sol from './sol.svg'
 import Pli from './pli.svg'
 import Lay from './lay.svg'
 import Moli from './moli.svg'
+import RedFlag from './red-flag.svg'
+import MoneyBag from './money-bag.svg'
 
 export {
   ArrowLeft,
+  ArrowRight,
   Home,
   Challenge,
   Chat,
@@ -38,4 +42,6 @@ export {
   Pli,
   Lay,
   Moli,
+  RedFlag,
+  MoneyBag,
 }
