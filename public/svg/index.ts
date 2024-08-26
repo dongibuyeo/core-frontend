@@ -1,4 +1,5 @@
 import ArrowLeft from './arrow-left.svg'
+import ArrowDown from './arrow-down.svg'
 import Challenge from './challenge.svg'
 import Home from './home.svg'
 import Profile from './profile.svg'
@@ -17,9 +18,15 @@ import Sol from './sol.svg'
 import Pli from './pli.svg'
 import Lay from './lay.svg'
 import Moli from './moli.svg'
+import Calendar from './calendar.svg'
+import Flag from './flag.svg'
+import MoneyBag from './money-bag.svg'
+import Trophy from './trophy.svg'
+import SuccessModalChart from './success-modal-chart.svg'
 
 export {
   ArrowLeft,
+  ArrowDown,
   Home,
   Challenge,
   Chat,
@@ -38,4 +45,9 @@ export {
   Pli,
   Lay,
   Moli,
+  Calendar,
+  Flag,
+  MoneyBag,
+  Trophy,
+  SuccessModalChart,
 }
