@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { ProfileSetting, Sol } from '@/public/svg/index'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { ProfileSetting, Sol, Pli, Lay, Moli } from '@/public/svg/index'
 import Button from '@/components/ui/Button'
 import ProfileImage from '@/components/ui/ProfileImage'
 import ProfileSelector from '@/containters/settings/ProfileSelector'
@@ -13,33 +13,38 @@ export default function ProfilePage() {
       : '강남건물주될거야'
 
   const [nickname, setNickname] = useState(storedNickname)
-  const [profileImage, setProfileImage] = useState<JSX.Element>(<Sol />)
+  const [profileImageNumber, setProfileImageNumber] = useState(1)
   const [isProfileSelectorOpen, setProfileSelectorOpen] = useState(false)
-
-  const handleNicknameChange = (value: string) => {
-    setNickname(value)
-  }
-
-  const handleNicknameSave = () => {
-    localStorage.setItem('nickname', nickname)
-  }
 
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     inputRef.current?.focus()
+  }, [inputRef])
+
+  const handleNicknameChange = useCallback((value: string) => {
+    setNickname(value)
   }, [])
 
-  const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.currentTarget === e.target) {
-      setProfileSelectorOpen(false)
+  const handleNicknameSave = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('nickname', nickname)
     }
-  }
+  }, [nickname])
+
+  const handleOutsideClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (e.currentTarget === e.target) {
+        setProfileSelectorOpen(false)
+      }
+    },
+    [],
+  )
 
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center">
       <div className="relative w-36 h-36 mt-9 mb-14">
-        <ProfileImage imageUrl={profileImage} />
+        <ProfileImage profileImageNumber={profileImageNumber} />
 
         <button
           type="button"
@@ -56,7 +61,7 @@ export default function ProfilePage() {
         type="text"
         value={nickname}
         onChange={(e) => handleNicknameChange(e.target.value)}
-        className="border border-_grey-200 rounded-3xl px-5 py-2 w-56 outline-none focus:border-primary focus:ring-0 focus:outline-none"
+        className="border border-_grey-200 rounded-3xl px-5 py-2 w-56 outline-none focus:border-primary focus:ring-0"
         style={{ borderWidth: '1.5px' }}
       />
 
@@ -68,8 +73,8 @@ export default function ProfilePage() {
         <div
           className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20"
           onClick={handleOutsideClick}
-          role="button"
-          tabIndex={0}
+          role="dialog"
+          tabIndex={-1}
           aria-label="Close profile selector"
           onKeyDown={(e) => {
             if (e.key === 'Escape') setProfileSelectorOpen(false)
@@ -78,12 +83,10 @@ export default function ProfilePage() {
           <div
             className="bg-white p-4 rounded-lg"
             onClick={(e) => e.stopPropagation()}
-            role="none"
-            tabIndex={-1}
           >
             <ProfileSelector
-              onSelect={(image: JSX.Element) => {
-                setProfileImage(image)
+              onSelect={(imageIndex: number) => {
+                setProfileImageNumber(imageIndex)
                 setProfileSelectorOpen(false)
               }}
             />

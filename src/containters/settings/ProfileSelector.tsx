@@ -2,7 +2,7 @@ import { Sol, Pli, Lay, Moli } from '@/public/svg/index'
 import { useState } from 'react'
 
 interface Props {
-  onSelect: (image: JSX.Element) => void
+  onSelect: (imageIndex: number) => void
 }
 
 function ProfileSelector({ onSelect }: Props) {
@@ -13,25 +13,25 @@ function ProfileSelector({ onSelect }: Props) {
     { component: <Moli />, alt: 'Moli' },
   ]
 
-  const [selectedAlt, setSelectedAlt] = useState<string | null>(null)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
-  const handleClick = (alt: string, component: JSX.Element) => {
-    if (selectedAlt === alt) {
-      onSelect(component)
+  const handleClick = (index: number) => {
+    if (selectedIndex === index) {
+      onSelect(index)
     } else {
-      setSelectedAlt(alt)
+      setSelectedIndex(index)
     }
   }
 
   return (
     <div className="grid grid-cols-2 gap-3">
-      {images.map((image) => (
+      {images.map((image, index) => (
         <button
           key={image.alt}
           type="button"
-          onClick={() => handleClick(image.alt, image.component)}
+          onClick={() => handleClick(index)}
           className={`w-36 h-36 p-2 rounded-xl bg-_grey-100
-                      ${selectedAlt === image.alt ? 'border-2 border-_blue-300' : 'border-transparent'}`}
+                      ${selectedIndex === index ? 'border-2 border-_blue-300' : 'border-transparent'}`}
         >
           <div className="w-full h-full flex items-center justify-center">
             {image.component}
