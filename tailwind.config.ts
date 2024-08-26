@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import tailwindScrollbarHide from 'tailwind-scrollbar-hide'
+
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
@@ -20,6 +23,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [tailwindScrollbarHide],
 }
 export default config

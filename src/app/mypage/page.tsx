@@ -2,21 +2,52 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, RedFlag, MoneyBag } from '@/public/svg/index'
+import {
+  ArrowRight,
+  RedFlag,
+  MoneyBag,
+  Sol,
+  Pli,
+  Lay,
+  Moli,
+} from '@/public/svg/index'
 import ProfileImage from '@/components/ui/ProfileImage'
 import SectionTitle from '@/components/ui/SectionTitle'
 import MyChallengeStatusBar from '@/containters/mypage/MyChallengeStatusBar'
 import AccountCard from '@/components/AccountCard'
 
-interface Props {
-  profileImage: JSX.Element
-  nickname: string | null
+const getProfileImage = (profileImageNumber: number) => {
+  switch (profileImageNumber) {
+    case 1:
+      return <Sol />
+    case 2:
+      return <Pli />
+    case 3:
+      return <Lay />
+    case 4:
+      return <Moli />
+    default:
+      return <Sol />
+  }
 }
 
-export default function Mypage({ profileImage, nickname }: Props) {
+export default function Mypage() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
+
+  const accounts = [
+    {
+      account: '110-472-000000',
+      balance: 210000,
+      accountType: 'deposit' as 'deposit' | 'saving',
+    },
+    {
+      account: '110-472-000000',
+      balance: 70000,
+      accountType: 'saving' as 'deposit' | 'saving',
+    },
+  ]
 
   const handleScroll = useCallback(() => {
     if (!containerRef.current) return
@@ -50,21 +81,20 @@ export default function Mypage({ profileImage, nickname }: Props) {
     }
   }, [currentIndex])
 
-  // 임시 닉네임으로 "강남건물주될거야" 사용
+  // 임시 프로필
+  const profileImageNumber = 1
   const tempNickname = '강남건물주될거야'
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="flex flex-col items-center">
-        <div className="flex items-center justify-center mt-4 mb-3">
+        <div className="flex items-center justify-center mt-8 mb-5">
           <ProfileImage
-            imageUrl={profileImage}
-            className="w-[6.25rem] h-[6.25rem]"
+            imageUrl={getProfileImage(profileImageNumber)}
+            className="w-32 h-32"
           />
         </div>
-        <p className="text-center font-medium mb-10">
-          {nickname ?? tempNickname}
-        </p>
+        <p className="text-center font-medium mb-10">{tempNickname}</p>
       </div>
 
       <div className="w-full flex flex-col">
@@ -85,45 +115,39 @@ export default function Mypage({ profileImage, nickname }: Props) {
           <MyChallengeStatusBar />
         </div>
 
-        <div className="w-full mb-10 overflow-hidden">
+        <div className="w-full overflow-hidden">
           <div className="mb-4">
             <SectionTitle icon={<MoneyBag />} label="내 계좌" />
           </div>
           <div
             ref={containerRef}
-            className="flex overflow-x-auto space-x-2 snap-x snap-mandatory no-scrollbar"
+            className="flex overflow-x-auto space-x-2 snap-x snap-mandatory scrollbar-hide"
           >
-            <div className="w-full flex-shrink-0 snap-center">
-              <AccountCard
-                account="110-472-000000"
-                balance={210000}
-                accountType="deposit"
-              />
-            </div>
-            <div className="w-full flex-shrink-0 snap-center">
-              <AccountCard
-                account="110-472-000000"
-                balance={70000}
-                accountType="saving"
-              />
-            </div>
+            {accounts.map((account) => (
+              <div
+                key={account.account}
+                className="w-full flex-shrink-0 snap-center"
+              >
+                <AccountCard
+                  account={account.account}
+                  balance={account.balance}
+                  accountType={account.accountType}
+                />
+              </div>
+            ))}
           </div>
 
           <div className="flex justify-center mt-3">
-            <div
-              className={`rounded-full ${
-                currentIndex === 0
-                  ? 'w-4 h-2 bg-_grey-200'
-                  : 'w-2 h-2 bg-_grey-200/40'
-              } mx-[.125rem] transition-all duration-300`}
-            />
-            <div
-              className={`rounded-full ${
-                currentIndex === 1
-                  ? 'w-4 h-2 bg-_grey-200'
-                  : 'w-2 h-2 bg-_grey-200/40'
-              } mx-[.125rem] transition-all duration-300`}
-            />
+            {accounts.map((account) => (
+              <div
+                key={account.account}
+                className={`rounded-full ${
+                  currentIndex === accounts.indexOf(account)
+                    ? 'w-4 h-2 bg-_grey-200'
+                    : 'w-2 h-2 bg-_grey-200/40'
+                } mx-[.125rem] transition-all duration-300`}
+              />
+            ))}
           </div>
         </div>
       </div>
