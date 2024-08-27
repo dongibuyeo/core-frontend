@@ -9,7 +9,11 @@ export default function RootLayoutClient({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
-  const hideMenubarPaths = ['/mypage/settings', '/mypage/settings/profile']
+  const hideMenubarPaths = [
+    '/mypage/settings',
+    '/mypage/settings/profile',
+    '/recommendation',
+  ]
   const shouldHideMenubar = hideMenubarPaths.includes(pathname)
 
   return (

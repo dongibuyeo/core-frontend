@@ -52,7 +52,7 @@ export default function PushStep() {
           </p>
         </h3>
       </div>
-      <div className="absolute bottom-8 w-full left-0 px-5 flex flex-col items-center gap-7">
+      <div className="absolute bottom-0 w-full left-0 px-5 flex flex-col items-center gap-7">
         <p className="flex items-center space-x-1 text-center">
           <span>
             <Info className="w-5 h-5" />

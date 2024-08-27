@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.variable} font-pretendard w-full h-auto`}>
+      <body className={`${pretendard.variable} font-pretendard w-full`}>
         <Provider>
           <Container>
             <Navbar />

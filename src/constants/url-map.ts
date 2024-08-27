@@ -15,13 +15,22 @@ export const URL_LABEL_MAP: UrlMap[] = [
     goBack: false,
   },
   {
-    path: '/challenge',
+    path: '/challenge/my',
     label: '내 챌린지',
+    goBack: true,
+  },
+  {
+    path: '/challenge',
+    label: '',
     goBack: true,
   },
   {
     path: '/chat',
     label: '채팅',
+    goBack: true,
+  },
+  {
+    path: '/recommendation',
     goBack: true,
   },
   {
