@@ -53,4 +53,9 @@ export const URL_LABEL_MAP: UrlMap[] = [
     label: '마이페이지',
     goBack: true,
   },
+  {
+    path: '/transfer',
+    label: ' ',
+    goBack: true,
+  },
 ]
