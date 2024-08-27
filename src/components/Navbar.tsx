@@ -19,14 +19,14 @@ export default function Navbar() {
 
   const currentMapping = getCurrentMapping()
 
-  if (!currentMapping?.label) return null
   if (!navState) return null
 
   return (
-    <nav className="bg-white z-10 fixed top-0 left-0 flex items-center h-[3.75rem] w-full px-[.625rem] space-x-[.625rem]">
+    <nav className="bg-transparent z-10 fixed top-0 left-0 flex items-center h-[3.75rem] w-full px-[.625rem] space-x-[.625rem]">
       {currentMapping?.goBack && (
         <ArrowLeft
-          className="cursor-pointer w-7 h-7"
+          className="cursor-pointer w-6 h-6"
+          fill={!currentMapping?.label && '#ffffff'}
           onClick={() => router.back()}
         />
       )}

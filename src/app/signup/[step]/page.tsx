@@ -39,9 +39,7 @@ export default function SignupPage() {
   }, [currentPath, email, nickname, pushToken, router, signupSuccess, username])
 
   return (
-    <div
-      className={`w-full h-[calc(100dvh-5rem)] flex justify-center ${currentPath === 'push' ? '' : 'pt-[3.125rem]'}`}
-    >
+    <div className="w-full h-[calc(100dvh-5rem)] flex justify-center pt-[3.125rem]">
       {currentPath === 'emailCheck' && <EmailCheckStep />}
       {currentPath === 'profile' && <ProfileStep />}
       {currentPath === 'push' && <PushStep />}

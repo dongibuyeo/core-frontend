@@ -31,25 +31,25 @@ export default function Home() {
       </div>
       <div className="w-full flex flex-col justify-center gap-7 mt-5">
         <ChallengeCard
-          id={1}
+          id="1"
           title="한 달 커피 소비 줄이기"
           startDate="2024-07-01"
-          endDate="2024-07-31"
+          endDate="2024-08-31"
           participants={3786}
           fund={3201000}
           imageUrl="/image/coffee.jpg"
         />
         <ChallengeCard
-          id={1}
+          id="2"
           title="한 달 커피 소비 줄이기"
           startDate="2024-07-01"
-          endDate="2024-07-31"
+          endDate="2024-08-31"
           participants={3786}
           fund={3201000}
           imageUrl="/image/coffee.jpg"
         />
         <ChallengeCard
-          id={1}
+          id="3"
           title="한 달 커피 소비 줄이기"
           startDate="2024-07-01"
           endDate="2024-07-31"
