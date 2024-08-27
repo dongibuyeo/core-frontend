@@ -17,6 +17,8 @@ import Sol from './sol.svg'
 import Pli from './pli.svg'
 import Lay from './lay.svg'
 import Moli from './moli.svg'
+import DollarsFlying from './dollars-flying.svg'
+import ChartUp from './chart-up.svg'
 
 export {
   ArrowLeft,
@@ -38,4 +40,6 @@ export {
   Pli,
   Lay,
   Moli,
+  DollarsFlying,
+  ChartUp,
 }

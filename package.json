@@ -14,10 +14,12 @@
     "@tanstack/react-query": "^5.51.23",
     "@tanstack/react-query-devtools": "^5.51.23",
     "axios": "^1.7.4",
+    "chart.js": "^4.4.4",
     "firebase": "^10.13.0",
     "next": "14.2.5",
     "next-pwa": "^5.6.0",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1"
   },
