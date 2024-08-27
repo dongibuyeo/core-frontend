@@ -74,6 +74,14 @@ export default function Home() {
           imageUrl="/image/coffee.jpg"
           isChallengeSuccessful
         />
+        <MiniChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-08-01"
+          endDate="2024-08-31"
+          imageUrl="/image/coffee.jpg"
+          isChatPage
+          participantCount={3291}
+        />
         <ScoreCard
           score={130}
           description="일일 점수"
