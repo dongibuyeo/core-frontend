@@ -28,7 +28,9 @@ export function ModalLayout({ children }: { children: React.ReactNode }) {
       onKeyDown={handleKeyDown}
       className="fixed top-0 w-screen h-screen cursor-pointer bg-[rgba(0,0,0,0.3)] z-[100]"
     >
-      {children}
+      <div onClick={(e) => e.stopPropagation()} aria-hidden="true">
+        {children}
+      </div>
     </div>
   )
 }
