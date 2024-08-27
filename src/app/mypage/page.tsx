@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   ArrowRight,
-  RedFlag,
+  Flag,
   MoneyBag,
   Sol,
   Pli,
@@ -100,7 +100,7 @@ export default function Mypage() {
       <div className="w-full flex flex-col">
         <div className="w-full mb-10">
           <div className="flex items-center justify-between mb-4">
-            <SectionTitle icon={<RedFlag />} label="내 챌린지 현황" />
+            <SectionTitle icon={<Flag />} label="내 챌린지 현황" />
             <button
               type="button"
               className="flex items-center"
