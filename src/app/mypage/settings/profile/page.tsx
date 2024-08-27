@@ -13,7 +13,9 @@ export default function ProfilePage() {
       : '강남건물주될거야'
 
   const [nickname, setNickname] = useState(storedNickname)
-  const [profileImage, setProfileImage] = useState<JSX.Element>(<Sol />)
+  const [profileImage, setProfileImage] = useState<JSX.Element>(
+    <Sol className="h-[8.375rem]" />,
+  )
   const [isProfileSelectorOpen, setProfileSelectorOpen] = useState(false)
 
   const handleNicknameChange = (value: string) => {

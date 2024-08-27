@@ -13,9 +13,8 @@ import {
 
 export default function SettingPage() {
   return (
-    <div className="w-full h-full">
-      <div className="absolute inset-0 bg-_grey-100" />
-      <div className="relative w-full h-full flex flex-col items-start justify-center">
+    <div className="-mx-5">
+      <div className="relative w-full flex flex-col items-start justify-center bg-_grey-100">
         <div className="mb-3 w-full">
           <SettingItem
             icon={<EditProfile />}

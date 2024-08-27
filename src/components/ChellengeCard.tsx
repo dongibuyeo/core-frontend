@@ -4,9 +4,10 @@ import { KeyboardEvent } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { calculateDday } from '@/utils/calculateDday'
+import Button from '@/components/ui/Button'
 
 interface Props {
-  id: number
+  id: string
   title: string
   startDate: string
   endDate: string
@@ -50,13 +51,14 @@ export default function ChallengeCard({
       role="button"
       tabIndex={isChallengeEnded ? -1 : 0}
     >
-      {/* {isChallengeEnded && (
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-2xl z-10">
+      {isChallengeEnded && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col gap-3 items-center justify-center rounded-2xl z-10 px-9">
           <span className="text-white text-xl font-medium">
             마감된 챌린지입니다
           </span>
+          <Button text="결과보기" className="text-white" />
         </div>
-      )} */}
+      )}
       <div className="relative w-full">
         <Image
           src={imageUrl}

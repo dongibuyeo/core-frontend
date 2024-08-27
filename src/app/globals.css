@@ -26,3 +26,7 @@ input:-webkit-autofill:active {
 .aspect-half {
   aspect-ratio: 2 / 1;
 }
+
+.aspect-4-3 {
+  aspect-ratio: 4 / 3;
+}
