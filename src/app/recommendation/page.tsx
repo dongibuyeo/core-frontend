@@ -10,7 +10,6 @@ type Props = {
     | '술값 줄이기 챌린지'
     | '커피 줄이기 챌린지'
     | '배달음식 줄이기 챌린지'
-  // eslint-disable-next-line react/require-default-props
   spendingData?: number[]
 }
 
