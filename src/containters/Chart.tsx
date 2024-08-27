@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect } from 'react'
 import { Bar } from 'react-chartjs-2'
 import {
@@ -12,6 +14,12 @@ import {
   ChartOptions,
 } from 'chart.js'
 
+type Props = {
+  challengeType: string
+  // eslint-disable-next-line react/require-default-props
+  spendingData?: number[]
+}
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const generateLabels = (): string[] => {
@@ -19,7 +27,6 @@ const generateLabels = (): string[] => {
   const currentDate = new Date()
 
   for (let i = 5; i >= 0; i -= 1) {
-    // Unary operator '--' 대신 'i -= 1' 사용
     const date = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth() - i,
@@ -30,12 +37,6 @@ const generateLabels = (): string[] => {
   }
 
   return labels
-}
-
-type Props = {
-  challengeType: string
-  // eslint-disable-next-line react/require-default-props
-  spendingData?: number[]
 }
 
 function MyChart({ challengeType, spendingData }: Props) {
@@ -62,7 +63,7 @@ function MyChart({ challengeType, spendingData }: Props) {
   } else if (challengeType === '커피 줄이기 챌린지') {
     datasetLabel = '카페'
   } else {
-    datasetLabel = '배달비'
+    datasetLabel = '배달음식'
   }
 
   const data: ChartData<'bar', number[], string> = {
@@ -77,7 +78,8 @@ function MyChart({ challengeType, spendingData }: Props) {
         borderColor: ['rgba(0, 0, 0, 0)'],
         borderWidth: 0,
         borderRadius: 5,
-        barThickness: 23,
+        barThickness: 28,
+        categoryPercentage: 0.5,
       },
     ],
   }
