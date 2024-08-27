@@ -7,7 +7,7 @@ interface Props {
 
 function ProfileSelector({ onSelect }: Props) {
   const images: { component: JSX.Element; alt: string }[] = [
-    { component: <Sol />, alt: 'Sol' },
+    { component: <Sol className="h-[8.375rem]" />, alt: 'Sol' },
     { component: <Pli />, alt: 'Pli' },
     { component: <Lay />, alt: 'Lay' },
     { component: <Moli />, alt: 'Moli' },
