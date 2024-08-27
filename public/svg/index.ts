@@ -23,6 +23,8 @@ import Flag from './flag.svg'
 import MoneyBag from './money-bag.svg'
 import Trophy from './trophy.svg'
 import SuccessModalChart from './success-modal-chart.svg'
+import DollarsFlying from './dollars-flying.svg'
+import ChartUp from './chart-up.svg'
 
 export {
   ArrowLeft,
@@ -50,4 +52,6 @@ export {
   MoneyBag,
   Trophy,
   SuccessModalChart,
+  DollarsFlying,
+  ChartUp,
 }
