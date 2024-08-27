@@ -8,15 +8,23 @@ import FundCard from '@/components/FundCard'
 import { ArrowLeft } from '@/public/svg/index'
 import { ChallengeStatus } from '@/types/ChallengeStatus'
 import { useState } from 'react'
+import Button from '@/components/ui/Button'
+import { useRouter } from 'next/navigation'
 import MiniChallengeCard from '@/components/MiniChallengeCard'
 import ScoreCard from '@/components/ScoreCard'
 
 export default function Home() {
+  const router = useRouter()
   const [challengeStatus, setChallengeStatus] =
     useState<ChallengeStatus>('SCHEDULED')
 
   return (
     <div className="w-full h-full flex flex-col">
+      <Button
+        text="모달 사용법"
+        onClick={() => router.push('/modals/example')}
+        className="text-white"
+      />
       <div className="w-full min-h-[3.75rem] flex items-center">
         <h1 className="text-xl font-bold">LOGO</h1>
       </div>
