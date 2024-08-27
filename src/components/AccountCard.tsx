@@ -58,7 +58,7 @@ function AccountCard({ account, balance, accountType }: Props) {
             className="flex flex-1 justify-center items-center bg-primary text-white py-[.5625rem] font-medium rounded-lg"
             // onClick={} 추후 api 연결 예정
           >
-            납입하기
+            출금계좌 잔액확인
           </button>
         )}
       </div>

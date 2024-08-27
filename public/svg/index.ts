@@ -1,4 +1,5 @@
 import ArrowLeft from './arrow-left.svg'
+import ArrowRight from './arrow-right.svg'
 import ArrowDown from './arrow-down.svg'
 import Challenge from './challenge.svg'
 import Home from './home.svg'
@@ -28,6 +29,7 @@ import ChartUp from './chart-up.svg'
 
 export {
   ArrowLeft,
+  ArrowRight,
   ArrowDown,
   Home,
   Challenge,
