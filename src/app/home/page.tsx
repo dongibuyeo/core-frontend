@@ -8,6 +8,7 @@ import FundCard from '@/components/FundCard'
 import { ArrowLeft } from '@/public/svg/index'
 import { ChallengeStatus } from '@/types/ChallengeStatus'
 import { useState } from 'react'
+import MiniChallengeCard from '@/components/MiniChallengeCard'
 
 export default function Home() {
   const [challengeStatus, setChallengeStatus] =
@@ -56,6 +57,13 @@ export default function Home() {
           participants={3786}
           fund={3201000}
           imageUrl="/image/coffee.jpg"
+        />
+        <MiniChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-08-01"
+          endDate="2024-08-31"
+          imageUrl="/image/coffee.jpg"
+          isChallengeSuccessful
         />
       </div>
       <div className="w-full flex flex-col justify-center gap-5 mt-5">
