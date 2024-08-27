@@ -10,6 +10,7 @@ interface Props {
   endDate: string
   imageUrl: string
   isChallengeSuccessful: boolean
+  isSettled: boolean
 }
 
 export default function MiniChallengeCard({
@@ -18,6 +19,7 @@ export default function MiniChallengeCard({
   endDate,
   imageUrl,
   isChallengeSuccessful,
+  isSettled,
 }: Props) {
   const challengeStatus = useMemo(() => {
     const today = new Date()
@@ -30,8 +32,15 @@ export default function MiniChallengeCard({
     if (today >= start && today <= end) {
       return '진행중'
     }
-    return isChallengeSuccessful ? '정산 필요' : '완료'
-  }, [startDate, endDate, isChallengeSuccessful])
+    if (isChallengeSuccessful) {
+      return isSettled ? '완료' : '정산 필요'
+    }
+
+    return '완료'
+  }, [startDate, endDate, isChallengeSuccessful, isSettled])
+
+  const statusColor =
+    challengeStatus === '정산 필요' ? 'text-red-500' : 'text-_blue-300'
 
   return (
     <div className="flex items-center bg-white w-full py-4">
@@ -46,7 +55,7 @@ export default function MiniChallengeCard({
       </div>
       <div className="flex flex-col">
         <div className="flex justify-start items-center">
-          <span className="text-lg font-medium text-primary">
+          <span className={`text-lg font-medium ${statusColor}`}>
             {challengeStatus === '참여 예정' || challengeStatus === '진행중'
               ? calculateDday(startDate)
               : challengeStatus}
