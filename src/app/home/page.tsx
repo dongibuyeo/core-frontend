@@ -1,7 +1,7 @@
 'use client'
 
 import ChallengeStatusButton from '@/components/ChallengeStatusButton'
-import ChallengeCard from '@/components/ChellengeCard'
+import ChallengeCard from '@/components/ChallengeCard'
 import AccountCard from '@/components/AccountCard'
 import FundCard from '@/components/FundCard'
 
