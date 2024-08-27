@@ -9,6 +9,7 @@ import { ArrowLeft } from '@/public/svg/index'
 import { ChallengeStatus } from '@/types/ChallengeStatus'
 import { useState } from 'react'
 import MiniChallengeCard from '@/components/MiniChallengeCard'
+import ScoreCard from '@/components/ScoreCard'
 
 export default function Home() {
   const [challengeStatus, setChallengeStatus] =
@@ -64,6 +65,12 @@ export default function Home() {
           endDate="2024-08-31"
           imageUrl="/image/coffee.jpg"
           isChallengeSuccessful
+        />
+        <ScoreCard
+          score={130}
+          description="일일 점수"
+          date="8월 27일"
+          additionalScore={10}
         />
       </div>
       <div className="w-full flex flex-col justify-center gap-5 mt-5">

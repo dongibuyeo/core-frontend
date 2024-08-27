@@ -26,6 +26,8 @@ import Trophy from './trophy.svg'
 import SuccessModalChart from './success-modal-chart.svg'
 import DollarsFlying from './dollars-flying.svg'
 import ChartUp from './chart-up.svg'
+import ScoreUp from './score-up.svg'
+import ScoreDown from './score-down.svg'
 
 export {
   ArrowLeft,
@@ -56,4 +58,6 @@ export {
   SuccessModalChart,
   DollarsFlying,
   ChartUp,
+  ScoreUp,
+  ScoreDown,
 }
