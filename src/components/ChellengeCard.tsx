@@ -56,7 +56,11 @@ export default function ChallengeCard({
           <span className="text-white text-xl font-medium">
             마감된 챌린지입니다
           </span>
-          <Button text="결과보기" className="text-white" />
+          <Button
+            text="결과보기"
+            className="text-white pointer-events-auto"
+            url={`/challenge/result/${id}`}
+          />
         </div>
       )}
       <div className="relative w-full">
