@@ -1,12 +1,13 @@
 import Button from '@/components/ui/Button'
 import { TRANSFER_TEXT } from '@/constants/transfer'
+import useAmountStore from '@/store/amountStore'
 import { TransferType } from '@/types/transfer'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 export default function TransferThirdStep({ type }: { type: TransferType }) {
   const router = useRouter()
-  const amount = 10000
+  const { amount } = useAmountStore()
 
   const destinationAccount = {
     accountName: '신한 쏠쏠한 챌린지 통장',
@@ -27,7 +28,9 @@ export default function TransferThirdStep({ type }: { type: TransferType }) {
         <Image src="/gif/check.gif" width={80} height={80} alt="check" />
         <p className="mt-10">{destinationAccount.accountName}으로</p>
         <p>
-          <span className="text-_blue-300">{amount.toLocaleString()}원</span>
+          <span className="text-_blue-300">
+            {(amount as number).toLocaleString()}원
+          </span>
           <span>을 {TRANSFER_TEXT[type].CONFIRM}</span>
         </p>
       </div>

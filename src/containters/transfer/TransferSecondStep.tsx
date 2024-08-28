@@ -1,10 +1,11 @@
 import Button from '@/components/ui/Button'
 import { TRANSFER_TEXT } from '@/constants/transfer'
+import useAmountStore from '@/store/amountStore'
 import { TransferType } from '@/types/transfer'
 import Link from 'next/link'
 
 export default function TransferSecondStep({ type }: { type: TransferType }) {
-  const amount = 10000
+  const amount = useAmountStore((state) => state.amount)
   const sourceAccount = {
     accountName: '신한 쏠쏠한 챌린지 통장',
     accountNumber: 110472000000,
@@ -26,7 +27,9 @@ export default function TransferSecondStep({ type }: { type: TransferType }) {
       <div className="text-2xl font-medium gap-3 h-full flex flex-col justify-center items-center">
         <p>{destinationAccount.accountName}으로</p>
         <p>
-          <span className="text-_blue-300">{amount.toLocaleString()}원</span>
+          <span className="text-_blue-300">
+            {(amount as number).toLocaleString()}원
+          </span>
           <span>을 {TRANSFER_TEXT[type].CHECK}</span>
         </p>
       </div>

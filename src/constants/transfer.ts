@@ -4,13 +4,13 @@ export const TRANSFER_TEXT = {
   fill: {
     NAME: '채우기',
     CHECK: '가져올까요?',
-    CONFIRM: '가져올까요?',
+    CONFIRM: '가져왔어요',
     AMOUNT_INPUT_PLACEHOLDER: '가져올 금액',
   },
   send: {
     NAME: '보내기',
     CHECK: '보낼까요?',
-    CONFIRM: '보낼까요?',
+    CONFIRM: '보냈어요',
     AMOUNT_INPUT_PLACEHOLDER: '보낼 금액',
   },
 }
