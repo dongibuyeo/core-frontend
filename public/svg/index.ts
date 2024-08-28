@@ -32,6 +32,10 @@ import Close from './close.svg'
 import Arrow from './arrow.svg'
 import ScoreUp from './score-up.svg'
 import ScoreDown from './score-down.svg'
+import MoneyStack from './money-stack.svg'
+import OneFinger from './one-finger.svg'
+import TwoFinger from './two-finger.svg'
+import Prohibition from './prohibition.svg'
 
 export {
   Arrow,
@@ -68,4 +72,8 @@ export {
   Close,
   ScoreUp,
   ScoreDown,
+  MoneyStack,
+  OneFinger,
+  TwoFinger,
+  Prohibition,
 }
