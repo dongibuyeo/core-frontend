@@ -10,7 +10,7 @@ import { ChallengeStatus } from '@/types/ChallengeStatus'
 import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
-import MyChallengeCard from '@/components/modals/MyChallengeCard'
+import MyChallengeCard from '@/components/MyChallengeCard'
 
 export default function Home() {
   const router = useRouter()
