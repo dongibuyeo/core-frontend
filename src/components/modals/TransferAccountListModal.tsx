@@ -1,4 +1,4 @@
-import TransferAccountItem from '@/containters/transfer/TransferAccountItem'
+import TransferAccountItem from '@/containers/transfer/TransferAccountItem'
 
 const dummy = [
   {

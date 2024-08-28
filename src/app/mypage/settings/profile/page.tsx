@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { ProfileSetting, Sol } from '@/public/svg/index'
 import Button from '@/components/ui/Button'
 import ProfileImage from '@/components/ui/ProfileImage'
-import ProfileSelector from '@/containters/settings/ProfileSelector'
+import ProfileSelector from '@/containers/settings/ProfileSelector'
 
 export default function ProfilePage() {
   const storedNickname =

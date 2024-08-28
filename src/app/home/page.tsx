@@ -9,7 +9,7 @@ import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
 import Banner from '@/components/banner'
-import SavingsRecommendCard from '@/containters/home/SavingsRecommendCard'
+import SavingsRecommendCard from '@/containers/home/SavingsRecommendCard'
 
 export default function Home() {
   const router = useRouter()

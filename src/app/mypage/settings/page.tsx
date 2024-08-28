@@ -1,6 +1,6 @@
 'use client'
 
-import SettingItem from '@/containters/settings/SettingItem'
+import SettingItem from '@/containers/settings/SettingItem'
 import {
   EditProfile,
   PushNotification,

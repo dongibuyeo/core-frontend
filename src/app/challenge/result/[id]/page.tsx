@@ -1,8 +1,8 @@
 'use client'
 
 import FundCard from '@/components/FundCard'
-import ChallengeRanking from '@/containters/challenge/[id]/ChallengeRanking'
-import PieChartComponent from '@/containters/challenge/result/[id]/ResultChart'
+import ChallengeRanking from '@/containers/challenge/[id]/ChallengeRanking'
+import PieChartComponent from '@/containers/challenge/result/[id]/ResultChart'
 import { Calendar, MoneyBag, People, Rocket, Trophy } from '@/public/svg/index'
 import Image from 'next/image'
 

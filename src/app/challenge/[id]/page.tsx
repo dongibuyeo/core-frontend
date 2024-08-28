@@ -1,7 +1,7 @@
 'use client'
 
-import ChallengeRanking from '@/containters/challenge/[id]/ChallengeRanking'
-import ChallengeInfo from '@/containters/challenge/[id]/ChallengeInfo'
+import ChallengeRanking from '@/containers/challenge/[id]/ChallengeRanking'
+import ChallengeInfo from '@/containers/challenge/[id]/ChallengeInfo'
 import { Arrow } from '@/public/svg/index'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'

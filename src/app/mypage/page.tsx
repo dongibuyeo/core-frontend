@@ -13,7 +13,7 @@ import {
 } from '@/public/svg/index'
 import ProfileImage from '@/components/ui/ProfileImage'
 import SectionTitle from '@/components/ui/SectionTitle'
-import MyChallengeStatusBar from '@/containters/mypage/MyChallengeStatusBar'
+import MyChallengeStatusBar from '@/containers/mypage/MyChallengeStatusBar'
 import AccountCard from '@/components/AccountCard'
 
 const getProfileImage = (profileImageNumber: number) => {
