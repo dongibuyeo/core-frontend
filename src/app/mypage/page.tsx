@@ -2,34 +2,12 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import {
-  ArrowRight,
-  Flag,
-  MoneyBag,
-  Sol,
-  Pli,
-  Lay,
-  Moli,
-} from '@/public/svg/index'
+import { ArrowRight, Flag, MoneyBag } from '@/public/svg/index'
 import ProfileImage from '@/components/ui/ProfileImage'
 import SectionTitle from '@/components/ui/SectionTitle'
 import MyChallengeStatusBar from '@/containters/mypage/MyChallengeStatusBar'
 import AccountCard from '@/components/AccountCard'
-
-const getProfileImage = (profileImageNumber: number) => {
-  switch (profileImageNumber) {
-    case 1:
-      return <Sol />
-    case 2:
-      return <Pli />
-    case 3:
-      return <Lay />
-    case 4:
-      return <Moli />
-    default:
-      return <Sol />
-  }
-}
+import { getProfileImage } from '@/utils/getProfileImage'
 
 export default function Mypage() {
   const [currentIndex, setCurrentIndex] = useState(0)
