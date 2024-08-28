@@ -1,26 +1,21 @@
 import Button from '@/components/ui/Button'
 import { TRANSFER_TEXT } from '@/constants/transfer'
 import useAmountStore from '@/store/amountStore'
-import { TransferType } from '@/types/transfer'
+import { TransferAccount, TransferType } from '@/types/transfer'
 import Link from 'next/link'
 
-export default function TransferSecondStep({ type }: { type: TransferType }) {
-  const amount = useAmountStore((state) => state.amount)
-  const sourceAccount = {
-    accountName: '신한 쏠쏠한 챌린지 통장',
-    accountNumber: 110472000000,
-    balance: 0,
-    bank: '토스뱅크',
-    id: 1,
-  }
+interface Props {
+  type: TransferType
+  sourceAccount: TransferAccount
+  destinationAccount: TransferAccount
+}
 
-  const destinationAccount = {
-    accountName: '신한 쏠쏠한 챌린지 통장',
-    accountNumber: 110472000000,
-    balance: 0,
-    bank: '토스뱅크',
-    id: 1,
-  }
+export default function TransferSecondStep({
+  type,
+  sourceAccount,
+  destinationAccount,
+}: Props) {
+  const amount = useAmountStore((state) => state.amount)
 
   return (
     <div className="flex flex-col items-center h-full justify-center gap-7">
@@ -40,7 +35,7 @@ export default function TransferSecondStep({ type }: { type: TransferType }) {
           {sourceAccount.bank} {sourceAccount.accountNumber}
         </span>
       </p>
-      <Link href="/transfer/fill/3" className="w-full">
+      <Link href={`/transfer/${type}/3`} className="w-full">
         <Button text={TRANSFER_TEXT[type].NAME} className="text-white" />
       </Link>
     </div>

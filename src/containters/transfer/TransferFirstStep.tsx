@@ -1,41 +1,20 @@
 import AmountInput from '@/components/AmountInput'
 import Button from '@/components/ui/Button'
 import { TRANSFER_QUICK_AMOUNT_LIST } from '@/constants/transfer'
-import useTransferAccountStore from '@/store/transferAccountStore'
-import { TransferType } from '@/types/transfer'
+import { TransferAccount, TransferType } from '@/types/transfer'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 
-export default function TransferFirstStep({ type }: { type: TransferType }) {
-  const router = useRouter()
-  const selectedAccount = useTransferAccountStore(
-    (state) => state.selectedAccount,
-  )
-  const myChallengeAccount = {
-    accountName: '신한 쏠쏠한 챌린지 통장',
-    accountNumber: 110472000000,
-    balance: 0,
-    bank: '토스뱅크',
-    id: 1,
-  }
+interface Props {
+  type: TransferType
+  sourceAccount: TransferAccount
+  destinationAccount: TransferAccount
+}
 
-  let sourceAccount = null
-  let destinationAccount = null
-
-  if (type === 'fill') {
-    sourceAccount = selectedAccount
-    destinationAccount = myChallengeAccount
-  }
-  if (type === 'send') {
-    sourceAccount = myChallengeAccount
-    destinationAccount = selectedAccount
-  }
-
-  if (!sourceAccount || !destinationAccount) {
-    router.push('/mypage')
-    return null
-  }
-
+export default function TransferFirstStep({
+  type,
+  sourceAccount,
+  destinationAccount,
+}: Props) {
   return (
     <div className="flex flex-col h-full">
       <div className="flex flex-col h-[80%] justify-center gap-16">
@@ -65,7 +44,7 @@ export default function TransferFirstStep({ type }: { type: TransferType }) {
           errorMessage="잔액보다 많이 가져올 수 없습니다."
         />
       </div>
-      <Link href="/transfer/fill/2" className="mt-auto">
+      <Link href={`/transfer/${type}/2`} className="mt-auto">
         <Button text="다음" />
       </Link>
     </div>
