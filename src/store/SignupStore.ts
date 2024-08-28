@@ -8,8 +8,6 @@ type SignupStore = {
   setUsername: (username: string) => void
   nickname: string
   setNickname: (nickname: string) => void
-  pushToken: string
-  setPushToken: (token: string) => void
 }
 
 const useSignupStore = create(
@@ -21,8 +19,6 @@ const useSignupStore = create(
       setUsername: (username) => set({ username }),
       nickname: '',
       setNickname: (nickname) => set({ nickname }),
-      pushToken: '',
-      setPushToken: (pushToken) => set({ pushToken }),
     }),
     {
       name: 'signupState',

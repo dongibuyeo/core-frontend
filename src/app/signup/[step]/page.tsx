@@ -6,37 +6,26 @@ import { usePathname, useRouter } from 'next/navigation'
 import EmailCheckStep from '@/containers/signup/EmailCheckStep'
 import ProfileStep from '@/containers/signup/ProfileStep'
 import PushStep from '@/containers/signup/PushStep'
+import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import useSignupStore from '@/store/SignupStore'
-import { useEffect, useRef } from 'react'
+import { getUser } from '@/services/auth'
 
 export default function SignupPage() {
   const router = useRouter()
   const pathname = usePathname()
-  const username = useSignupStore((state) => state.username)
-  const nickname = useSignupStore((state) => state.nickname)
-  const email = useSignupStore((state) => state.email)
-  const pushToken = useSignupStore((state) => state.pushToken)
-  const signupSuccess = useRef(false)
+
+  const { data: user } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUser,
+    enabled: !!localStorage.getItem('email'),
+  })
+
+  if (user) {
+    toast.success('이미 로그인 되었습니다.')
+    router.push('/home')
+  }
 
   const currentPath = pathname.split('/').pop()
-
-  useEffect(() => {
-    if (currentPath === 'join' && !signupSuccess.current) {
-      const body = {
-        username,
-        email,
-        nickname,
-        pushToken,
-      }
-      localStorage.setItem('token', JSON.stringify(body))
-      localStorage.removeItem('signupState')
-      signupSuccess.current = true
-
-      toast.success('회원가입 되었습니다.')
-      router.push('/home')
-    }
-  }, [currentPath, email, nickname, pushToken, router, signupSuccess, username])
 
   return (
     <div className="w-full h-[calc(100dvh-5rem)] flex justify-center pt-[3.125rem]">

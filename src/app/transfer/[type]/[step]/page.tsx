@@ -1,8 +1,8 @@
 'use client'
 
-import TransferFirstStep from '@/containters/transfer/TransferFirstStep'
-import TransferSecondStep from '@/containters/transfer/TransferSecondStep'
-import TransferThirdStep from '@/containters/transfer/TransferThirdStep'
+import TransferFirstStep from '@/containers/transfer/TransferFirstStep'
+import TransferSecondStep from '@/containers/transfer/TransferSecondStep'
+import TransferThirdStep from '@/containers/transfer/TransferThirdStep'
 import useTransferAccountStore from '@/store/transferAccountStore'
 import { TransferType } from '@/types/transfer'
 import { useParams, useRouter } from 'next/navigation'
