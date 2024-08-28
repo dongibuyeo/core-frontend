@@ -14,7 +14,12 @@ export default function RootLayoutClient({
     '/mypage/settings/profile',
     '/recommendation',
   ]
-  const shouldHideMenubar = hideMenubarPaths.includes(pathname)
+
+  const hideMenubarDinamicPaths = ['/transfer']
+
+  const shouldHideMenubar =
+    hideMenubarPaths.includes(pathname) ||
+    hideMenubarDinamicPaths.map((path) => pathname.startsWith(path))
 
   return (
     <>
