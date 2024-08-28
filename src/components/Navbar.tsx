@@ -22,7 +22,7 @@ export default function Navbar() {
   if (!navState) return null
 
   return (
-    <nav className="bg-transparent z-10 fixed top-0 left-0 flex items-center h-[3.75rem] w-full px-[.625rem] space-x-[.625rem]">
+    <nav className="bg-transparent z-20 fixed top-0 left-0 flex items-center h-[3.75rem] w-full px-[.625rem] space-x-[.625rem]">
       {currentMapping?.goBack && (
         <ArrowLeft
           className="cursor-pointer w-6 h-6"
