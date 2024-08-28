@@ -1,6 +1,7 @@
 import Button from '@/components/ui/Button'
 import { TRANSFER_TEXT } from '@/constants/transfer'
 import { TransferType } from '@/types/transfer'
+import Link from 'next/link'
 
 export default function TransferSecondStep({ type }: { type: TransferType }) {
   const amount = 10000
@@ -26,7 +27,7 @@ export default function TransferSecondStep({ type }: { type: TransferType }) {
         <p>{destinationAccount.accountName}으로</p>
         <p>
           <span className="text-_blue-300">{amount.toLocaleString()}원</span>
-          <span>을 {TRANSFER_TEXT[type].CONFIRM}</span>
+          <span>을 {TRANSFER_TEXT[type].CHECK}</span>
         </p>
       </div>
 
@@ -36,7 +37,9 @@ export default function TransferSecondStep({ type }: { type: TransferType }) {
           {sourceAccount.bank} {sourceAccount.accountNumber}
         </span>
       </p>
-      <Button text={TRANSFER_TEXT[type].NAME} className="text-white" />
+      <Link href="/transfer/fill/3" className="w-full">
+        <Button text={TRANSFER_TEXT[type].NAME} className="text-white" />
+      </Link>
     </div>
   )
 }
