@@ -1,4 +1,4 @@
-import ChallengeRankingCard from '@/containters/challenge/ChallengeRankingCard'
+import ChallengeRankingCard from '@/containers/challenge/[id]/ChallengeRankingCard'
 
 export default function ChallengeRanking() {
   return (

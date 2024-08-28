@@ -13,7 +13,7 @@ import {
 } from '@/public/svg/index'
 import ProfileImage from '@/components/ui/ProfileImage'
 import SectionTitle from '@/components/ui/SectionTitle'
-import MyChallengeStatusBar from '@/containters/mypage/MyChallengeStatusBar'
+import MyChallengeStatusBar from '@/containers/mypage/MyChallengeStatusBar'
 import AccountCard from '@/components/AccountCard'
 
 const getProfileImage = (profileImageNumber: number) => {
@@ -23,7 +23,7 @@ const getProfileImage = (profileImageNumber: number) => {
     case 2:
       return <Pli />
     case 3:
-      return <Lay />
+      return <Lay className="h-[8.375rem]" />
     case 4:
       return <Moli />
     default:

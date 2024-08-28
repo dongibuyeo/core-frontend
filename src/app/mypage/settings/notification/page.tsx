@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import ToggleSettingItem from '@/containters/ToggleSettingItem'
+import ToggleSettingItem from '@/containers/ToggleSettingItem'
 
 export default function NotificationPage() {
   const [isChallengeAlertEnabled, setIsChallengeAlertEnabled] = useState(false)

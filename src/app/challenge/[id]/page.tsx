@@ -1,8 +1,8 @@
 'use client'
 
-import ChallengeRanking from '@/containters/challenge/[id]/ChallengeRanking'
-import ChallengeInfo from '@/containters/challenge/[id]/ChallengeInfo'
-import { ArrowLeft } from '@/public/svg/index'
+import ChallengeRanking from '@/containers/challenge/[id]/ChallengeRanking'
+import ChallengeInfo from '@/containers/challenge/[id]/ChallengeInfo'
+import { Arrow } from '@/public/svg/index'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -24,8 +24,9 @@ export default function ChallengeDetailPage() {
       <nav
         className={`bg-white z-20 fixed top-0 left-0 flex items-center h-[3.75rem] w-full px-[.625rem] space-x-[.625rem] transition-opacity duration-200 ${currentTab === 'ranking' ? 'opacity-100' : 'opacity-0'}`}
       >
-        <ArrowLeft
-          className="cursor-pointer w-6 h-6"
+        <Arrow
+          className="cursor-pointer w-7 h-7"
+          stroke="#000000"
           onClick={() => router.back()}
         />
       </nav>

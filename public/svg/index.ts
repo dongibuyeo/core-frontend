@@ -28,10 +28,13 @@ import People from './people.svg'
 import Rocket from './rocket.svg'
 import DollarsFlying from './dollars-flying.svg'
 import ChartUp from './chart-up.svg'
+import Close from './close.svg'
+import Arrow from './arrow.svg'
 import ScoreUp from './score-up.svg'
 import ScoreDown from './score-down.svg'
 
 export {
+  Arrow,
   ArrowLeft,
   ArrowRight,
   ArrowDown,
@@ -62,6 +65,7 @@ export {
   Rocket,
   DollarsFlying,
   ChartUp,
+  Close,
   ScoreUp,
   ScoreDown,
 }

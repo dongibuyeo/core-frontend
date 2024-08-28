@@ -3,9 +3,9 @@
 'use client'
 
 import { usePathname, useRouter } from 'next/navigation'
-import EmailCheckStep from '@/containters/signup/EmailCheckStep'
-import ProfileStep from '@/containters/signup/ProfileStep'
-import PushStep from '@/containters/signup/PushStep'
+import EmailCheckStep from '@/containers/signup/EmailCheckStep'
+import ProfileStep from '@/containers/signup/ProfileStep'
+import PushStep from '@/containers/signup/PushStep'
 import toast from 'react-hot-toast'
 import useSignupStore from '@/store/SignupStore'
 import { useEffect, useRef } from 'react'

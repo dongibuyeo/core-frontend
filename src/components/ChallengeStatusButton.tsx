@@ -27,7 +27,7 @@ export default function ChallengeStatusButton({
         className={`${challengeStatus === 'SCHEDULED' ? 'font-medium' : 'font-normal text-_grey-300'} relative bg-transparent rounded-[1.3125rem] px-5 py-2 transition-colors duration-300 min-w-max`}
         onClick={() => setChallengeStatus('SCHEDULED')}
       >
-        참여예정
+        {tabType === 'main' ? '진행예정' : '참여예정'}
       </button>
       {tabType === 'my' && (
         <button
