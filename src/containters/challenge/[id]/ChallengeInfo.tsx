@@ -18,7 +18,7 @@ export default function ChallengeInfo() {
   const [isFailModalOpen, setIsFailModalOpen] = useState(false)
 
   return (
-    <div className="px-5 flex flex-col gap-[3.75rem] pb-24">
+    <div className="flex flex-col gap-[3.75rem] pb-24">
       <div className="mt-7">
         <div className="text-sm font-normal">절약 챌린지</div>
         <div className="text-2xl font-medium mt-2">한 달 커피 소비 줄이기</div>

@@ -24,6 +24,8 @@ import Flag from './flag.svg'
 import MoneyBag from './money-bag.svg'
 import Trophy from './trophy.svg'
 import SuccessModalChart from './success-modal-chart.svg'
+import People from './people.svg'
+import Rocket from './rocket.svg'
 import DollarsFlying from './dollars-flying.svg'
 import ChartUp from './chart-up.svg'
 import ScoreUp from './score-up.svg'
@@ -56,6 +58,8 @@ export {
   MoneyBag,
   Trophy,
   SuccessModalChart,
+  People,
+  Rocket,
   DollarsFlying,
   ChartUp,
   ScoreUp,
