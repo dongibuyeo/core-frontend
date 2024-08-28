@@ -20,6 +20,11 @@ export const URL_LABEL_MAP: UrlMap[] = [
     goBack: true,
   },
   {
+    path: '/challenge/list',
+    label: ' ',
+    goBack: true,
+  },
+  {
     path: '/challenge',
     label: '',
     goBack: true,
