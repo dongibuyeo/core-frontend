@@ -59,12 +59,14 @@ export default function MiniChallengeCard({
       </div>
       <div className="flex flex-col">
         <div className="flex justify-start items-center">
-          <span className={`text-lg font-medium ${statusColor}`}>
-            {challengeStatus === '참여 예정' || challengeStatus === '진행중'
-              ? calculateDday(startDate)
-              : challengeStatus}
-          </span>
-          <span className="text-lg font-medium text-black ml-1">{title}</span>
+          {!isChatPage && (
+            <span className={`text-lg font-medium mr-1 ${statusColor}`}>
+              {challengeStatus === '참여 예정' || challengeStatus === '진행중'
+                ? calculateDday(startDate)
+                : challengeStatus}
+            </span>
+          )}
+          <span className="text-lg font-medium text-black">{title}</span>
         </div>
         <span
           className={`text-sm ${isChatPage ? 'text-_blue-300' : 'text-_grey-300'}`}

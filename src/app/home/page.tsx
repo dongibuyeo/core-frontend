@@ -4,7 +4,6 @@ import ChallengeStatusButton from '@/components/ChallengeStatusButton'
 import ChallengeCard from '@/components/ChallengeCard'
 import AccountCard from '@/components/AccountCard'
 import FundCard from '@/components/FundCard'
-
 import { ArrowLeft } from '@/public/svg/index'
 import { ChallengeStatus } from '@/types/ChallengeStatus'
 import { useState } from 'react'

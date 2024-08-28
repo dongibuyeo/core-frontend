@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   ArrowRight,
@@ -49,20 +49,20 @@ export default function Mypage() {
     },
   ]
 
-  const handleScroll = useCallback(() => {
-    if (!containerRef.current) return
-
-    const { scrollLeft, clientWidth } = containerRef.current
-    const scrollRatio = scrollLeft / clientWidth
-
-    if (scrollRatio > currentIndex + 0.5) {
-      setCurrentIndex(currentIndex + 1)
-    } else if (scrollRatio < currentIndex - 0.5) {
-      setCurrentIndex(currentIndex - 1)
-    }
-  }, [currentIndex])
-
   useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return
+
+      const { scrollLeft, clientWidth } = containerRef.current
+      const scrollRatio = scrollLeft / clientWidth
+
+      if (scrollRatio > currentIndex + 0.5) {
+        setCurrentIndex(currentIndex + 1)
+      } else if (scrollRatio < currentIndex - 0.5) {
+        setCurrentIndex(currentIndex - 1)
+      }
+    }
+
     const container = containerRef.current
 
     container?.addEventListener('scroll', handleScroll)
@@ -70,7 +70,7 @@ export default function Mypage() {
     return () => {
       container?.removeEventListener('scroll', handleScroll)
     }
-  }, [handleScroll])
+  }, [currentIndex])
 
   useEffect(() => {
     if (containerRef.current) {
