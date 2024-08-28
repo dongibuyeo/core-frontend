@@ -10,6 +10,7 @@ import { ChallengeStatus } from '@/types/ChallengeStatus'
 import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
+import MyChallengeCard from '@/components/MyChallengeCard'
 
 export default function Home() {
   const router = useRouter()
@@ -63,6 +64,34 @@ export default function Home() {
           endDate="2024-07-31"
           participants={3786}
           fund={3201000}
+          imageUrl="/image/coffee.jpg"
+        />
+        <MyChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-07-01"
+          endDate="2024-07-31"
+          imageUrl="/image/coffee.jpg"
+          isChallengeSuccessful
+          isSettled={false}
+        />
+        <MyChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-07-01"
+          endDate="2024-07-31"
+          imageUrl="/image/coffee.jpg"
+          isChallengeSuccessful
+          isSettled
+        />
+        <MyChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-08-01"
+          endDate="2024-08-31"
+          imageUrl="/image/coffee.jpg"
+        />
+        <MyChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-09-01"
+          endDate="2024-09-31"
           imageUrl="/image/coffee.jpg"
         />
       </div>
