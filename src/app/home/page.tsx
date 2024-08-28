@@ -1,16 +1,17 @@
 'use client'
 
 import ChallengeStatusButton from '@/components/ChallengeStatusButton'
-import ChallengeCard from '@/components/ChellengeCard'
+import ChallengeCard from '@/components/ChallengeCard'
 import AccountCard from '@/components/AccountCard'
 import FundCard from '@/components/FundCard'
-
 import { ArrowLeft } from '@/public/svg/index'
 import { ChallengeStatus } from '@/types/ChallengeStatus'
 import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
 import MyChallengeCard from '@/components/MyChallengeCard'
+import MiniChallengeCard from '@/components/MiniChallengeCard'
+import ScoreCard from '@/components/ScoreCard'
 
 export default function Home() {
   const router = useRouter()
@@ -93,6 +94,28 @@ export default function Home() {
           startDate="2024-09-01"
           endDate="2024-09-31"
           imageUrl="/image/coffee.jpg"
+        />
+        <MiniChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-07-01"
+          endDate="2024-07-31"
+          imageUrl="/image/coffee.jpg"
+          isChallengeSuccessful
+          isSettled={false}
+        />
+        <MiniChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-08-01"
+          endDate="2024-08-31"
+          imageUrl="/image/coffee.jpg"
+          isChatPage
+          participantCount={3291}
+        />
+        <ScoreCard
+          score={130}
+          description="일일 점수"
+          date="8월 27일"
+          additionalScore={10}
         />
       </div>
       <div className="w-full flex flex-col justify-center gap-5 mt-5">
