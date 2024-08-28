@@ -30,6 +30,7 @@ import DollarsFlying from './dollars-flying.svg'
 import ChartUp from './chart-up.svg'
 import ScoreUp from './score-up.svg'
 import ScoreDown from './score-down.svg'
+import ArrowSend from './arrow-send.svg'
 
 export {
   ArrowLeft,
@@ -64,4 +65,5 @@ export {
   ChartUp,
   ScoreUp,
   ScoreDown,
+  ArrowSend,
 }
