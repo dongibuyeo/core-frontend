@@ -12,7 +12,7 @@ import SavingsRecommendCard from '@/containers/home/SavingsRecommendCard'
 import MyChallengeCard from '@/components/MyChallengeCard'
 import MiniChallengeCard from '@/components/MiniChallengeCard'
 import ScoreCard from '@/components/ScoreCard'
-import ChallengeCard from '@/components/ChellengeCard'
+import ChallengeCard from '@/components/ChallengeCard'
 
 export default function Home() {
   const router = useRouter()
