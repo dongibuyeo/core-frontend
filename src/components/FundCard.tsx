@@ -1,8 +1,9 @@
+/* eslint-disable react/require-default-props */
 import Image from 'next/image'
 
 interface Props {
   title: string
-  participants: number
+  participants?: number
   fund: number
 }
 
@@ -21,7 +22,9 @@ function FundCard({ title, participants, fund }: Props) {
         <div>
           <h2 className="font-medium">{title}</h2>
           <p className="text-sm text-_blue-300 font-medium">
-            현재 {participants.toLocaleString()}명 참여 중
+            {participants
+              ? `현재 ${participants.toLocaleString()}명 참여 중`
+              : `최종 예치금`}
           </p>
         </div>
       </div>
