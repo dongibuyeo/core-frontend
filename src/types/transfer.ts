@@ -5,3 +5,5 @@ export type TransferAccount = {
   accountNumber: number
   balance: number
 }
+
+export type TransferType = 'fill' | 'send'
