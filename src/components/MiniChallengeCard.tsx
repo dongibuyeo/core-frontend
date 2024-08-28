@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import { useMemo } from 'react'
 import { calculateDday } from '@/utils/calculateDday'
 
 interface Props {
@@ -25,26 +24,25 @@ export default function MiniChallengeCard({
   isChatPage = false,
   participantCount = 0,
 }: Props) {
-  const challengeStatus = useMemo(() => {
-    const today = new Date()
-    const start = new Date(startDate)
-    const end = new Date(endDate)
+  const today = new Date()
+  const start = new Date(startDate)
+  const end = new Date(endDate)
 
-    if (today < start) {
-      return '참여 예정'
+  const challengeStatus = (() => {
+    switch (true) {
+      case today < start:
+        return '참여 예정'
+      case today >= start && today <= end:
+        return '진행중'
+      case isChallengeSuccessful && !isSettled:
+        return '정산필요'
+      default:
+        return '완료'
     }
-    if (today >= start && today <= end) {
-      return '진행중'
-    }
-    if (isChallengeSuccessful) {
-      return isSettled ? '완료' : '정산필요'
-    }
-
-    return '완료'
-  }, [startDate, endDate, isChallengeSuccessful, isSettled])
+  })()
 
   const statusColor =
-    challengeStatus === '정산필요' ? 'text-red-500' : 'text-_blue-300'
+    challengeStatus === '정산필요' ? 'text-_red' : 'text-_blue-300'
 
   const formattedParticipantCount = participantCount.toLocaleString()
 
