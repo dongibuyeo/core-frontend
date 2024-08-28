@@ -1,7 +1,7 @@
 'use client'
 
 import ChallengeStatusButton from '@/components/ChallengeStatusButton'
-import ChallengeCard from '@/components/ChellengeCard'
+import ChallengeCard from '@/components/ChallengeCard'
 import { ChallengeStatus } from '@/types/ChallengeStatus'
 import { useState } from 'react'
 
