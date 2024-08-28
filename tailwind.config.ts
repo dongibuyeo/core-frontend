@@ -22,6 +22,9 @@ const config: Config = {
         '_grey-300': '#929292',
         '_grey-400': '#626262',
       },
+      height: {
+        'main-screen': 'calc(100dvh - 8.75rem)',
+      },
       keyframes: {
         shake: {
           '0%, 100%': { transform: 'translateX(0)' },

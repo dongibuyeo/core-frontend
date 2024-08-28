@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from 'react'
 import { ProfileSetting, Sol } from '@/public/svg/index'
 import Button from '@/components/ui/Button'
 import ProfileImage from '@/components/ui/ProfileImage'
+import { ModalLayout } from '@/components/modals/ModalLayout'
+import { CenterModalContainer } from '@/components/modals/CenterModalContainer'
 import ProfileSelector from '@/containers/settings/ProfileSelector'
 
 export default function ProfilePage() {
@@ -32,9 +34,19 @@ export default function ProfilePage() {
     inputRef.current?.focus()
   }, [])
 
+  const handleModalClose = () => {
+    setProfileSelectorOpen(false)
+  }
+
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget === e.target) {
-      setProfileSelectorOpen(false)
+      handleModalClose()
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') {
+      handleModalClose()
     }
   }
 
@@ -67,30 +79,32 @@ export default function ProfilePage() {
       </div>
 
       {isProfileSelectorOpen && (
-        <div
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20"
-          onClick={handleOutsideClick}
-          role="button"
-          tabIndex={0}
-          aria-label="Close profile selector"
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') setProfileSelectorOpen(false)
-          }}
-        >
+        <ModalLayout>
           <div
-            className="bg-white p-4 rounded-lg"
-            onClick={(e) => e.stopPropagation()}
-            role="none"
-            tabIndex={-1}
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20"
+            onClick={handleOutsideClick}
+            onKeyDown={handleKeyDown}
+            role="button"
+            tabIndex={0}
+            aria-label="Close profile selector"
           >
-            <ProfileSelector
-              onSelect={(image: JSX.Element) => {
-                setProfileImage(image)
-                setProfileSelectorOpen(false)
-              }}
-            />
+            <CenterModalContainer>
+              <div
+                className="bg-white p-4 rounded-lg"
+                onClick={(e) => e.stopPropagation()}
+                role="none"
+                tabIndex={-1}
+              >
+                <ProfileSelector
+                  onSelect={(image: JSX.Element) => {
+                    setProfileImage(image)
+                    setProfileSelectorOpen(false)
+                  }}
+                />
+              </div>
+            </CenterModalContainer>
           </div>
-        </div>
+        </ModalLayout>
       )}
     </div>
   )

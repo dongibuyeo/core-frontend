@@ -1,5 +1,6 @@
 'use client'
 
+import useAmountStore from '@/store/amountStore'
 import { useState, useRef, useEffect } from 'react'
 
 interface Props {
@@ -17,7 +18,7 @@ export default function AmountInput({
   balance,
   errorMessage,
 }: Props) {
-  const [amount, setAmount] = useState<number | null>(null)
+  const { amount, setAmount } = useAmountStore()
   const [isOverBalance, setIsOverBalance] = useState(false)
   const [inputWidth, setInputWidth] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)

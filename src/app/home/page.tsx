@@ -1,6 +1,5 @@
 'use client'
 
-import ChallengeCard from '@/components/ChellengeCard'
 import AccountCard from '@/components/AccountCard'
 import FundCard from '@/components/FundCard'
 
@@ -10,6 +9,10 @@ import Button from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
 import Banner from '@/components/banner'
 import SavingsRecommendCard from '@/containers/home/SavingsRecommendCard'
+import MyChallengeCard from '@/components/MyChallengeCard'
+import MiniChallengeCard from '@/components/MiniChallengeCard'
+import ScoreCard from '@/components/ScoreCard'
+import ChallengeCard from '@/components/ChellengeCard'
 
 export default function Home() {
   const router = useRouter()
@@ -57,6 +60,56 @@ export default function Home() {
           participants={3786}
           fund={3201000}
           imageUrl="/image/coffee.jpg"
+        />
+        <MyChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-07-01"
+          endDate="2024-07-31"
+          imageUrl="/image/coffee.jpg"
+          isChallengeSuccessful
+          isSettled={false}
+        />
+        <MyChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-07-01"
+          endDate="2024-07-31"
+          imageUrl="/image/coffee.jpg"
+          isChallengeSuccessful
+          isSettled
+        />
+        <MyChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-08-01"
+          endDate="2024-08-31"
+          imageUrl="/image/coffee.jpg"
+        />
+        <MyChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-09-01"
+          endDate="2024-09-31"
+          imageUrl="/image/coffee.jpg"
+        />
+        <MiniChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-07-01"
+          endDate="2024-07-31"
+          imageUrl="/image/coffee.jpg"
+          isChallengeSuccessful
+          isSettled={false}
+        />
+        <MiniChallengeCard
+          title="한 달 커피 소비 줄이기"
+          startDate="2024-08-01"
+          endDate="2024-08-31"
+          imageUrl="/image/coffee.jpg"
+          isChatPage
+          participantCount={3291}
+        />
+        <ScoreCard
+          score={130}
+          description="일일 점수"
+          date="8월 27일"
+          additionalScore={10}
         />
       </div>
       <div className="w-full flex flex-col justify-center gap-5 mt-5">
