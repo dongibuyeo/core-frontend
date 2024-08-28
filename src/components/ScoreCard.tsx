@@ -22,7 +22,7 @@ export default function ScoreCard({
       <div className="flex items-center">
         <div
           className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-            isPositive ? 'bg-[#2878F5]/[.16]' : 'bg-[#EA4141]/[.08]'
+            isPositive ? 'bg-_blue-300/15' : 'bg-_red/10'
           }`}
         >
           {isPositive ? (
