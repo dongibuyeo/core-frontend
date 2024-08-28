@@ -1,41 +1,34 @@
 'use client'
 
-import ChallengeStatusButton from '@/components/ChallengeStatusButton'
 import ChallengeCard from '@/components/ChellengeCard'
 import AccountCard from '@/components/AccountCard'
 import FundCard from '@/components/FundCard'
 
-import { ArrowLeft } from '@/public/svg/index'
-import { ChallengeStatus } from '@/types/ChallengeStatus'
+import { Arrow } from '@/public/svg/index'
 import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
+import Banner from '@/components/banner'
+import SavingsRecommendCard from '@/containters/home/SavingsRecommendCard'
 
 export default function Home() {
   const router = useRouter()
-  const [challengeStatus, setChallengeStatus] =
-    useState<ChallengeStatus>('SCHEDULED')
+  const [isBannerOpen, setIsBannerOpen] = useState(true)
 
   return (
     <div className="w-full h-full flex flex-col">
-      <Button
-        text="모달 사용법"
-        onClick={() => router.push('/modals/example')}
-        className="text-white"
-      />
       <div className="w-full min-h-[3.75rem] flex items-center">
-        <h1 className="text-xl font-bold">LOGO</h1>
+        <h1 className="text-2xl font-bold text-primary/80">돈기부여</h1>
       </div>
-      <div className="py-2 sticky top-0 z-10 w-full">
-        <ChallengeStatusButton
-          challengeStatus={challengeStatus}
-          setChallengeStatus={setChallengeStatus}
-          tabType="main"
-        />
-      </div>
-      <div className="flex justify-between">
+      {isBannerOpen && <Banner setIsBannerOpen={setIsBannerOpen} />}
+      <SavingsRecommendCard />
+      <div className="flex justify-between items-center mt-8">
         <h1 className="text-xl font-medium">인기 챌린지</h1>
-        <ArrowLeft className="w-6 h-76 rotate-180 cursor-pointer" />
+        <Arrow
+          className="w-5 h-5 rotate-180 cursor-pointer"
+          stroke="#000000"
+          onClick={() => router.push('/challenge/list')}
+        />
       </div>
       <div className="w-full flex flex-col justify-center gap-7 mt-5">
         <ChallengeCard
@@ -88,6 +81,11 @@ export default function Home() {
             accountType="saving"
           />
         </div>
+        <Button
+          text="모달 사용법"
+          onClick={() => router.push('/modals/example')}
+          className="text-white"
+        />
       </div>
     </div>
   )
