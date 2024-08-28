@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import { useMemo } from 'react'
 import { calculateDday } from '@/utils/calculateDday'
 import { ArrowRight } from '@/public/svg'
 import ChallengeButton from './ChallengeButton'
@@ -23,39 +22,38 @@ export default function MyChallengeCard({
   isChallengeSuccessful,
   isSettled,
 }: Props) {
-  const challengeStatus = useMemo(() => {
-    const today = new Date()
-    const start = new Date(startDate)
-    const end = new Date(endDate)
+  const today = new Date()
+  const start = new Date(startDate)
+  const end = new Date(endDate)
 
+  const challengeStatus: '참여 예정' | '진행중' | '완료' | '정산필요' = (() => {
     if (today < start) {
       return '참여 예정'
     }
     if (today >= start && today <= end) {
       return '진행중'
     }
-
     if (isChallengeSuccessful) {
       return isSettled ? '완료' : '정산필요'
     }
-
     return '완료'
-  }, [startDate, endDate, isChallengeSuccessful, isSettled])
+  })()
 
-  let mappedStatus: '참여예정' | '참여중' | '정산필요' | '완료'
-
-  if (challengeStatus === '참여 예정') {
-    mappedStatus = '참여예정'
-  } else if (challengeStatus === '진행중') {
-    mappedStatus = '참여중'
-  } else if (challengeStatus === '정산필요') {
-    mappedStatus = '정산필요'
-  } else {
-    mappedStatus = '완료'
-  }
+  const mappedStatus: '참여예정' | '참여중' | '정산필요' | '완료' = (() => {
+    switch (challengeStatus) {
+      case '참여 예정':
+        return '참여예정'
+      case '진행중':
+        return '참여중'
+      case '정산필요':
+        return '정산필요'
+      default:
+        return '완료'
+    }
+  })()
 
   const statusColor =
-    challengeStatus === '정산필요' ? 'text-red-500' : 'text-_blue-300'
+    challengeStatus === '정산필요' ? 'text-_red' : 'text-_blue-300'
 
   return (
     <div className="w-full bg-white rounded-2xl px-4 items-center border border_grey-200/50 divide-y divide-_grey-200/50">
