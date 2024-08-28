@@ -11,6 +11,7 @@ interface Props {
   imageUrl: string
   isChallengeSuccessful?: boolean
   isChatPage?: boolean
+  isSettled: boolean
   participantCount?: number
 }
 
@@ -20,6 +21,7 @@ export default function MiniChallengeCard({
   endDate,
   imageUrl,
   isChallengeSuccessful,
+  isSettled,
   isChatPage = false,
   participantCount = 0,
 }: Props) {
@@ -34,8 +36,15 @@ export default function MiniChallengeCard({
     if (today >= start && today <= end) {
       return '진행중'
     }
-    return isChallengeSuccessful ? '정산 필요' : '완료'
-  }, [startDate, endDate, isChallengeSuccessful])
+    if (isChallengeSuccessful) {
+      return isSettled ? '완료' : '정산 필요'
+    }
+
+    return '완료'
+  }, [startDate, endDate, isChallengeSuccessful, isSettled])
+
+  const statusColor =
+    challengeStatus === '정산 필요' ? 'text-red-500' : 'text-_blue-300'
 
   const formattedParticipantCount = participantCount.toLocaleString()
 
@@ -52,14 +61,12 @@ export default function MiniChallengeCard({
       </div>
       <div className="flex flex-col">
         <div className="flex justify-start items-center">
-          {!isChatPage && (
-            <span className="text-lg font-medium text-primary mr-1">
-              {challengeStatus === '참여 예정' || challengeStatus === '진행중'
-                ? calculateDday(startDate)
-                : challengeStatus}
-            </span>
-          )}
-          <span className="text-lg font-medium text-black">{title}</span>
+          <span className={`text-lg font-medium ${statusColor}`}>
+            {challengeStatus === '참여 예정' || challengeStatus === '진행중'
+              ? calculateDday(startDate)
+              : challengeStatus}
+          </span>
+          <span className="text-lg font-medium text-black ml-1">{title}</span>
         </div>
         <span
           className={`text-sm ${isChatPage ? 'text-_blue-300' : 'text-_grey-300'}`}

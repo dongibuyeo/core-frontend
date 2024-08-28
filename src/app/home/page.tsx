@@ -69,10 +69,11 @@ export default function Home() {
         />
         <MiniChallengeCard
           title="한 달 커피 소비 줄이기"
-          startDate="2024-08-01"
-          endDate="2024-08-31"
+          startDate="2024-07-01"
+          endDate="2024-07-31"
           imageUrl="/image/coffee.jpg"
           isChallengeSuccessful
+          isSettled={false}
         />
         <MiniChallengeCard
           title="한 달 커피 소비 줄이기"
