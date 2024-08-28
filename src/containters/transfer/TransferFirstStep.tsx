@@ -1,10 +1,12 @@
 import AmountInput from '@/components/AmountInput'
 import Button from '@/components/ui/Button'
-import { TRANSFER_QUICK_AMOUNT_LIST } from '@/constants/quickAmounts'
+import { TRANSFER_QUICK_AMOUNT_LIST } from '@/constants/transfer'
 import useTransferAccountStore from '@/store/transferAccountStore'
+import { TransferType } from '@/types/transfer'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-export default function TransferFirstStep({ type }: { type: 'fill' | 'send' }) {
+export default function TransferFirstStep({ type }: { type: TransferType }) {
   const router = useRouter()
   const sourceAccount = useTransferAccountStore(
     (state) => state.selectedAccount,
@@ -18,39 +20,43 @@ export default function TransferFirstStep({ type }: { type: 'fill' | 'send' }) {
     id: 1,
   }
 
-  const handleClickNextBtn = () => {}
-
   if (!sourceAccount) {
     router.push('/mypage')
     return null
   }
 
   return (
-    <>
-      <div className="text-center mt-16">
-        <p className="text-xl font-medium">{sourceAccount.accountName}에서</p>
-        <p className="text-_grey-400">
-          출금가능 {sourceAccount.balance.toLocaleString()}원
-        </p>
+    <div className="flex flex-col h-full">
+      <div className="flex flex-col h-[80%] justify-center gap-16">
+        <div className="flex flex-col gap-9 justify-center text-center">
+          <div>
+            <p className="text-xl font-medium mb-1">
+              {sourceAccount.accountName}에서
+            </p>
+            <p className="text-_grey-400">
+              출금가능 {sourceAccount.balance.toLocaleString()}원
+            </p>
+          </div>
+          <div>
+            <p className="text-xl font-medium mb-1">
+              {destinationAccount.accountName}으로
+            </p>
+            <p className="text-_grey-400">
+              잔액 {destinationAccount.balance.toLocaleString()}원
+            </p>
+          </div>
+        </div>
+        <AmountInput
+          placeholder={type === 'fill' ? '가져올 금액' : '보낼 금액'}
+          quickAmounts={TRANSFER_QUICK_AMOUNT_LIST}
+          hasFullAmountOption
+          balance={sourceAccount.balance}
+          errorMessage="잔액보다 많이 가져올 수 없습니다."
+        />
       </div>
-      <div className="text-center mb-10">
-        <p className="text-xl font-medium">
-          {destinationAccount.accountName}으로
-        </p>
-        <p className="text-_grey-400">
-          잔액 {destinationAccount.balance.toLocaleString()}원
-        </p>
-      </div>
-      <AmountInput
-        placeholder={type === 'fill' ? '가져올 금액' : '보낼 금액'}
-        quickAmounts={TRANSFER_QUICK_AMOUNT_LIST}
-        hasFullAmountOption
-        balance={sourceAccount.balance}
-        errorMessage="잔액보다 많이 가져올 수 없습니다."
-      />
-      <div className="mt-auto w-full" onClick={handleClickNextBtn} aria-hidden>
+      <Link href="/transfer/fill/2" className="mt-auto">
         <Button text="다음" />
-      </div>
-    </>
+      </Link>
+    </div>
   )
 }
