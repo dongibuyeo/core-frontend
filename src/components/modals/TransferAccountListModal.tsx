@@ -1,9 +1,10 @@
 'use client'
 
+import { TRANSFER_TEXT } from '@/constants/transfer'
 import TransferAccountItem from '@/containters/transfer/TransferAccountItem'
 import useTransferAccountStore from '@/store/transferAccountStore'
-import { TransferAccount } from '@/types/transfer'
-import { useRouter } from 'next/navigation'
+import { TransferAccount, TransferType } from '@/types/transfer'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 const dummy: TransferAccount[] = [
   {
@@ -31,6 +32,8 @@ const dummy: TransferAccount[] = [
 
 export default function TransferAccountListModal() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const transferType = searchParams.get('type') as TransferType
 
   const setSelectedAccount = useTransferAccountStore(
     (state) => state.setSelectedAccount,
@@ -43,7 +46,9 @@ export default function TransferAccountListModal() {
 
   return (
     <div className="w-full h-full bg-white px-2 py-6 rounded-t-[2rem]">
-      <h1 className="text-lg font-medium p-4 pt-0">가져올 계좌 선택하기</h1>
+      <h1 className="text-lg font-medium p-4 pt-0">
+        {TRANSFER_TEXT[transferType].ACCONT_LIST_TITLE}
+      </h1>
       <ul className="overflow-auto max-h-[50dvh] min-h-[12dvh]">
         {dummy.map((account) => (
           <li

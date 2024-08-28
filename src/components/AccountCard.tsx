@@ -44,14 +44,14 @@ function AccountCard({ account, balance, accountType }: Props) {
             <button
               type="button"
               className="flex flex-1 justify-center items-center bg-[rgba(40,120,245,0.16)] text-primary py-[.5625rem] font-medium rounded-lg"
-              onClick={() => router.push('/modals/transfer')}
+              onClick={() => router.push('/modals/transfer?type=fill')}
             >
               채우기
             </button>
             <button
               type="button"
               className="flex flex-1 justify-center items-center bg-primary text-white py-[.5625rem] font-medium rounded-lg"
-              // onClick={} 추후 api 연결 예정
+              onClick={() => router.push('/modals/transfer?type=send')}
             >
               보내기
             </button>
