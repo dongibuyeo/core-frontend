@@ -8,11 +8,10 @@ import { useRouter } from 'next/navigation'
 
 export default function TransferFirstStep({ type }: { type: TransferType }) {
   const router = useRouter()
-  const sourceAccount = useTransferAccountStore(
+  const selectedAccount = useTransferAccountStore(
     (state) => state.selectedAccount,
   )
-
-  const destinationAccount = {
+  const myChallengeAccount = {
     accountName: '신한 쏠쏠한 챌린지 통장',
     accountNumber: 110472000000,
     balance: 0,
@@ -20,7 +19,19 @@ export default function TransferFirstStep({ type }: { type: TransferType }) {
     id: 1,
   }
 
-  if (!sourceAccount) {
+  let sourceAccount = null
+  let destinationAccount = null
+
+  if (type === 'fill') {
+    sourceAccount = selectedAccount
+    destinationAccount = myChallengeAccount
+  }
+  if (type === 'send') {
+    sourceAccount = myChallengeAccount
+    destinationAccount = selectedAccount
+  }
+
+  if (!sourceAccount || !destinationAccount) {
     router.push('/mypage')
     return null
   }

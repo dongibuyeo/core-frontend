@@ -41,7 +41,7 @@ export default function TransferAccountListModal() {
 
   const handleAccountSelect = (account: TransferAccount) => {
     setSelectedAccount(account)
-    router.push('/transfer/fill/1')
+    router.push(`/transfer/${transferType}/1`)
   }
 
   return (
