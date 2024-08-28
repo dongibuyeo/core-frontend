@@ -10,8 +10,8 @@ interface Props {
   endDate: string
   imageUrl: string
   isChallengeSuccessful?: boolean
+  isSettled?: boolean
   isChatPage?: boolean
-  isSettled: boolean
   participantCount?: number
 }
 
@@ -37,14 +37,14 @@ export default function MiniChallengeCard({
       return '진행중'
     }
     if (isChallengeSuccessful) {
-      return isSettled ? '완료' : '정산 필요'
+      return isSettled ? '완료' : '정산필요'
     }
 
     return '완료'
   }, [startDate, endDate, isChallengeSuccessful, isSettled])
 
   const statusColor =
-    challengeStatus === '정산 필요' ? 'text-red-500' : 'text-_blue-300'
+    challengeStatus === '정산필요' ? 'text-red-500' : 'text-_blue-300'
 
   const formattedParticipantCount = participantCount.toLocaleString()
 
