@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export default function MyChallengePage() {
+export default function ChallengeDetailPage() {
   const router = useRouter()
   const [currentTab, setCurrentTab] = useState('info')
 
@@ -22,21 +22,21 @@ export default function MyChallengePage() {
       />
       <div className="fixed top-0 left-0 w-full aspect-square bg-gradient-to-b from-black to-transparent opacity-20" />
       <nav
-        className={`bg-white z-10 fixed top-0 left-0 flex items-center h-[3.75rem] w-full px-[.625rem] space-x-[.625rem] transition-opacity duration-200 ${currentTab === 'ranking' ? 'opacity-100' : 'opacity-0'}`}
+        className={`bg-white z-20 fixed top-0 left-0 flex items-center h-[3.75rem] w-full px-[.625rem] space-x-[.625rem] transition-opacity duration-200 ${currentTab === 'ranking' ? 'opacity-100' : 'opacity-0'}`}
       >
         <ArrowLeft
           className="cursor-pointer w-6 h-6"
           onClick={() => router.back()}
         />
       </nav>
-      <div className="relative z-50">
+      <div className="relative">
         <div
           className={`w-full transition-max-height duration-300 ease-out ${currentTab === 'info' ? 'max-h-screen' : 'max-h-0'}`}
         >
           <div className="aspect-4-3" />
         </div>
         <div
-          className={`w-full ${currentTab === 'info' && 'rounded-t-[2rem]'} bg-white`}
+          className={`relative z-50 w-full ${currentTab === 'info' && 'rounded-t-[2rem]'} bg-white`}
         >
           <div className="flex">
             <button
@@ -68,8 +68,10 @@ export default function MyChallengePage() {
               </span>
             </button>
           </div>
-          {currentTab === 'info' && <ChallengeInfo />}
-          {currentTab === 'ranking' && <ChallengeRanking />}
+          <div className="px-5">
+            {currentTab === 'info' && <ChallengeInfo />}
+            {currentTab === 'ranking' && <ChallengeRanking />}
+          </div>
         </div>
       </div>
     </div>
