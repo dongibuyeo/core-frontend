@@ -30,6 +30,10 @@ export const URL_LABEL_MAP: UrlMap[] = [
     goBack: true,
   },
   {
+    path: '/recommendation',
+    goBack: true,
+  },
+  {
     path: '/mypage/settings/profile',
     label: '프로필 설정',
     goBack: true,

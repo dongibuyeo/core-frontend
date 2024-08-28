@@ -1,4 +1,5 @@
 import ArrowLeft from './arrow-left.svg'
+import ArrowRight from './arrow-right.svg'
 import ArrowDown from './arrow-down.svg'
 import Challenge from './challenge.svg'
 import Home from './home.svg'
@@ -25,9 +26,12 @@ import Trophy from './trophy.svg'
 import SuccessModalChart from './success-modal-chart.svg'
 import People from './people.svg'
 import Rocket from './rocket.svg'
+import DollarsFlying from './dollars-flying.svg'
+import ChartUp from './chart-up.svg'
 
 export {
   ArrowLeft,
+  ArrowRight,
   ArrowDown,
   Home,
   Challenge,
@@ -54,4 +58,6 @@ export {
   SuccessModalChart,
   People,
   Rocket,
+  DollarsFlying,
+  ChartUp,
 }

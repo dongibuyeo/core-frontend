@@ -1,4 +1,7 @@
+'use client'
+
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 interface Props {
   account: string
@@ -7,6 +10,7 @@ interface Props {
 }
 
 function AccountCard({ account, balance, accountType }: Props) {
+  const router = useRouter()
   return (
     <div className="bg-white border-_grey-200 border-[.0313rem] shadow-[0rem_.0625rem_.25rem_rgba(12, 12, 13, 0.05)] rounded-xl p-4 relative w-full">
       <div className="flex items-center mb-6">
@@ -40,7 +44,7 @@ function AccountCard({ account, balance, accountType }: Props) {
             <button
               type="button"
               className="flex flex-1 justify-center items-center bg-[rgba(40,120,245,0.16)] text-primary py-[.5625rem] font-medium rounded-lg"
-              // onClick={} 추후 api 연결 예정
+              onClick={() => router.push('/modals/transfer')}
             >
               채우기
             </button>
@@ -58,7 +62,7 @@ function AccountCard({ account, balance, accountType }: Props) {
             className="flex flex-1 justify-center items-center bg-primary text-white py-[.5625rem] font-medium rounded-lg"
             // onClick={} 추후 api 연결 예정
           >
-            납입하기
+            출금계좌 잔액확인
           </button>
         )}
       </div>
