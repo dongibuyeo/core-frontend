@@ -54,7 +54,7 @@ export default function ChallengeInfo() {
         challenge?.type ?? '',
         accountList[0].accountNo,
       ),
-    enabled: accountList?.length === 0,
+    enabled: !!accountList?.length,
   })
 
   return (
@@ -91,7 +91,7 @@ export default function ChallengeInfo() {
           <p className="mt-1">
             <span className="text-xl font-bold text-primary">
               {spentMoney?.totalConsumption}
-            </span>
+            </span>{' '}
             원
           </p>
           <p className="mt-5">
