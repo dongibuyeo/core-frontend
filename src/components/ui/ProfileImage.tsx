@@ -1,4 +1,4 @@
-import { Sol, Pli, Lay, Moli } from '@/public/svg/index'
+import { getProfileImage } from '@/utils/getProfileImage'
 
 interface Props {
   profileImage: string
@@ -6,34 +6,15 @@ interface Props {
 }
 
 function ProfileImage({ profileImage, className }: Props) {
-  const renderProfileImage = (imageName: string): React.ReactNode => {
-    switch (imageName) {
-      case 'Sol':
-        return <Sol />
-      case 'Pli':
-        return <Pli />
-      case 'Lay':
-        return <Lay className="h-[8.375rem]" />
-      case 'Moli':
-        return <Moli />
-      default:
-        return <Sol />
-    }
-  }
-
   return (
     <div className={`relative ${className}`}>
-      <div className="bg-_grey-100 rounded-full overflow-hidden w-full h-full flex items-center justify-center">
-        <div className="w-[85%] h-[85%] flex items-center justify-center object-contain">
-          {renderProfileImage(profileImage)}
+      <div className="w-36 h-36 bg-_grey-100 rounded-full overflow-hidden flex items-center justify-center">
+        <div className="w-36 h-36 flex items-center justify-center object-contain">
+          {getProfileImage(profileImage)}
         </div>
       </div>
     </div>
   )
-}
-
-ProfileImage.defaultProps = {
-  className: '',
 }
 
 export default ProfileImage

@@ -94,7 +94,9 @@ export default function Mypage() {
             />
           )}
         </div>
-        <p className="text-center font-medium mb-10">{userProfile.nickname}</p>
+        <p className="text-center font-medium mt-3 mb-10">
+          {userProfile.nickname}
+        </p>
       </div>
 
       <div className="w-full flex flex-col">
