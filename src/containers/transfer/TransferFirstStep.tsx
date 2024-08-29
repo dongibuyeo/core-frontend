@@ -1,6 +1,7 @@
 import AmountInput from '@/components/AmountInput'
 import Button from '@/components/ui/Button'
 import { TRANSFER_QUICK_AMOUNT_LIST } from '@/constants/transfer'
+import useAmountStore from '@/store/amountStore'
 import { Account } from '@/types/account'
 import { TransferType } from '@/types/transfer'
 import Link from 'next/link'
@@ -16,13 +17,17 @@ export default function TransferFirstStep({
   sourceAccount,
   destinationAccount,
 }: Props) {
+  const amount = useAmountStore((state) => state.amount)
   return (
     <div className="flex flex-col h-full">
       <div className="flex flex-col h-[80%] justify-center gap-16">
         <div className="flex flex-col gap-9 justify-center text-center">
           <div>
             <p className="text-xl font-medium mb-1">
-              {sourceAccount.accountName}에서
+              <span className={`${type === 'fill' && 'text-_blue-300'}`}>
+                {sourceAccount.accountName}
+              </span>
+              에서
             </p>
             <p className="text-_grey-400">
               출금가능 {Number(sourceAccount.accountBalance).toLocaleString()}원
@@ -30,7 +35,10 @@ export default function TransferFirstStep({
           </div>
           <div>
             <p className="text-xl font-medium mb-1">
-              {destinationAccount.accountName}으로
+              <span className={`${type === 'send' && 'text-_blue-300'}`}>
+                {destinationAccount.accountName}
+              </span>
+              으로
             </p>
             <p className="text-_grey-400">
               잔액 {Number(destinationAccount.accountBalance).toLocaleString()}
@@ -47,7 +55,10 @@ export default function TransferFirstStep({
         />
       </div>
       <Link href={`/transfer/${type}/2`} className="mt-auto">
-        <Button text="다음" />
+        <Button
+          text="다음"
+          disabled={(amount as number) > Number(sourceAccount.accountBalance)}
+        />
       </Link>
     </div>
   )
