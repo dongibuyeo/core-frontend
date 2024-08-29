@@ -1,4 +1,4 @@
-export type User = {
+export type UserInfo = {
   memberId: string
   email: string
   name: string
