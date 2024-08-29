@@ -4,23 +4,38 @@ import ChallengeRanking from '@/containers/challenge/[id]/ChallengeRanking'
 import ChallengeInfo from '@/containers/challenge/[id]/ChallengeInfo'
 import { Arrow } from '@/public/svg/index'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { getChallenge } from '@/services/challenges'
+import { Challenge } from '@/types/Challenge'
 
 export default function ChallengeDetailPage() {
   const router = useRouter()
+  const pathname = usePathname()
   const [currentTab, setCurrentTab] = useState('info')
+  const challengeId = pathname.split('/')[2]
+
+  const { data: challenge } = useQuery<Challenge>({
+    queryKey: ['challenge', challengeId],
+    queryFn: () => getChallenge(challengeId),
+    enabled: !!localStorage.getItem('email'),
+  })
 
   return (
     <div className="w-full h-full">
-      <Image
-        src="/image/coffee.jpg"
-        alt="챌린지 썸네일"
-        height={400}
-        width={400}
-        className={`w-full aspect-square object-cover object-center fixed top-0 left-0 transition-opacity duration-200 ${currentTab === 'ranking' ? 'opacity-0' : 'opacity-100'}`}
-      />
-      <div className="fixed top-0 left-0 w-full aspect-square bg-gradient-to-b from-black to-transparent opacity-20" />
+      {challenge?.image && (
+        <Image
+          src={`/image/challenge/${challenge?.image}.jpg`}
+          alt="챌린지 썸네일"
+          height={400}
+          width={400}
+          className={`w-full aspect-square object-cover object-center fixed top-0 left-0 transition-opacity duration-200 ${currentTab === 'ranking' ? 'opacity-0' : 'opacity-100'}`}
+        />
+      )}
+      {currentTab === 'info' && (
+        <div className="fixed top-0 left-0 w-full aspect-square bg-gradient-to-b from-black to-transparent opacity-20" />
+      )}
       <nav
         className={`bg-white z-20 fixed top-0 left-0 flex items-center h-[3.75rem] w-full px-[.625rem] space-x-[.625rem] transition-opacity duration-200 ${currentTab === 'ranking' ? 'opacity-100' : 'opacity-0'}`}
       >

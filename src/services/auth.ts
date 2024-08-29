@@ -1,14 +1,6 @@
 import { instance } from '@/services/config/axios'
 import { UserInfo } from '@/types/user'
 
-export const getUser = async () => {
-  const email = localStorage.getItem('email') as string
-  const response = await instance.get(`/members/login`, {
-    params: { email },
-  })
-  return response
-}
-
 export const getUserInfo: () => Promise<UserInfo> = async () => {
   const email = localStorage.getItem('email') as string
   const response = await instance.get(`/members/email/${email}`)
@@ -17,7 +9,7 @@ export const getUserInfo: () => Promise<UserInfo> = async () => {
 
 export const checkEmailDuplicate = async (debouncedEmail: string) => {
   const response = await instance.get(`/members/duplicate/${debouncedEmail}`)
-  return response.data
+  return response.data.isPresent
 }
 
 export const signupUser = async (
