@@ -4,13 +4,13 @@ import Button from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { useQuery } from '@tanstack/react-query'
-import { getUser } from '@/services/auth'
+import { getUserInfo } from '@/services/auth'
 
 export default function Home() {
   const router = useRouter()
   const { data: user } = useQuery({
     queryKey: ['user'],
-    queryFn: getUser,
+    queryFn: getUserInfo,
     enabled: !!localStorage.getItem('email'),
   })
 
