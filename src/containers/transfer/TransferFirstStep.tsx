@@ -40,7 +40,7 @@ export default function TransferFirstStep({
           placeholder={type === 'fill' ? '가져올 금액' : '보낼 금액'}
           quickAmounts={TRANSFER_QUICK_AMOUNT_LIST}
           hasFullAmountOption
-          balance={sourceAccount.balance}
+          balance={Number(sourceAccount.balance)}
           errorMessage="잔액보다 많이 가져올 수 없습니다."
         />
       </div>
