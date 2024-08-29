@@ -6,23 +6,43 @@ import Button from '@/components/ui/Button'
 import SectionTitle from '@/components/ui/SectionTitle'
 import { DEPOSIT_QUICK_AMOUNT_LIST } from '@/constants/transfer'
 import { MoneyStack, OneFinger, Prohibition, TwoFinger } from '@/public/svg'
+import { getChallenge, getEstimateReward } from '@/services/challenges'
+import useAmountStore from '@/store/amountStore'
+import { Challenge } from '@/types/Challenge'
+import { useQuery } from '@tanstack/react-query'
 
-export default function Deposit() {
+export default function Deposit({ params }: { params: { id: string } }) {
+  const amount = useAmountStore((state) => state.amount)
+  const { data: challenge } = useQuery<Challenge>({
+    queryKey: ['challenge', params.id],
+    queryFn: () => getChallenge(params.id),
+    enabled: !!localStorage.getItem('email'),
+  })
+
+  const { data: estimateReward } = useQuery({
+    queryKey: ['estimateReward'],
+    queryFn: () => getEstimateReward(params.id),
+  })
+
+  const avgDeposit = Math.floor(
+    Number(challenge?.totalDeposit) / Number(challenge?.participants) || 0,
+  )
   return (
     <div className="px-5 flex flex-col gap-16">
       <div>
         <p className="text-sm font-normal">절약 챌린지</p>
-        <h1 className="text-2xl font-medium mt-2 mb-8">
-          한 달 커피 소비 줄이기
-        </h1>
+        <h1 className="text-2xl font-medium mt-2 mb-8">{challenge?.title}</h1>
         <FundCard
-          title="한 달 커피 소비 줄이기"
-          participants={786}
-          fund={21510000}
+          title={challenge?.title || ''}
+          participants={challenge?.participants}
+          fund={Number(challenge?.totalDeposit)}
         />
         <p className="mt-7 text-center">
           이번 챌린지 참가자들은 평균
-          <span className="text-_blue-300"> {(22444).toLocaleString()}원</span>
+          <span className="text-_blue-300">
+            {' '}
+            {avgDeposit.toLocaleString()}원
+          </span>
           을 걸었어요!
         </p>
       </div>
@@ -43,11 +63,41 @@ export default function Deposit() {
           quickAmounts={DEPOSIT_QUICK_AMOUNT_LIST}
           balance={200000}
           errorMessage="최대 20만원까지 걸 수 있어요!"
+          isDepositType
         />
-        <div className="bg-_grey-100 p-4 rounded-xl mt-10 flex flex-col gap-3">
-          <p>성공(상위10%)</p>
-          <p>성공(하위90%)</p>
-          <p>실패</p>
+        <div className="bg-_grey-100 p-4 rounded-xl mt-10 flex flex-col gap-3 text-center">
+          {amount ? (
+            <>
+              <p className="flex justify-between">
+                <span>성공(상위10%)</span>
+                <span>
+                  (예상){' '}
+                  {(
+                    amount +
+                    (amount / 10000) *
+                      (estimateReward?.top10PercentRewardPerUnit || 0)
+                  ).toLocaleString()}
+                </span>
+              </p>
+              <p className="flex justify-between">
+                <span>성공(하위90%)</span>
+                <span>
+                  (예상){' '}
+                  {(
+                    amount +
+                    (amount / 10000) *
+                      (estimateReward?.lower90PercentRewardPerUnit || 0)
+                  ).toLocaleString()}
+                </span>
+              </p>
+              <p className="flex justify-between">
+                <span>실패</span>
+                <span>성공률만큼 일부 환급</span>
+              </p>
+            </>
+          ) : (
+            <p>금액을 입력하시면 예상 환급금을 조회해드려요!</p>
+          )}
         </div>
       </div>
       <div>
