@@ -18,7 +18,7 @@ export default function EmailCheckStep() {
   const setEmail = useSignupStore((state) => state.setEmail)
   const isValidEmail = (email: string) => EMAIL_REGEX.test(email)
 
-  const { status } = useQuery({
+  const { data: isEmailDuplicated } = useQuery({
     queryKey: ['emailCheck', debouncedEmail],
     queryFn: async () => checkEmailDuplicate(debouncedEmail),
     enabled: isValidEmail(debouncedEmail),
@@ -42,7 +42,7 @@ export default function EmailCheckStep() {
           이메일
         </label>
       </div>
-      {status === 'error' ? (
+      {isEmailDuplicated ? (
         <span className="text-red-500 text-sm pl-2 mt-2">
           이메일이 이미 사용 중입니다.
         </span>
@@ -54,7 +54,7 @@ export default function EmailCheckStep() {
       <Button
         text="다음"
         className="absolute bottom-3 w-full right-0 text-white"
-        disabled={!(isValidEmail(email) && status === 'success')}
+        disabled={!(isValidEmail(email) && !isEmailDuplicated)}
         onClick={() => router.push('/signup/profile')}
       />
     </div>
