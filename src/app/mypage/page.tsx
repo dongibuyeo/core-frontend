@@ -15,16 +15,20 @@ import ProfileImage from '@/components/ui/ProfileImage'
 import SectionTitle from '@/components/ui/SectionTitle'
 import MyChallengeStatusBar from '@/containers/mypage/MyChallengeStatusBar'
 import AccountCard from '@/components/AccountCard'
+import Loader from '@/components/Loader'
+import { useQuery } from '@tanstack/react-query'
+import { getUserProfile } from '@/services/mypage'
+import { UserProfile } from '@/types/UserProfile'
 
-const getProfileImage = (profileImageNumber: number) => {
-  switch (profileImageNumber) {
-    case 1:
+const getProfileImage = (profileImageName: string) => {
+  switch (profileImageName) {
+    case 'Sol':
       return <Sol />
-    case 2:
+    case 'Pli':
       return <Pli />
-    case 3:
+    case 'Lay':
       return <Lay className="h-[8.375rem]" />
-    case 4:
+    case 'Moli':
       return <Moli />
     default:
       return <Sol />
@@ -48,6 +52,15 @@ export default function Mypage() {
       accountType: 'saving' as 'deposit' | 'saving',
     },
   ]
+
+  const {
+    data: userProfile,
+    isLoading,
+    isError,
+  } = useQuery<UserProfile>({
+    queryKey: ['userProfile'],
+    queryFn: getUserProfile,
+  })
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,20 +94,30 @@ export default function Mypage() {
     }
   }, [currentIndex])
 
-  // 임시 프로필
-  const profileImageNumber = 1
-  const tempNickname = '강남건물주될거야'
+  if (isLoading) {
+    return <Loader />
+  }
+
+  if (isError) {
+    return <div>에러 발생!</div> // 데이터 페칭 중 에러 발생한 경우
+  }
+
+  if (!userProfile) {
+    return <div>데이터를 불러오지 못했습니다.</div> // 데이터가 없을 경우 표시할 메시지
+  }
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="flex flex-col items-center">
         <div className="flex items-center justify-center mt-8 mb-5">
-          <ProfileImage
-            imageUrl={getProfileImage(profileImageNumber)}
-            className="w-32 h-32"
-          />
+          {userProfile && (
+            <ProfileImage
+              imageUrl={getProfileImage(userProfile.profileImage)}
+              className="w-32 h-32"
+            />
+          )}
         </div>
-        <p className="text-center font-medium mb-10">{tempNickname}</p>
+        <p className="text-center font-medium mb-10">{userProfile.nickname}</p>
       </div>
 
       <div className="w-full flex flex-col">
