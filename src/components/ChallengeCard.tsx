@@ -1,12 +1,14 @@
+/* eslint-disable no-nested-ternary */
+
 'use client'
 
 import { KeyboardEvent } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { calculateDday } from '@/utils/calculateDday'
 import Button from '@/components/ui/Button'
 import { formatDate } from '@/utils/formatDate'
 import { Challenge } from '@/types/Challenge'
+import { calculateDday } from '@/utils/calculateDday'
 
 export default function ChallengeCard({
   challengeId,
@@ -16,6 +18,7 @@ export default function ChallengeCard({
   participants,
   totalDeposit,
   image,
+  status,
 }: Challenge) {
   const router = useRouter()
 
@@ -60,7 +63,7 @@ export default function ChallengeCard({
       )}
       <div className="relative w-full">
         <Image
-          src={image}
+          src={`/image/challenge/${image}.jpg`}
           alt="Challenge Image"
           height={400}
           width={400}
@@ -73,7 +76,11 @@ export default function ChallengeCard({
       <div className="p-3 flex flex-col gap-2">
         <h3 className="text-sm font-medium">
           <span className="text-primary text-base">
-            {calculateDday(startDate)}
+            {status === 'SCHEDULED'
+              ? calculateDday(formattedStartDate)
+              : status === 'IN_PROGRESS'
+                ? '진행중'
+                : '마감'}
           </span>
           <span className="text-black ml-2 text-base">{title}</span>
         </h3>
