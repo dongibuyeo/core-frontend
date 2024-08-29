@@ -9,9 +9,8 @@ import ProfileImage from '@/components/ui/ProfileImage'
 import { ModalLayout } from '@/components/modals/ModalLayout'
 import { CenterModalContainer } from '@/components/modals/CenterModalContainer'
 import ProfileSelector from '@/containers/settings/ProfileSelector'
-import { getUserProfileByEmail, updateUserProfile } from '@/services/mypage'
-import { UserProfile } from '@/types/UserProfile'
-import Loader from '@/components/Loader'
+import { updateUserProfile } from '@/services/mypage'
+import { getUserInfo } from '@/services/auth'
 
 export default function ProfilePage() {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -22,13 +21,10 @@ export default function ProfilePage() {
   const queryClient = useQueryClient()
   const router = useRouter()
 
-  const {
-    data: userProfile,
-    isLoading,
-    isError,
-  } = useQuery<UserProfile, Error>({
-    queryKey: ['userProfile'],
-    queryFn: getUserProfileByEmail,
+  const { data: userInfo } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: getUserInfo,
+    enabled: !!localStorage.getItem('email'),
   })
 
   const mutation = useMutation({
@@ -52,11 +48,11 @@ export default function ProfilePage() {
   }
 
   useEffect(() => {
-    if (userProfile) {
-      setNickname(userProfile.nickname)
-      setProfileImage(userProfile.profileImage)
+    if (userInfo) {
+      setNickname(userInfo.nickname)
+      setProfileImage(userInfo.profileImage)
     }
-  }, [userProfile])
+  }, [userInfo])
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -76,14 +72,6 @@ export default function ProfilePage() {
     if (e.key === 'Escape') {
       handleModalClose()
     }
-  }
-
-  if (isLoading) {
-    return <Loader />
-  }
-
-  if (isError) {
-    return <div>데이터를 불러오는 중 에러가 발생했습니다.</div> // 데이터 로딩 오류 시 메시지를 표시합니다.
   }
 
   return (
