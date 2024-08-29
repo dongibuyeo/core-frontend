@@ -1,7 +1,7 @@
 'use client'
 
 import Button from '@/components/ui/Button'
-import MyChart from '@/containters/Chart'
+import MyChart from '@/containers/Chart'
 import { DollarsFlying, ChartUp } from '@/public/svg'
 
 type Props = {

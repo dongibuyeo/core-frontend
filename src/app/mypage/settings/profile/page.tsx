@@ -6,7 +6,7 @@ import Button from '@/components/ui/Button'
 import ProfileImage from '@/components/ui/ProfileImage'
 import { ModalLayout } from '@/components/modals/ModalLayout'
 import { CenterModalContainer } from '@/components/modals/CenterModalContainer'
-import ProfileSelector from '@/containters/settings/ProfileSelector'
+import ProfileSelector from '@/containers/settings/ProfileSelector'
 
 export default function ProfilePage() {
   const storedNickname =

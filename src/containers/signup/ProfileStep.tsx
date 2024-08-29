@@ -2,22 +2,27 @@
 
 'use client'
 
-import { NICKNAME_REGEX } from '@/constants/regex'
+import { NICKNAME_REGEX, USERNAME_REGEX } from '@/constants/regex'
 import Button from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
 import useSignupStore from '@/store/SignupStore'
+import useDebounce from '@/hooks/useDebounce'
 
 export default function ProfileStep() {
   const router = useRouter()
   const username = useSignupStore((state) => state.username)
+  const debouncedUsername = useDebounce(username, 300)
   const setUsername = useSignupStore((state) => state.setUsername)
+
   const nickname = useSignupStore((state) => state.nickname)
+  const debouncedNickname = useDebounce(nickname, 300)
   const setNickname = useSignupStore((state) => state.setNickname)
 
+  const isValidUsername = (nickname: string) => USERNAME_REGEX.test(nickname)
   const isValidNickname = (nickname: string) => NICKNAME_REGEX.test(nickname)
 
   return (
-    <div className="flex flex-col w-full gap-9 relative">
+    <div className="flex flex-col w-full gap-12 relative">
       <div className="relative">
         <input
           type="text"
@@ -34,6 +39,11 @@ export default function ProfileStep() {
         >
           이름
         </label>
+        {debouncedUsername && !isValidUsername(debouncedUsername) && (
+          <span className="absolute left-0 -bottom-7 text-red-500 text-sm pl-2">
+            이름은 1~8자의 한글만 사용 가능합니다.
+          </span>
+        )}
       </div>
 
       <div className="relative">
@@ -52,7 +62,7 @@ export default function ProfileStep() {
         >
           닉네임
         </label>
-        {nickname && !isValidNickname(nickname) && (
+        {debouncedNickname && !isValidNickname(debouncedNickname) && (
           <span className="absolute left-0 -bottom-7 text-red-500 text-sm pl-2">
             닉네임은 1~10자의 영문, 한글, 숫자만 사용 가능합니다.
           </span>
@@ -62,7 +72,10 @@ export default function ProfileStep() {
       <Button
         text="다음"
         className="absolute bottom-3 right-0 text-white"
-        disabled={!isValidNickname(nickname) || !username}
+        disabled={
+          !isValidNickname(debouncedNickname) ||
+          !isValidUsername(debouncedUsername)
+        }
         onClick={() => router.push('/signup/push')}
       />
     </div>

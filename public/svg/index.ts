@@ -28,11 +28,18 @@ import People from './people.svg'
 import Rocket from './rocket.svg'
 import DollarsFlying from './dollars-flying.svg'
 import ChartUp from './chart-up.svg'
+import Close from './close.svg'
+import Arrow from './arrow.svg'
 import ScoreUp from './score-up.svg'
 import ScoreDown from './score-down.svg'
 import ArrowSend from './arrow-send.svg'
+import MoneyStack from './money-stack.svg'
+import OneFinger from './one-finger.svg'
+import TwoFinger from './two-finger.svg'
+import Prohibition from './prohibition.svg'
 
 export {
+  Arrow,
   ArrowLeft,
   ArrowRight,
   ArrowDown,
@@ -63,7 +70,12 @@ export {
   Rocket,
   DollarsFlying,
   ChartUp,
+  Close,
   ScoreUp,
   ScoreDown,
   ArrowSend,
+  MoneyStack,
+  OneFinger,
+  TwoFinger,
+  Prohibition,
 }

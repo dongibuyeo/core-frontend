@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-shadow */
 
 'use client'
@@ -7,7 +8,8 @@ import Button from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
 import useSignupStore from '@/store/SignupStore'
 import useDebounce from '@/hooks/useDebounce'
-import { useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { checkEmailDuplicate } from '@/services/auth'
 
 export default function EmailCheckStep() {
   const router = useRouter()
@@ -16,9 +18,11 @@ export default function EmailCheckStep() {
   const setEmail = useSignupStore((state) => state.setEmail)
   const isValidEmail = (email: string) => EMAIL_REGEX.test(email)
 
-  useEffect(() => {
-    console.log('debouncedEmail', debouncedEmail)
-  }, [debouncedEmail])
+  const { status } = useQuery({
+    queryKey: ['emailCheck', debouncedEmail],
+    queryFn: async () => checkEmailDuplicate(debouncedEmail),
+    enabled: isValidEmail(debouncedEmail),
+  })
 
   return (
     <div className="flex flex-col w-full relative">
@@ -38,15 +42,19 @@ export default function EmailCheckStep() {
           이메일
         </label>
       </div>
-      {email && !isValidEmail(email) && (
+      {status === 'error' ? (
+        <span className="text-red-500 text-sm pl-2 mt-2">
+          이메일이 이미 사용 중입니다.
+        </span>
+      ) : email && !isValidEmail(email) ? (
         <span className="text-red-500 text-sm pl-2 mt-2">
           이메일 형식에 맞지 않습니다.
         </span>
-      )}
+      ) : null}
       <Button
         text="다음"
         className="absolute bottom-3 w-full right-0 text-white"
-        disabled={!isValidEmail(email)}
+        disabled={!(isValidEmail(email) && status === 'success')}
         onClick={() => router.push('/signup/profile')}
       />
     </div>

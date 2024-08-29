@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useRouter } from 'next/navigation'
-import { ArrowLeft, Settings } from '@/public/svg/index'
+import { Arrow, Settings } from '@/public/svg/index'
 import { URL_LABEL_MAP } from '@/constants/url-map'
 import { useNavState } from '@/hooks/useNavState'
 
@@ -27,9 +27,9 @@ export default function Navbar() {
     <nav className="bg-transparent z-20 fixed top-0 left-0 flex items-center justify-between h-[3.75rem] w-full px-[.625rem]">
       <div className="flex items-center space-x-[.625rem]">
         {currentMapping?.goBack && (
-          <ArrowLeft
-            className="cursor-pointer w-6 h-6"
-            fill={!currentMapping?.label && '#ffffff'}
+          <Arrow
+            className="cursor-pointer w-7 h-7"
+            stroke={currentMapping?.label ? '#000000' : '#ffffff'}
             onClick={() => router.back()}
           />
         )}

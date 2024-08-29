@@ -6,7 +6,7 @@ import { Toaster } from 'react-hot-toast'
 import Navbar from '@/components/Navbar'
 import Container from '@/components/ui/Container'
 import Provider from '@/components/Provider'
-import RootLayoutClient from '@/containters/RootLayoutClient'
+import RootLayoutClient from '@/containers/RootLayoutClient'
 
 export const metadata: Metadata = {
   title: 'DONGIBUYEO',

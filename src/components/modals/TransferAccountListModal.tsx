@@ -1,7 +1,7 @@
 'use client'
 
 import { TRANSFER_TEXT } from '@/constants/transfer'
-import TransferAccountItem from '@/containters/transfer/TransferAccountItem'
+import TransferAccountItem from '@/containers/transfer/TransferAccountItem'
 import useTransferAccountStore from '@/store/transferAccountStore'
 import { TransferAccount, TransferType } from '@/types/transfer'
 import { useRouter, useSearchParams } from 'next/navigation'

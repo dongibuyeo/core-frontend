@@ -5,35 +5,30 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { calculateDday } from '@/utils/calculateDday'
 import Button from '@/components/ui/Button'
-
-interface Props {
-  id: string
-  title: string
-  startDate: string
-  endDate: string
-  participants: number
-  fund: number
-  imageUrl: string
-}
+import { formatDate } from '@/utils/formatDate'
+import { Challenge } from '@/types/Challenge'
 
 export default function ChallengeCard({
-  id,
+  challengeId,
   title,
   startDate,
   endDate,
   participants,
-  fund,
-  imageUrl,
-}: Props) {
+  totalDeposit,
+  image,
+}: Challenge) {
   const router = useRouter()
 
-  const dateRange = `${startDate} ~ ${endDate}`
+  const formattedStartDate = formatDate(startDate)
+  const formattedEndDate = formatDate(endDate)
 
-  const isChallengeEnded = new Date(endDate) < new Date()
+  const dateRange = `${formattedStartDate} ~ ${formattedEndDate}`
+
+  const isChallengeEnded = new Date(formattedEndDate) < new Date()
 
   const handleClick = () => {
     if (!isChallengeEnded) {
-      router.push(`/challenge/${id}`)
+      router.push(`/challenge/${challengeId}`)
     }
   }
 
@@ -59,20 +54,20 @@ export default function ChallengeCard({
           <Button
             text="결과보기"
             className="text-white pointer-events-auto"
-            url={`/challenge/result/${id}`}
+            url={`/challenge/result/${challengeId}`}
           />
         </div>
       )}
       <div className="relative w-full">
         <Image
-          src={imageUrl}
+          src={image}
           alt="Challenge Image"
           height={400}
           width={400}
           className="w-full rounded-t-2xl object-cover aspect-half"
         />
         <div className="absolute top-3 right-4 bg-black text-white text-xs px-5 py-1 rounded-xl">
-          {participants.toLocaleString()}명 참여 중
+          {participants?.toLocaleString()}명 참여 중
         </div>
       </div>
       <div className="p-3 flex flex-col gap-2">
@@ -91,7 +86,7 @@ export default function ChallengeCard({
               누적 기금{' '}
             </span>
             <span className="text-_blue-300 ml-1 font-medium leading-none">
-              {fund.toLocaleString()} 원
+              {totalDeposit?.toLocaleString()} 원
             </span>
           </div>
         </div>

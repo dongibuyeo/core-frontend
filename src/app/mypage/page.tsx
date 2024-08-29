@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { ArrowRight, Flag, MoneyBag } from '@/public/svg/index'
 import ProfileImage from '@/components/ui/ProfileImage'
 import SectionTitle from '@/components/ui/SectionTitle'
-import MyChallengeStatusBar from '@/containters/mypage/MyChallengeStatusBar'
+import MyChallengeStatusBar from '@/containers/mypage/MyChallengeStatusBar'
 import AccountCard from '@/components/AccountCard'
 import { getProfileImage } from '@/utils/getProfileImage'
 
