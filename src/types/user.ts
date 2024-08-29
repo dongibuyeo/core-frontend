@@ -1,9 +1,9 @@
-export type UserInfo = {
+export type User = {
   memberId: string
   email: string
   name: string
   nickname: string
-  profileImage: null
+  profileImage: string | null
   userKey: string
-  deviceToken: string
+  deviceToken: string | null
 }
