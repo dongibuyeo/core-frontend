@@ -19,7 +19,7 @@ export default function Transfer() {
     enabled: !!localStorage.getItem('email'),
   })
   const { type, step } = params
-  const { data: challengeAccount } = useQuery({
+  const { data: myChallengeAccount } = useQuery({
     queryKey: ['account', 'challenge'],
     queryFn: () => getChallengeAccount(userInfo?.memberId as string),
     enabled: !!userInfo?.memberId,
@@ -27,13 +27,6 @@ export default function Transfer() {
   const selectedAccount = useTransferAccountStore(
     (state) => state.selectedAccount,
   )
-
-  const myChallengeAccount = {
-    accountName: challengeAccount?.accountName || '',
-    accountNumber: challengeAccount?.accountNo || '',
-    balance: challengeAccount?.accountBalance || '',
-    bank: challengeAccount?.bankName || '',
-  }
 
   let sourceAccount = null
   let destinationAccount = null

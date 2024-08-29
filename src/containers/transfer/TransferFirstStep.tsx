@@ -1,13 +1,14 @@
 import AmountInput from '@/components/AmountInput'
 import Button from '@/components/ui/Button'
 import { TRANSFER_QUICK_AMOUNT_LIST } from '@/constants/transfer'
-import { TransferAccount, TransferType } from '@/types/transfer'
+import { Account } from '@/types/account'
+import { TransferType } from '@/types/transfer'
 import Link from 'next/link'
 
 interface Props {
   type: TransferType
-  sourceAccount: TransferAccount
-  destinationAccount: TransferAccount
+  sourceAccount: Account
+  destinationAccount: Account
 }
 
 export default function TransferFirstStep({
@@ -24,7 +25,7 @@ export default function TransferFirstStep({
               {sourceAccount.accountName}에서
             </p>
             <p className="text-_grey-400">
-              출금가능 {sourceAccount.balance.toLocaleString()}원
+              출금가능 {sourceAccount.accountBalance.toLocaleString()}원
             </p>
           </div>
           <div>
@@ -32,7 +33,7 @@ export default function TransferFirstStep({
               {destinationAccount.accountName}으로
             </p>
             <p className="text-_grey-400">
-              잔액 {destinationAccount.balance.toLocaleString()}원
+              잔액 {destinationAccount.accountBalance.toLocaleString()}원
             </p>
           </div>
         </div>
@@ -40,7 +41,7 @@ export default function TransferFirstStep({
           placeholder={type === 'fill' ? '가져올 금액' : '보낼 금액'}
           quickAmounts={TRANSFER_QUICK_AMOUNT_LIST}
           hasFullAmountOption
-          balance={Number(sourceAccount.balance)}
+          balance={Number(sourceAccount.accountBalance)}
           errorMessage="잔액보다 많이 가져올 수 없습니다."
         />
       </div>

@@ -1,13 +1,14 @@
 import Button from '@/components/ui/Button'
 import { TRANSFER_TEXT } from '@/constants/transfer'
 import useAmountStore from '@/store/amountStore'
-import { TransferAccount, TransferType } from '@/types/transfer'
+import { Account } from '@/types/account'
+import { TransferType } from '@/types/transfer'
 import Link from 'next/link'
 
 interface Props {
   type: TransferType
-  sourceAccount: TransferAccount
-  destinationAccount: TransferAccount
+  sourceAccount: Account
+  destinationAccount: Account
 }
 
 export default function TransferSecondStep({
@@ -32,7 +33,7 @@ export default function TransferSecondStep({
       <p className="w-full flex justify-between text-_grey-400 px-2">
         <span>출금계좌</span>
         <span>
-          {sourceAccount.bank} {sourceAccount.accountNumber}
+          {sourceAccount.bankName} {sourceAccount.accountNo}
         </span>
       </p>
       <Link href={`/transfer/${type}/3`} className="w-full">
