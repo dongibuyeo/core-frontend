@@ -14,6 +14,11 @@ export default function Navbar() {
     const currentMapping = URL_LABEL_MAP.find((mapping) =>
       pathname.includes(mapping.path),
     )
+    if (pathname.startsWith('/challenge') && pathname.endsWith('deposit')) {
+      return URL_LABEL_MAP.find(
+        (mapping) => mapping.path === '/challenge/deposit',
+      )
+    }
     return currentMapping
   }
 
