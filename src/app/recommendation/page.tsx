@@ -1,8 +1,14 @@
 'use client'
 
+import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import {
+  fetchTotalConsumption,
+  fetchHistoryData,
+} from '@/services/recommendation'
 import Button from '@/components/ui/Button'
 import MyChart from '@/containers/Chart'
-import { DollarsFlying, ChartUp } from '@/public/svg'
+import { DollarsFlying, ChartUp } from '@/public/svg/index'
 
 type Props = {
   userName: string
@@ -10,25 +16,64 @@ type Props = {
     | '술값 줄이기 챌린지'
     | '커피 줄이기 챌린지'
     | '배달음식 줄이기 챌린지'
-  spendingData?: number[]
+  memberId: string
+  accountNo: string
+  startDate: string
+  endDate: string
+  transactionType: string
+  orderByType: string
+  accountTypeUniqueNo: string
 }
 
 function RecommendationPage({
-  userName = '박수진', // 더미 데이터
-  challengeType = '커피 줄이기 챌린지', // 더미 데이터
-  spendingData = [150, 200, 250, 230, 270, 350],
+  userName,
+  challengeType,
+  memberId,
+  accountNo,
+  startDate,
+  endDate,
+  transactionType,
+  orderByType,
+  accountTypeUniqueNo,
 }: Props) {
-  const validSpendingData = Array.isArray(spendingData)
-    ? spendingData
-    : [150, 200, 250, 230, 270, 350] // 더미 데이터
+  const [lastMonthChange, setLastMonthChange] = useState<number>(0)
+  const [sixMonthsChange, setSixMonthsChange] = useState<number>(0)
 
-  const totalSpent = validSpendingData.reduce((acc, value) => acc + value, 0)
+  const { data: totalSpent = 0, isLoading: isTotalLoading } = useQuery({
+    queryKey: ['totalConsumption', memberId],
+    queryFn: () =>
+      fetchTotalConsumption(
+        memberId,
+        accountNo,
+        startDate,
+        endDate,
+        transactionType,
+        orderByType,
+      ),
+  })
 
-  const lastMonthChange =
-    ((validSpendingData[5] - validSpendingData[4]) / validSpendingData[4]) * 100
+  const { data: spendingData = [], isLoading: isHistoryLoading } = useQuery({
+    queryKey: ['historyData', memberId],
+    queryFn: () => fetchHistoryData(memberId, accountTypeUniqueNo),
+  })
 
-  const sixMonthsChange =
-    ((validSpendingData[5] - validSpendingData[0]) / validSpendingData[0]) * 100
+  useEffect(() => {
+    if (!isHistoryLoading && spendingData.length > 0) {
+      const calculatedLastMonthChange =
+        ((spendingData[5] - spendingData[4]) / spendingData[4]) * 100
+      const calculatedSixMonthsChange =
+        ((spendingData[5] - spendingData[0]) / spendingData[0]) * 100
+
+      setLastMonthChange(calculatedLastMonthChange)
+      setSixMonthsChange(calculatedSixMonthsChange)
+    }
+  }, [isHistoryLoading, spendingData])
+
+  const isLoading = isTotalLoading || isHistoryLoading
+
+  if (isLoading) {
+    return <div>로딩 중...</div>
+  }
 
   let expenseLabel
   if (challengeType === '술값 줄이기 챌린지') {
@@ -51,7 +96,12 @@ function RecommendationPage({
         </span>
         <span className="text-xl"> 어떠세요?</span>
       </h2>
-      <MyChart challengeType={challengeType} spendingData={validSpendingData} />
+      <MyChart
+        challengeType={challengeType}
+        spendingData={spendingData}
+        memberId=""
+        accountTypeUniqueNo=""
+      />
       <div className="text-left mt-16">
         <p className="mb-10">
           지난 6개월 간

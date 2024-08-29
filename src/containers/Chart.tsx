@@ -13,10 +13,12 @@ import {
   ChartData,
   ChartOptions,
 } from 'chart.js'
+import { fetchSpendingData } from '@/services/recommendation'
 
 type Props = {
   challengeType: string
-  // eslint-disable-next-line react/require-default-props
+  memberId: string
+  accountTypeUniqueNo: string
   spendingData?: number[]
 }
 
@@ -39,23 +41,22 @@ const generateLabels = (): string[] => {
   return labels
 }
 
-function MyChart({ challengeType, spendingData }: Props) {
-  const [chartData, setChartData] = useState<number[]>(
-    spendingData || [150, 200, 250, 230, 270, 350], // 더미 데이터
-  )
+function MyChart({
+  challengeType,
+  memberId,
+  accountTypeUniqueNo,
+  spendingData,
+}: Props) {
+  const [chartData, setChartData] = useState<number[]>(spendingData || [])
 
   useEffect(() => {
     const fetchData = async () => {
-      // 실제 API 호출
-
-      // 임의 세팅
-      setTimeout(() => {
-        setChartData([180, 220, 300, 260, 290, 400])
-      }, 1000)
+      const data = await fetchSpendingData(memberId, accountTypeUniqueNo)
+      setChartData(data)
     }
 
     fetchData()
-  }, [])
+  }, [memberId, accountTypeUniqueNo])
 
   let datasetLabel
   if (challengeType === '술값 줄이기 챌린지') {
