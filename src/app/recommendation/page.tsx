@@ -9,14 +9,15 @@ import {
 import Button from '@/components/ui/Button'
 import MyChart from '@/containers/Chart'
 import { DollarsFlying, ChartUp } from '@/public/svg/index'
+import Loader from '@/components/Loader'
+import { getUserInfo } from '@/services/auth'
 
 type Props = {
-  userName: string
   challengeType:
-    | '술값 줄이기 챌린지'
-    | '커피 줄이기 챌린지'
-    | '배달음식 줄이기 챌린지'
-  memberId: string
+    | 'CONSUMPTION_COFFEE'
+    | 'CONSUMPTION_DRINK'
+    | 'CONSUMPTION_DELIVERY'
+  memberEmail: string
   accountNo: string
   startDate: string
   endDate: string
@@ -26,9 +27,8 @@ type Props = {
 }
 
 function RecommendationPage({
-  userName,
   challengeType,
-  memberId,
+  memberEmail,
   accountNo,
   startDate,
   endDate,
@@ -39,11 +39,17 @@ function RecommendationPage({
   const [lastMonthChange, setLastMonthChange] = useState<number>(0)
   const [sixMonthsChange, setSixMonthsChange] = useState<number>(0)
 
+  const { data: userInfo, isLoading: userLoading } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: getUserInfo,
+    enabled: !!localStorage.getItem('email'),
+  })
+
   const { data: totalSpent = 0, isLoading: isTotalLoading } = useQuery({
-    queryKey: ['totalConsumption', memberId],
+    queryKey: ['totalConsumption', memberEmail],
     queryFn: () =>
       fetchTotalConsumption(
-        memberId,
+        memberEmail,
         accountNo,
         startDate,
         endDate,
@@ -53,8 +59,8 @@ function RecommendationPage({
   })
 
   const { data: spendingData = [], isLoading: isHistoryLoading } = useQuery({
-    queryKey: ['historyData', memberId],
-    queryFn: () => fetchHistoryData(memberId, accountTypeUniqueNo),
+    queryKey: ['historyData', memberEmail],
+    queryFn: () => fetchHistoryData(memberEmail, accountTypeUniqueNo),
   })
 
   useEffect(() => {
@@ -69,16 +75,16 @@ function RecommendationPage({
     }
   }, [isHistoryLoading, spendingData])
 
-  const isLoading = isTotalLoading || isHistoryLoading
+  const isLoading = userLoading || isTotalLoading || isHistoryLoading
 
   if (isLoading) {
-    return <div>로딩 중...</div>
+    return <Loader />
   }
 
   let expenseLabel
-  if (challengeType === '술값 줄이기 챌린지') {
+  if (challengeType === 'CONSUMPTION_DRINK') {
     expenseLabel = '유흥비'
-  } else if (challengeType === '커피 줄이기 챌린지') {
+  } else if (challengeType === 'CONSUMPTION_COFFEE') {
     expenseLabel = '카페'
   } else {
     expenseLabel = '배달음식'
@@ -87,7 +93,7 @@ function RecommendationPage({
   return (
     <div className="w-full h-full flex flex-col justify-center p-4">
       <h1 className="text-left text-xl mt-8 mb-2">
-        <span className="font-medium">{userName}</span>
+        <span className="font-medium">{userInfo?.name}</span>
         <span>님,</span>
       </h1>
       <h2 className="text-left mb-20">
