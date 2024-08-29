@@ -2,14 +2,14 @@ import { Doughnut } from 'react-chartjs-2'
 import 'chart.js/auto'
 
 interface Props {
-  successPercentage: string
+  successPercentage: number
 }
 
 export default function PieChartComponent({ successPercentage }: Props) {
   const chartData = {
     datasets: [
       {
-        data: [successPercentage, 100 - parseInt(successPercentage, 10)],
+        data: [successPercentage, 100 - successPercentage],
         backgroundColor: ['rgba(140, 210, 245, 1)', 'rgba(140, 210, 245, 0.4)'],
         borderColor: ['#ffffff', '#ffffff'],
         borderWidth: 2,

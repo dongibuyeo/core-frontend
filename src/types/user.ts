@@ -3,7 +3,7 @@ export type UserInfo = {
   email: string
   name: string
   nickname: string
-  profileImage: null
+  profileImage: string
   userKey: string
   deviceToken: string
 }

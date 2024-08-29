@@ -12,18 +12,59 @@ import {
 } from '@/public/svg/index'
 import FundCard from '@/components/FundCard'
 import Button from '@/components/ui/Button'
+import { useQuery } from '@tanstack/react-query'
+import { usePathname } from 'next/navigation'
+import { getChallenge } from '@/services/challenges'
+import { challengeTypeToLabel } from '@/constants/challengeType-map'
+import { Challenge, ChallengeType } from '@/types/Challenge'
+import { formatDate } from '@/utils/formatDate'
+import { getUserInfo } from '@/services/auth'
+import { getAccount } from '@/services/account'
+import { getSpentMoney } from '@/services/consume'
+import { UserInfo } from '@/types/user'
 
 export default function ChallengeInfo() {
+  const pathname = usePathname()
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [isFailModalOpen, setIsFailModalOpen] = useState(false)
+  const challengeId = pathname.split('/')[2]
+
+  const { data: user } = useQuery<UserInfo>({
+    queryKey: ['user'],
+    queryFn: getUserInfo,
+    enabled: !!localStorage.getItem('email'),
+  })
+
+  const { data: accountList } = useQuery({
+    queryKey: ['accountNo'],
+    queryFn: () => getAccount(user?.memberId ?? ''),
+    enabled: !!user?.memberId,
+  })
+
+  const { data: challenge } = useQuery<Challenge>({
+    queryKey: ['challenge', challengeId],
+    queryFn: () => getChallenge(challengeId),
+  })
+
+  const { data: spentMoney } = useQuery({
+    queryKey: ['spentMoney'],
+    queryFn: () =>
+      getSpentMoney(
+        user?.memberId ?? '',
+        challenge?.type ?? '',
+        accountList[0].accountNo,
+      ),
+    enabled: !!accountList?.length,
+  })
 
   return (
     <div className="flex flex-col gap-[3.75rem] pb-24">
       <div className="mt-7">
         <div className="text-sm font-normal">절약 챌린지</div>
-        <div className="text-2xl font-medium mt-2">한 달 커피 소비 줄이기</div>
+        <div className="text-2xl font-medium mt-2">{challenge?.title}</div>
         <div className="text-base font-normal mt-6">
-          [카페] 카테고리 소비가 지난 달 대비 줄어들면 성공!
+          [{challengeTypeToLabel[challenge?.type as ChallengeType]}] 카테고리
+          소비가 지난 달 대비 줄어들면 성공!
         </div>
       </div>
       <div>
@@ -33,7 +74,7 @@ export default function ChallengeInfo() {
         </div>
         <div className="bg-_grey-100 w-full py-5 mt-4 text-center rounded-xl">
           <span className="text-_grey-400 text-base font-medium">
-            2024.09.01 ~ 2024.09.31
+            {`${formatDate(challenge?.startDate ?? '')} ~ ${formatDate(challenge?.endDate ?? '')}`}
           </span>
         </div>
       </div>
@@ -43,14 +84,27 @@ export default function ChallengeInfo() {
           <span className="text-lg font-medium">내 챌린지 성공조건</span>
         </div>
         <div className="bg-_grey-100 w-full p-4 mt-4 text-center rounded-xl text-sm font-normal">
-          <p>이번 달 나의 [카페] 소비 내역</p>
+          <p>
+            이번 달 나의 [
+            {challengeTypeToLabel[challenge?.type as ChallengeType]}] 소비 내역
+          </p>
           <p className="mt-1">
-            <span className="text-xl font-bold text-primary">75,400</span>원
+            <span className="text-xl font-bold text-primary">
+              {spentMoney?.totalConsumption}
+            </span>{' '}
+            원
           </p>
           <p className="mt-5">
             다음 달 &lt;카페&gt; 소비가{' '}
-            <span className="text-medium text-primary">75,400</span>원 미만이면
-            성공이에요!
+            <span className="text-medium text-primary">
+              {spentMoney?.totalConsumption}
+            </span>
+            원 미만이면 성공이에요!
+          </p>
+          <p className="mt-2 text-xs leading-5 text-_grey-400">
+            소비내역 기준은 챌린지 시작 전날 부터 30일간을 기준으로,
+            <br />
+            보여지는 금액과 상이할 수 있습니다.
           </p>
         </div>
       </div>
@@ -65,9 +119,9 @@ export default function ChallengeInfo() {
           받을 수 있어요!
         </p>
         <FundCard
-          title="한 달 커피 소비 줄이기 기금"
-          participants={3786}
-          fund={3201000}
+          title={`${challenge?.title} 기금`}
+          participants={challenge?.participants}
+          fund={challenge?.totalDeposit ?? ''}
         />
       </div>
       <div>

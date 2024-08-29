@@ -8,7 +8,7 @@ import ProfileStep from '@/containers/signup/ProfileStep'
 import PushStep from '@/containers/signup/PushStep'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { getUser } from '@/services/auth'
+import { getUserInfo } from '@/services/auth'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -16,7 +16,7 @@ export default function SignupPage() {
 
   const { data: user } = useQuery({
     queryKey: ['user'],
-    queryFn: getUser,
+    queryFn: getUserInfo,
     enabled: !!localStorage.getItem('email'),
   })
 

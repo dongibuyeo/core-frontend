@@ -1,5 +1,10 @@
+import { instance } from '@/services/config/axios'
 import { Account, TransferReq, TransferRes } from '@/types/account'
-import { instance } from './config/axios'
+
+export const getAccount = async (memberId: string) => {
+  const response = await instance.get(`/account/all/${memberId}`)
+  return response.data
+}
 
 export const getChallengeAccount: (
   memberId: string,
@@ -21,3 +26,4 @@ export const postTransfer: (
   const response = await instance.post('/account/transfer', payload)
   return response.data
 }
+

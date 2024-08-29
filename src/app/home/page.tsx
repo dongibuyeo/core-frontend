@@ -8,7 +8,7 @@ import SavingsRecommendCard from '@/containers/home/SavingsRecommendCard'
 import ChallengeCard from '@/components/ChallengeCard'
 import { useQuery } from '@tanstack/react-query'
 import { getAllChallenge } from '@/services/challenges'
-import { Challenge } from '@/types/Challenge.js'
+import { Challenge } from '@/types/Challenge'
 
 export default function Home() {
   const router = useRouter()
@@ -18,10 +18,6 @@ export default function Home() {
     queryKey: ['challengeList'],
     queryFn: getAllChallenge,
   })
-
-  if (challengeList && challengeList.length > 2) {
-    challengeList.splice(2, challengeList.length - 2)
-  }
 
   return (
     <div className="w-full h-full flex flex-col pb-7">
@@ -39,36 +35,21 @@ export default function Home() {
         />
       </div>
       <div className="w-full flex flex-col justify-center gap-7 mt-5">
-        {challengeList?.map((challenge: Challenge) => (
-          <ChallengeCard
-            key={challenge?.challengeId}
-            challengeId={challenge?.challengeId}
-            title={challenge?.title}
-            startDate={challenge?.startDate}
-            endDate={challenge?.endDate}
-            participants={challenge?.participants}
-            totalDeposit={challenge?.totalDeposit}
-            image={challenge?.image}
-          />
-        ))}
-        <ChallengeCard
-          challengeId="1"
-          title="한 달 커피 소비 줄이기"
-          startDate="20240701"
-          endDate="20240831"
-          participants="3786"
-          totalDeposit="3201000"
-          image="/image/coffee.jpg"
-        />
-        <ChallengeCard
-          challengeId="1"
-          title="한 달 커피 소비 줄이기"
-          startDate="20240701"
-          endDate="20240831"
-          participants="3786"
-          totalDeposit="3201000"
-          image="/image/coffee.jpg"
-        />
+        {challengeList
+          ?.slice(0, 2)
+          .map((challenge: Challenge) => (
+            <ChallengeCard
+              key={challenge?.challengeId}
+              challengeId={challenge?.challengeId}
+              title={challenge?.title}
+              startDate={challenge?.startDate}
+              endDate={challenge?.endDate}
+              participants={challenge?.participants}
+              totalDeposit={challenge?.totalDeposit}
+              image={challenge?.image}
+              status={challenge?.status}
+            />
+          ))}
       </div>
     </div>
   )

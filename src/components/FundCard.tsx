@@ -3,8 +3,8 @@ import Image from 'next/image'
 
 interface Props {
   title: string
-  participants?: number
-  fund: number
+  participants?: number | string
+  fund: number | string
 }
 
 function FundCard({ title, participants, fund }: Props) {
@@ -29,7 +29,7 @@ function FundCard({ title, participants, fund }: Props) {
         </div>
       </div>
       <div className="text-[2rem] text-end">
-        <span className="font-bold mr-1">{fund.toLocaleString()}</span>
+        <span className="font-bold mr-1">{fund?.toLocaleString()}</span>
         <span>원</span>
       </div>
     </div>
