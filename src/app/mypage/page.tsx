@@ -10,12 +10,23 @@ import AccountCard from '@/components/AccountCard'
 import { useQuery } from '@tanstack/react-query'
 import { getChallengeStatusCount } from '@/services/mypage'
 import { getUserInfo } from '@/services/auth'
-import { getChallengeAccount } from '@/services/account'
+import {
+  getChallengeAccount,
+  getSavingsSevenAccounts,
+} from '@/services/account'
 
 export default function Mypage() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
+  const [isLocalStorageAvailable, setIsLocalStorageAvailable] = useState(false)
+
+  // 클라이언트에서만 localStorage 사용 가능 여부를 설정
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      setIsLocalStorageAvailable(true)
+    }
+  }, [])
 
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
@@ -26,6 +37,12 @@ export default function Mypage() {
   const { data: challengeAccount } = useQuery({
     queryKey: ['account', 'challenge'],
     queryFn: () => getChallengeAccount(userInfo?.memberId as string),
+    enabled: !!userInfo?.memberId,
+  })
+
+  const { data: savingsSevenAccounts } = useQuery({
+    queryKey: ['account', 'savingsSeven'],
+    queryFn: () => getSavingsSevenAccounts(userInfo?.memberId as string),
     enabled: !!userInfo?.memberId,
   })
 
@@ -67,6 +84,16 @@ export default function Mypage() {
       })
     }
   }, [currentIndex])
+
+  useEffect(() => {
+    if (isLocalStorageAvailable) {
+      localStorage.setItem('email', 'shinhanKim@dongibuyeo-test.com') // email 값을 새로운 값으로 설정
+      console.log(
+        'Updated email in local storage to:',
+        'shinhanKim@dongibuyeo-test.com',
+      )
+    }
+  }, [isLocalStorageAvailable])
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
@@ -117,6 +144,24 @@ export default function Mypage() {
               balance={Number(challengeAccount?.accountBalance) || 0}
               accountType="deposit"
             />
+          </div>
+          <div className="w-full overflow-hidden mt-8">
+            <div className="mb-4">
+              <SectionTitle
+                icon={<MoneyBag />}
+                label="SAVINGS_SEVEN 적금 계좌"
+              />
+            </div>
+            <div className="flex overflow-x-auto space-x-2 snap-x snap-mandatory scrollbar-hide">
+              {savingsSevenAccounts?.map((account) => (
+                <AccountCard
+                  key={account.accountNo}
+                  account={account.accountNo}
+                  balance={Number(account.accountBalance) || 0}
+                  accountType="saving"
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
