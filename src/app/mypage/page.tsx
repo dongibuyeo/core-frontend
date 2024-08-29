@@ -2,56 +2,24 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import {
-  ArrowRight,
-  Flag,
-  MoneyBag,
-  Sol,
-  Pli,
-  Lay,
-  Moli,
-} from '@/public/svg/index'
+import { ArrowRight, Flag, MoneyBag } from '@/public/svg/index'
 import ProfileImage from '@/components/ui/ProfileImage'
 import SectionTitle from '@/components/ui/SectionTitle'
 import MyChallengeStatusBar from '@/containers/mypage/MyChallengeStatusBar'
 import AccountCard from '@/components/AccountCard'
 import Loader from '@/components/Loader'
 import { useQuery } from '@tanstack/react-query'
-import { getUserProfile } from '@/services/mypage'
+import {
+  getUserProfileByEmail,
+  getChallengeAccountInfo,
+  getChallengeStatusCount,
+} from '@/services/mypage'
 import { UserProfile } from '@/types/UserProfile'
-
-const getProfileImage = (profileImageName: string) => {
-  switch (profileImageName) {
-    case 'Sol':
-      return <Sol />
-    case 'Pli':
-      return <Pli />
-    case 'Lay':
-      return <Lay className="h-[8.375rem]" />
-    case 'Moli':
-      return <Moli />
-    default:
-      return <Sol />
-  }
-}
 
 export default function Mypage() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
-
-  const accounts = [
-    {
-      account: '110-472-000000',
-      balance: 210000,
-      accountType: 'deposit' as 'deposit' | 'saving',
-    },
-    {
-      account: '110-472-000000',
-      balance: 70000,
-      accountType: 'saving' as 'deposit' | 'saving',
-    },
-  ]
 
   const {
     data: userProfile,
@@ -59,7 +27,21 @@ export default function Mypage() {
     isError,
   } = useQuery<UserProfile>({
     queryKey: ['userProfile'],
-    queryFn: getUserProfile,
+    queryFn: getUserProfileByEmail,
+  })
+
+  const { data: challengeAccount } = useQuery({
+    queryKey: ['challengeAccount'],
+    queryFn: () => getChallengeAccountInfo(userProfile?.memberId || ''),
+    enabled: !!userProfile,
+  })
+
+  const {
+    data: challengeStatus = { SCHEDULED: 0, IN_PROGRESS: 0, COMPLETED: 0 },
+  } = useQuery({
+    queryKey: ['challengeStatus'],
+    queryFn: () => getChallengeStatusCount(userProfile?.memberId || ''),
+    enabled: !!userProfile,
   })
 
   useEffect(() => {
@@ -70,14 +52,13 @@ export default function Mypage() {
       const scrollRatio = scrollLeft / clientWidth
 
       if (scrollRatio > currentIndex + 0.5) {
-        setCurrentIndex(currentIndex + 1)
+        setCurrentIndex((prevIndex) => prevIndex + 1)
       } else if (scrollRatio < currentIndex - 0.5) {
-        setCurrentIndex(currentIndex - 1)
+        setCurrentIndex((prevIndex) => prevIndex - 1)
       }
     }
 
     const container = containerRef.current
-
     container?.addEventListener('scroll', handleScroll)
 
     return () => {
@@ -98,12 +79,8 @@ export default function Mypage() {
     return <Loader />
   }
 
-  if (isError) {
-    return <div>에러 발생!</div> // 데이터 페칭 중 에러 발생한 경우
-  }
-
-  if (!userProfile) {
-    return <div>데이터를 불러오지 못했습니다.</div> // 데이터가 없을 경우 표시할 메시지
+  if (isError || !userProfile) {
+    return <div>데이터를 불러오는 중 에러가 발생했습니다.</div>
   }
 
   return (
@@ -112,7 +89,7 @@ export default function Mypage() {
         <div className="flex items-center justify-center mt-8 mb-5">
           {userProfile && (
             <ProfileImage
-              imageUrl={getProfileImage(userProfile.profileImage)}
+              profileImage={userProfile.profileImage}
               className="w-32 h-32"
             />
           )}
@@ -135,7 +112,9 @@ export default function Mypage() {
               <ArrowRight />
             </button>
           </div>
-          <MyChallengeStatusBar />
+          {challengeStatus && (
+            <MyChallengeStatusBar challengeStatus={challengeStatus} />
+          )}
         </div>
 
         <div className="w-full overflow-hidden">
@@ -146,7 +125,7 @@ export default function Mypage() {
             ref={containerRef}
             className="flex overflow-x-auto space-x-2 snap-x snap-mandatory scrollbar-hide"
           >
-            {accounts.map((account) => (
+            {challengeAccount?.map((account: any) => (
               <div
                 key={account.account}
                 className="w-full flex-shrink-0 snap-center"
@@ -161,11 +140,11 @@ export default function Mypage() {
           </div>
 
           <div className="flex justify-center mt-3">
-            {accounts.map((account) => (
+            {challengeAccount?.map((account: any) => (
               <div
                 key={account.account}
                 className={`rounded-full ${
-                  currentIndex === accounts.indexOf(account)
+                  currentIndex === challengeAccount.indexOf(account)
                     ? 'w-4 h-2 bg-_grey-200'
                     : 'w-2 h-2 bg-_grey-200/40'
                 } mx-[.125rem] transition-all duration-300`}
