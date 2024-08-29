@@ -2,52 +2,47 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import {
-  ArrowRight,
-  Flag,
-  MoneyBag,
-  Sol,
-  Pli,
-  Lay,
-  Moli,
-} from '@/public/svg/index'
+import { ArrowRight, Flag, MoneyBag } from '@/public/svg/index'
 import ProfileImage from '@/components/ui/ProfileImage'
 import SectionTitle from '@/components/ui/SectionTitle'
 import MyChallengeStatusBar from '@/containers/mypage/MyChallengeStatusBar'
 import AccountCard from '@/components/AccountCard'
-
-const getProfileImage = (profileImageNumber: number) => {
-  switch (profileImageNumber) {
-    case 1:
-      return <Sol />
-    case 2:
-      return <Pli />
-    case 3:
-      return <Lay className="h-[8.375rem]" />
-    case 4:
-      return <Moli />
-    default:
-      return <Sol />
-  }
-}
+import Loader from '@/components/Loader'
+import { useQuery } from '@tanstack/react-query'
+import {
+  getUserProfileByEmail,
+  getChallengeAccountInfo,
+  getChallengeStatusCount,
+} from '@/services/mypage'
+import { UserProfile } from '@/types/UserProfile'
 
 export default function Mypage() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
 
-  const accounts = [
-    {
-      account: '110-472-000000',
-      balance: 210000,
-      accountType: 'deposit' as 'deposit' | 'saving',
-    },
-    {
-      account: '110-472-000000',
-      balance: 70000,
-      accountType: 'saving' as 'deposit' | 'saving',
-    },
-  ]
+  const {
+    data: userProfile,
+    isLoading,
+    isError,
+  } = useQuery<UserProfile>({
+    queryKey: ['userProfile'],
+    queryFn: getUserProfileByEmail,
+  })
+
+  const { data: challengeAccount } = useQuery({
+    queryKey: ['challengeAccount'],
+    queryFn: () => getChallengeAccountInfo(userProfile?.memberId || ''),
+    enabled: !!userProfile,
+  })
+
+  const {
+    data: challengeStatus = { SCHEDULED: 0, IN_PROGRESS: 0, COMPLETED: 0 },
+  } = useQuery({
+    queryKey: ['challengeStatus'],
+    queryFn: () => getChallengeStatusCount(userProfile?.memberId || ''),
+    enabled: !!userProfile,
+  })
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,14 +52,13 @@ export default function Mypage() {
       const scrollRatio = scrollLeft / clientWidth
 
       if (scrollRatio > currentIndex + 0.5) {
-        setCurrentIndex(currentIndex + 1)
+        setCurrentIndex((prevIndex) => prevIndex + 1)
       } else if (scrollRatio < currentIndex - 0.5) {
-        setCurrentIndex(currentIndex - 1)
+        setCurrentIndex((prevIndex) => prevIndex - 1)
       }
     }
 
     const container = containerRef.current
-
     container?.addEventListener('scroll', handleScroll)
 
     return () => {
@@ -81,20 +75,28 @@ export default function Mypage() {
     }
   }, [currentIndex])
 
-  // 임시 프로필
-  const profileImageNumber = 1
-  const tempNickname = '강남건물주될거야'
+  if (isLoading) {
+    return <Loader />
+  }
+
+  if (isError || !userProfile) {
+    return <div>데이터를 불러오는 중 에러가 발생했습니다.</div>
+  }
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="flex flex-col items-center">
         <div className="flex items-center justify-center mt-8 mb-5">
-          <ProfileImage
-            imageUrl={getProfileImage(profileImageNumber)}
-            className="w-32 h-32"
-          />
+          {userProfile && (
+            <ProfileImage
+              profileImage={userProfile.profileImage}
+              className="w-32 h-32"
+            />
+          )}
         </div>
-        <p className="text-center font-medium mb-10">{tempNickname}</p>
+        <p className="text-center font-medium mt-3 mb-10">
+          {userProfile.nickname}
+        </p>
       </div>
 
       <div className="w-full flex flex-col">
@@ -112,7 +114,9 @@ export default function Mypage() {
               <ArrowRight />
             </button>
           </div>
-          <MyChallengeStatusBar />
+          {challengeStatus && (
+            <MyChallengeStatusBar challengeStatus={challengeStatus} />
+          )}
         </div>
 
         <div className="w-full overflow-hidden">
@@ -123,7 +127,7 @@ export default function Mypage() {
             ref={containerRef}
             className="flex overflow-x-auto space-x-2 snap-x snap-mandatory scrollbar-hide"
           >
-            {accounts.map((account) => (
+            {challengeAccount?.map((account: any) => (
               <div
                 key={account.account}
                 className="w-full flex-shrink-0 snap-center"
@@ -138,11 +142,11 @@ export default function Mypage() {
           </div>
 
           <div className="flex justify-center mt-3">
-            {accounts.map((account) => (
+            {challengeAccount?.map((account: any) => (
               <div
                 key={account.account}
                 className={`rounded-full ${
-                  currentIndex === accounts.indexOf(account)
+                  currentIndex === challengeAccount.indexOf(account)
                     ? 'w-4 h-2 bg-_grey-200'
                     : 'w-2 h-2 bg-_grey-200/40'
                 } mx-[.125rem] transition-all duration-300`}

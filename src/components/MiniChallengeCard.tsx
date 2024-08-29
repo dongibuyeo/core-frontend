@@ -5,8 +5,8 @@ import { calculateDday } from '@/utils/calculateDday'
 
 interface Props {
   title: string
-  startDate: string
-  endDate: string
+  startDate?: string
+  endDate?: string
   imageUrl: string
   isChallengeSuccessful?: boolean
   isSettled?: boolean
@@ -25,8 +25,8 @@ export default function MiniChallengeCard({
   participantCount = 0,
 }: Props) {
   const today = new Date()
-  const start = new Date(startDate)
-  const end = new Date(endDate)
+  const start = new Date(startDate as string)
+  const end = new Date(endDate as string)
 
   const challengeStatus = (() => {
     switch (true) {
@@ -62,7 +62,7 @@ export default function MiniChallengeCard({
           {!isChatPage && (
             <span className={`text-lg font-medium mr-1 ${statusColor}`}>
               {challengeStatus === '참여 예정' || challengeStatus === '진행중'
-                ? calculateDday(startDate)
+                ? calculateDday(startDate as string)
                 : challengeStatus}
             </span>
           )}
