@@ -24,3 +24,10 @@ export const getChallengeResult = async (
   const response = await instance.get(`/challenges/result/${challengeId}`)
   return response.data
 }
+
+export const getMyChallengeList = async (memberId: string) => {
+  const response = await instance.get(`/challenges/member`, {
+    params: { memberId },
+  })
+  return response.data
+}

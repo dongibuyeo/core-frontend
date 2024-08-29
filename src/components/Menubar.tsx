@@ -9,7 +9,7 @@ const getIconColor = (path: string, currentPath: string) =>
 
 const MenuDetails = [
   { path: 'home', component: Home, label: '홈' },
-  { path: `challenge/1`, component: Challenge, label: '챌린지' },
+  { path: `challenge/my`, component: Challenge, label: '챌린지' },
   { path: 'chat', component: Chat, label: '채팅' },
   { path: 'mypage', component: Profile, label: '마이페이지' },
 ]

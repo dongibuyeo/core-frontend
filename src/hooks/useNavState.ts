@@ -11,6 +11,7 @@ const useNavState = () => {
     pathSegments.length === 0
 
   if (isPathWithoutNav) return false
+  if (pathname === '/challenge/my') return false
 
   return true
 }
