@@ -14,3 +14,20 @@ export type Account = {
   lastTransactionDate: string
   currency: string
 }
+
+export type TransferReq = {
+  memberId: string
+  depositAccountNo: string
+  withdrawalAccountNo: string
+  transactionBalance: number
+  transferType: 'CHALLENGE'
+}
+
+export type TransferRes = {
+  transactionUniqueNo: string
+  accountNo: string
+  transactionDate: string
+  transactionType: string
+  transactionTypeName: string
+  transactionAccountNo: string
+}

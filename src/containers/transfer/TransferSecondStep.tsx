@@ -1,9 +1,12 @@
+import { useRouter } from 'next/navigation'
 import Button from '@/components/ui/Button'
 import { TRANSFER_TEXT } from '@/constants/transfer'
 import useAmountStore from '@/store/amountStore'
-import { Account } from '@/types/account'
+import { postTransfer } from '@/services/account'
+import { Account, TransferReq } from '@/types/account'
 import { TransferType } from '@/types/transfer'
-import Link from 'next/link'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { getUserInfo } from '@/services/auth'
 
 interface Props {
   type: TransferType
@@ -16,12 +19,37 @@ export default function TransferSecondStep({
   sourceAccount,
   destinationAccount,
 }: Props) {
+  const router = useRouter()
   const amount = useAmountStore((state) => state.amount)
+  const { data: userInfo } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: getUserInfo,
+    enabled: !!localStorage.getItem('email'),
+  })
+
+  const mutation = useMutation({
+    mutationFn: (payload: TransferReq) => postTransfer(payload),
+    onSuccess: () => {
+      router.push(`/transfer/${type}/3`)
+    },
+  })
+
+  const handleTransfer = () => {
+    const payload: TransferReq = {
+      memberId: userInfo?.memberId || '',
+      depositAccountNo: destinationAccount.accountNo,
+      withdrawalAccountNo: sourceAccount.accountNo,
+      transactionBalance: amount as number,
+      transferType: 'CHALLENGE',
+    }
+
+    mutation.mutate(payload)
+  }
 
   return (
     <div className="flex flex-col items-center h-full justify-center gap-7">
       <div className="text-2xl font-medium gap-3 h-full flex flex-col justify-center items-center">
-        <p>{destinationAccount.accountName}으로</p>
+        <p>{destinationAccount.accountName}(으)로</p>
         <p>
           <span className="text-_blue-300">
             {(amount as number).toLocaleString()}원
@@ -36,9 +64,17 @@ export default function TransferSecondStep({
           {sourceAccount.bankName} {sourceAccount.accountNo}
         </span>
       </p>
-      <Link href={`/transfer/${type}/3`} className="w-full">
-        <Button text={TRANSFER_TEXT[type].NAME} className="text-white" />
-      </Link>
+
+      {mutation.isError && (
+        <p className="text-red-500">Transfer failed. Please try again.</p>
+      )}
+
+      <Button
+        text={mutation.isPending ? 'Processing...' : TRANSFER_TEXT[type].NAME}
+        className="text-white"
+        onClick={handleTransfer}
+        disabled={mutation.isPending}
+      />
     </div>
   )
 }
