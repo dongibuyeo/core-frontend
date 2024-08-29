@@ -18,31 +18,22 @@ export default function ProfilePage() {
   const [profileImage, setProfileImage] = useState<string>('Sol')
   const [isProfileSelectorOpen, setProfileSelectorOpen] = useState(false)
 
-  // 사용자 프로필 데이터를 가져오는 쿼리
   const {
     data: userProfile,
     isLoading,
     isError,
-  } = useQuery<UserProfile>(
-    ['userProfile'],
-    getUserProfileByEmail, // 이메일 기반으로 회원 정보 조회
-  )
+  } = useQuery<UserProfile, Error>({
+    queryKey: ['userProfile'],
+    queryFn: getUserProfileByEmail,
+  })
 
-  // 프로필 수정 뮤테이션
-  const mutation = useMutation(() =>
-    updateUserProfile({
-      nickname,
-      profileImage,
-    }),
-  )
-
-  // userProfile 데이터가 로드된 후, nickname과 profileImage 설정
-  useEffect(() => {
-    if (userProfile) {
-      setNickname(userProfile.nickname)
-      setProfileImage(userProfile.profileImage)
-    }
-  }, [userProfile])
+  const mutation = useMutation({
+    mutationFn: () =>
+      updateUserProfile({
+        nickname,
+        profileImage,
+      }),
+  })
 
   const handleNicknameChange = (value: string) => {
     setNickname(value)
@@ -51,6 +42,13 @@ export default function ProfilePage() {
   const handleNicknameSave = () => {
     mutation.mutate()
   }
+
+  useEffect(() => {
+    if (userProfile) {
+      setNickname(userProfile.nickname)
+      setProfileImage(userProfile.profileImage)
+    }
+  }, [userProfile])
 
   useEffect(() => {
     inputRef.current?.focus()

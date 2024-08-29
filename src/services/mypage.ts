@@ -3,13 +3,13 @@ import { UserProfile } from '@/types/UserProfile'
 import { ChallengeStatus, ChallengeStatusCounts } from '@/types/ChallengeStatus'
 
 // 특정 회원 정보를 ID로 조회하는 함수
-export const getUserById = async (memberId: string): Promise<UserProfile> => {
+export const getUserById = async (memberId: string) => {
   const response = await instance.get<UserProfile>(`/members/${memberId}`)
   return response.data
 }
 
 // 특정 회원 정보를 이메일로 조회하는 함수
-export const getUserProfileByEmail = async (): Promise<UserProfile> => {
+export const getUserProfileByEmail = async () => {
   const email = localStorage.getItem('email') as string
   const response = await instance.get<UserProfile>(`/members/email/${email}`, {
     params: { email },
@@ -21,7 +21,7 @@ export const getUserProfileByEmail = async (): Promise<UserProfile> => {
 export const updateUserProfile = async (profileData: {
   nickname: string
   profileImage: string
-}): Promise<UserProfile> => {
+}) => {
   const userProfile = await getUserProfileByEmail()
 
   const response = await instance.patch<UserProfile>('/members/change', {
@@ -32,9 +32,7 @@ export const updateUserProfile = async (profileData: {
 }
 
 // 특정 회원의 챌린지 참여 현황 조회 - 챌린지 상태별 참여 개수 조회 함수
-export const getChallengeStatusCount = async (
-  memberId: string,
-): Promise<ChallengeStatusCounts> => {
+export const getChallengeStatusCount = async (memberId: string) => {
   const response = await instance.get<
     { status: ChallengeStatus; count: number }[]
   >(`/challenges/member/status-count`, {
@@ -60,7 +58,7 @@ export const getChallengeStatusCount = async (
 export const getChallengeStatusDetails = async (
   memberId: string,
   status: ChallengeStatus,
-): Promise<any> => {
+) => {
   const response = await instance.get(`/challenges/member/status`, {
     params: { memberId, status },
   })
@@ -68,9 +66,7 @@ export const getChallengeStatusDetails = async (
 }
 
 // 특정 회원의 챌린지 계좌 정보 조회 함수
-export const getChallengeAccountInfo = async (
-  memberId: string,
-): Promise<any> => {
+export const getChallengeAccountInfo = async (memberId: string) => {
   const response = await instance.get(`/account/challenge/${memberId}`)
   return response.data
 }
