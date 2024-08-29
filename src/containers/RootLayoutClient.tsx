@@ -15,11 +15,11 @@ export default function RootLayoutClient({
     '/recommendation',
   ]
 
-  const hideMenubarDinamicPaths = ['/transfer']
+  const hideMenubarDynamicPaths = ['/transfer']
 
   const shouldHideMenubar =
     hideMenubarPaths.includes(pathname) ||
-    hideMenubarDinamicPaths.map((path) => pathname.startsWith(path))
+    hideMenubarDynamicPaths.some((path) => pathname.startsWith(path))
 
   return (
     <>

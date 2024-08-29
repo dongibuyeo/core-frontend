@@ -32,6 +32,7 @@ import Close from './close.svg'
 import Arrow from './arrow.svg'
 import ScoreUp from './score-up.svg'
 import ScoreDown from './score-down.svg'
+import ArrowSend from './arrow-send.svg'
 import MoneyStack from './money-stack.svg'
 import OneFinger from './one-finger.svg'
 import TwoFinger from './two-finger.svg'
@@ -72,6 +73,7 @@ export {
   Close,
   ScoreUp,
   ScoreDown,
+  ArrowSend,
   MoneyStack,
   OneFinger,
   TwoFinger,
