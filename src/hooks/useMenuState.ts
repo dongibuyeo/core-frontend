@@ -3,7 +3,7 @@ import { URL_WITHOUT_MENU } from '@/constants/url-map'
 import { usePathname } from 'next/navigation'
 
 function shouldShowMenu(pathname: string): boolean {
-  if (pathname === '/challenge/list') {
+  if (pathname === '/challenge/list' || pathname === '/challenge/my') {
     return true
   }
 

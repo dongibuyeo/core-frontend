@@ -48,3 +48,11 @@ export const postChallengeJoin: (
   const response = await instance.post('/challenges/member/join', payload)
   return response.data
 }
+
+export const getMyChallengeList = async (memberId: string) => {
+  const response = await instance.get(`/challenges/member`, {
+    params: { memberId },
+  })
+  return response.data
+}
+
