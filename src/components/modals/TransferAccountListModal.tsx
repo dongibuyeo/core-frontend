@@ -2,44 +2,46 @@
 
 import { TRANSFER_TEXT } from '@/constants/transfer'
 import TransferAccountItem from '@/containers/transfer/TransferAccountItem'
+import { getAllAccount, getChallengeAccount } from '@/services/account'
+import { getUserInfo } from '@/services/auth'
 import useTransferAccountStore from '@/store/transferAccountStore'
-import { TransferAccount, TransferType } from '@/types/transfer'
+import { Account } from '@/types/account'
+import { TransferType } from '@/types/transfer'
+import { useQuery } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
-
-const dummy: TransferAccount[] = [
-  {
-    id: 1,
-    bank: '토스뱅크',
-    accountName: '신한 주거래S20 통장',
-    accountNumber: 110472000000,
-    balance: 121344252,
-  },
-  {
-    id: 2,
-    bank: '토스뱅크',
-    accountName: '신한 주거래S20 통장',
-    accountNumber: 110472000001,
-    balance: 121344253,
-  },
-  {
-    id: 3,
-    bank: '토스뱅크',
-    accountName: '신한 주거래S20 통장',
-    accountNumber: 110472000002,
-    balance: 121344254,
-  },
-]
 
 export default function TransferAccountListModal() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const transferType = searchParams.get('type') as TransferType
 
+  const { data: userInfo } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: getUserInfo,
+    enabled: !!localStorage.getItem('email'),
+  })
+
+  const { data: challengeAccount } = useQuery({
+    queryKey: ['account', 'challenge'],
+    queryFn: () => getChallengeAccount(userInfo?.memberId as string),
+    enabled: !!userInfo?.memberId,
+  })
+
+  const { data: accountList } = useQuery({
+    queryKey: ['account', 'all'],
+    queryFn: () => getAllAccount(userInfo?.memberId as string),
+    enabled: !!userInfo?.memberId && !!challengeAccount,
+    select: (data) =>
+      data.filter(
+        (account) => account.accountNo !== challengeAccount?.accountNo,
+      ),
+  })
+
   const setSelectedAccount = useTransferAccountStore(
     (state) => state.setSelectedAccount,
   )
 
-  const handleAccountSelect = (account: TransferAccount) => {
+  const handleAccountSelect = (account: Account) => {
     setSelectedAccount(account)
     router.push(`/transfer/${transferType}/1`)
   }
@@ -50,17 +52,18 @@ export default function TransferAccountListModal() {
         {TRANSFER_TEXT[transferType].ACCONT_LIST_TITLE}
       </h1>
       <ul className="overflow-auto max-h-[50dvh] min-h-[12dvh]">
-        {dummy.map((account) => (
+        {accountList?.map((account) => (
           <li
-            key={account.id}
+            key={account.accountNo}
             onClick={() => handleAccountSelect(account)}
             aria-hidden
           >
             <TransferAccountItem
-              bank={account.bank}
+              bank={account.bankName}
               accountName={account.accountName}
-              accountNumber={account.accountNumber}
-              balance={account.balance}
+              accountNumber={Number(account.accountNo)}
+              balance={Number(account.accountBalance)}
+              bankCode={account.bankCode}
             />
           </li>
         ))}

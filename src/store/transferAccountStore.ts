@@ -1,9 +1,9 @@
-import { TransferAccount } from '@/types/transfer'
+import { Account } from '@/types/account'
 import { create } from 'zustand'
 
 type TransferAccountState = {
-  selectedAccount: TransferAccount | null
-  setSelectedAccount: (account: TransferAccount) => void
+  selectedAccount: Account | null
+  setSelectedAccount: (account: Account) => void
   clearSelectedAccount: () => void
 }
 

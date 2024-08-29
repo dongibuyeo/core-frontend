@@ -3,25 +3,30 @@
 import TransferFirstStep from '@/containers/transfer/TransferFirstStep'
 import TransferSecondStep from '@/containers/transfer/TransferSecondStep'
 import TransferThirdStep from '@/containers/transfer/TransferThirdStep'
+import { getChallengeAccount } from '@/services/account'
+import { getUserInfo } from '@/services/auth'
 import useTransferAccountStore from '@/store/transferAccountStore'
 import { TransferType } from '@/types/transfer'
+import { useQuery } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
 
 export default function Transfer() {
   const router = useRouter()
   const params = useParams<{ type: TransferType; step: string }>()
+  const { data: userInfo } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: getUserInfo,
+    enabled: !!localStorage.getItem('email'),
+  })
   const { type, step } = params
-
+  const { data: myChallengeAccount } = useQuery({
+    queryKey: ['account', 'challenge'],
+    queryFn: () => getChallengeAccount(userInfo?.memberId as string),
+    enabled: !!userInfo?.memberId,
+  })
   const selectedAccount = useTransferAccountStore(
     (state) => state.selectedAccount,
   )
-  const myChallengeAccount = {
-    accountName: '신한 쏠쏠한 챌린지 통장',
-    accountNumber: 110472000000,
-    balance: 0,
-    bank: '신한',
-    id: 1,
-  }
 
   let sourceAccount = null
   let destinationAccount = null
