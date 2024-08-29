@@ -25,7 +25,7 @@ export default function TransferFirstStep({
               {sourceAccount.accountName}에서
             </p>
             <p className="text-_grey-400">
-              출금가능 {sourceAccount.accountBalance.toLocaleString()}원
+              출금가능 {Number(sourceAccount.accountBalance).toLocaleString()}원
             </p>
           </div>
           <div>
@@ -33,7 +33,8 @@ export default function TransferFirstStep({
               {destinationAccount.accountName}으로
             </p>
             <p className="text-_grey-400">
-              잔액 {destinationAccount.accountBalance.toLocaleString()}원
+              잔액 {Number(destinationAccount.accountBalance).toLocaleString()}
+              원
             </p>
           </div>
         </div>
