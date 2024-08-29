@@ -5,6 +5,7 @@ interface Props {
   accountName: string
   accountNumber: number
   balance: number
+  bankCode: string
 }
 
 export default function TransferAccountItem({
@@ -12,11 +13,12 @@ export default function TransferAccountItem({
   accountName,
   accountNumber,
   balance,
+  bankCode,
 }: Props) {
   return (
-    <div className="w-full p-4 flex items-center gap-3">
+    <div className="w-full p-4 flex items-center gap-3 cursor-pointer">
       <Image
-        src="/image/toss-logo.png"
+        src={`/image/bank-logo/${bankCode}.png`}
         alt="toss-logo"
         width={80}
         height={80}

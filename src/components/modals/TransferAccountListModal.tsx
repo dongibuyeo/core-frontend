@@ -63,6 +63,7 @@ export default function TransferAccountListModal() {
               accountName={account.accountName}
               accountNumber={Number(account.accountNo)}
               balance={Number(account.accountBalance)}
+              bankCode={account.bankCode}
             />
           </li>
         ))}
