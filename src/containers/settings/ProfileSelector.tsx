@@ -1,8 +1,8 @@
-import { Sol, Pli, Lay, Moli } from '@/public/svg/index'
 import { useState } from 'react'
+import { Sol, Pli, Lay, Moli } from '@/public/svg/index'
 
 interface Props {
-  onSelect: (image: JSX.Element) => void
+  onSelect: (image: string) => void
 }
 
 function ProfileSelector({ onSelect }: Props) {
@@ -15,9 +15,9 @@ function ProfileSelector({ onSelect }: Props) {
 
   const [selectedAlt, setSelectedAlt] = useState<string | null>(null)
 
-  const handleClick = (alt: string, component: JSX.Element) => {
+  const handleClick = (alt: string) => {
     if (selectedAlt === alt) {
-      onSelect(component)
+      onSelect(alt)
     } else {
       setSelectedAlt(alt)
     }
@@ -29,9 +29,12 @@ function ProfileSelector({ onSelect }: Props) {
         <button
           key={image.alt}
           type="button"
-          onClick={() => handleClick(image.alt, image.component)}
-          className={`w-36 h-36 p-2 rounded-xl bg-_grey-100
-                      ${selectedAlt === image.alt ? 'border-2 border-_blue-300' : 'border-transparent'}`}
+          onClick={() => handleClick(image.alt)}
+          className={`w-36 h-36 p-2 rounded-xl bg-_grey-100 ${
+            selectedAlt === image.alt
+              ? 'border-2 border-_blue-300'
+              : 'border-transparent'
+          }`}
         >
           <div className="w-full h-full flex items-center justify-center">
             {image.component}
