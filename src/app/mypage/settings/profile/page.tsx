@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { ProfileSetting } from '@/public/svg/index'
 import Button from '@/components/ui/Button'
 import ProfileImage from '@/components/ui/ProfileImage'
@@ -18,6 +18,8 @@ export default function ProfilePage() {
   const [profileImage, setProfileImage] = useState<string>('Sol')
   const [isProfileSelectorOpen, setProfileSelectorOpen] = useState(false)
 
+  const queryClient = useQueryClient()
+
   const {
     data: userProfile,
     isLoading,
@@ -33,6 +35,9 @@ export default function ProfilePage() {
         nickname,
         profileImage,
       }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] })
+    },
   })
 
   const handleNicknameChange = (value: string) => {
