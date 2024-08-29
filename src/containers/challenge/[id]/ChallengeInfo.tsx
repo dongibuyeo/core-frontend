@@ -52,6 +52,11 @@ export default function ChallengeInfo() {
             <span className="text-medium text-primary">75,400</span>원 미만이면
             성공이에요!
           </p>
+          <p className="mt-2 text-xs leading-5 text-_grey-400">
+            소비내역 기준은 챌린지 시작 전날 부터 30일간을 기준으로,
+            <br />
+            보여지는 금액과 상이할 수 있습니다.
+          </p>
         </div>
       </div>
       <div>
