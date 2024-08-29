@@ -22,6 +22,7 @@ import { getUserInfo } from '@/services/auth'
 import { getAccount } from '@/services/account'
 import { getSpentMoney } from '@/services/consume'
 import { UserInfo } from '@/types/user'
+import Link from 'next/link'
 
 export default function ChallengeInfo() {
   const pathname = usePathname()
@@ -312,10 +313,15 @@ export default function ChallengeInfo() {
             })}
           </div>
         </div>
+      </div>
+      <Link
+        href={`/challenge/${challengeId}/deposit`}
+        className="fixed bottom-0 left-0 px-5 w-full pb-9"
+      >
       )}
       <div className="fixed bottom-0 left-0 px-5 w-full pb-9">
         <Button text="참여하기" className="text-white" />
-      </div>
+      </Link>
     </div>
   )
 }
