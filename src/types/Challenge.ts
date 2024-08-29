@@ -63,3 +63,15 @@ export type EstimateRewardRes = {
   top10PercentMemberNum: number
   lower90PercentMemberNum: number
 }
+
+export type ChallengeJoinReq = {
+  challengeId: string
+  memberId: string
+  deposit: number
+}
+
+export type ChallengeJoinRes = {
+  challengeId: string
+  memberId: string
+  deposit: number
+}

@@ -6,13 +6,27 @@ import Button from '@/components/ui/Button'
 import SectionTitle from '@/components/ui/SectionTitle'
 import { DEPOSIT_QUICK_AMOUNT_LIST } from '@/constants/transfer'
 import { MoneyStack, OneFinger, Prohibition, TwoFinger } from '@/public/svg'
-import { getChallenge, getEstimateReward } from '@/services/challenges'
+import { getUserInfo } from '@/services/auth'
+import {
+  getChallenge,
+  getEstimateReward,
+  postChallengeJoin,
+} from '@/services/challenges'
 import useAmountStore from '@/store/amountStore'
-import { Challenge } from '@/types/Challenge'
-import { useQuery } from '@tanstack/react-query'
+import { Challenge, ChallengeJoinReq } from '@/types/Challenge'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import axios, { AxiosError } from 'axios'
+import { useRouter } from 'next/navigation'
 
 export default function Deposit({ params }: { params: { id: string } }) {
+  const router = useRouter()
   const amount = useAmountStore((state) => state.amount)
+  const { data: userInfo } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: getUserInfo,
+    enabled: !!localStorage.getItem('email'),
+  })
+
   const { data: challenge } = useQuery<Challenge>({
     queryKey: ['challenge', params.id],
     queryFn: () => getChallenge(params.id),
@@ -24,9 +38,30 @@ export default function Deposit({ params }: { params: { id: string } }) {
     queryFn: () => getEstimateReward(params.id),
   })
 
+  const mutation = useMutation({
+    mutationFn: (payload: ChallengeJoinReq) => postChallengeJoin(payload),
+    onSuccess: () => {
+      alert('참여가 완료되었습니다!')
+      router.replace('/challenge/my')
+    },
+    onError: (error: AxiosError) => {
+      if (axios.isAxiosError(error)) {
+        alert((error.response?.data as any).message)
+      }
+    },
+  })
+
   const avgDeposit = Math.floor(
     Number(challenge?.totalDeposit) / Number(challenge?.participants) || 0,
   )
+
+  const handleChallengeJoin = () => {
+    mutation.mutate({
+      challengeId: params.id,
+      memberId: userInfo.memberId,
+      deposit: amount || 0,
+    })
+  }
   return (
     <div className="px-5 flex flex-col gap-16">
       <div>
@@ -131,7 +166,11 @@ export default function Deposit({ params }: { params: { id: string } }) {
         </div>
       </div>
       <div className="bottom-0 left-0 w-full">
-        <Button text="참여하기" className="text-white" />
+        <Button
+          onClick={handleChallengeJoin}
+          text="참여하기"
+          className="text-white"
+        />
       </div>
     </div>
   )

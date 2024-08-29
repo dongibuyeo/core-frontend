@@ -1,5 +1,7 @@
 import { instance } from '@/services/config/axios'
 import {
+  ChallengeJoinReq,
+  ChallengeJoinRes,
   ChallengeRanking,
   ChallengeResult,
   EstimateRewardRes,
@@ -37,5 +39,12 @@ export const getEstimateReward: (
       challengeId,
     },
   })
+  return response.data
+}
+
+export const postChallengeJoin: (
+  payload: ChallengeJoinReq,
+) => Promise<ChallengeJoinRes> = async (payload) => {
+  const response = await instance.post('/challenges/member/join', payload)
   return response.data
 }
