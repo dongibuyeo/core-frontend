@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
 import { ProfileSetting } from '@/public/svg/index'
 import Button from '@/components/ui/Button'
 import ProfileImage from '@/components/ui/ProfileImage'
@@ -19,6 +20,7 @@ export default function ProfilePage() {
   const [isProfileSelectorOpen, setProfileSelectorOpen] = useState(false)
 
   const queryClient = useQueryClient()
+  const router = useRouter()
 
   const {
     data: userProfile,
@@ -37,6 +39,7 @@ export default function ProfilePage() {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userProfile'] })
+      router.push('/mypage')
     },
   })
 
