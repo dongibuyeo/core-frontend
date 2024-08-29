@@ -3,55 +3,84 @@
 import MiniChallengeCard from '@/components/MiniChallengeCard'
 import ChatBubble from '@/containters/my-challenge/ChatBubble'
 import { ArrowSend } from '@/public/svg'
-import { randomUUID } from 'crypto'
-import { useState, ChangeEvent, MouseEvent } from 'react'
+import { getUserInfo } from '@/services/auth'
+import { getChatHistory } from '@/services/chat'
+import { ChatRoomType } from '@/types/chat'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState, useRef, useEffect } from 'react'
 
-const dummy = [
-  {
-    profileImg: 2,
-    senderId: 2,
-    sender: '강남건물주',
-    message:
-      '커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요커피좋아죽겠어요',
-    timeStamp: new Date().toISOString(),
-  },
-  {
-    profileImg: 1,
-    senderId: 4,
-    sender: '커피조앙',
-    message: '죽지마세요',
-    timeStamp: new Date().toISOString(),
-  },
-  {
-    profileImg: 4,
-    senderId: 4,
-    sender: '커피귀신',
-    message: '미치셨어요??????',
-    timeStamp: new Date().toISOString(),
-  },
-  {
-    profileImg: 2,
-    senderId: 4,
-    sender: '커피귀신',
-    message: '미치셨어요??????',
-    timeStamp: new Date().toISOString(),
-  },
-]
+export default function Chat({ params }: { params: { id: ChatRoomType } }) {
+  const [chatMessage, setChatMessage] = useState('')
+  const socketRef = useRef<WebSocket | null>(null)
+  const bottomRef = useRef<HTMLDivElement>(null)
+  const roomName = params.id
 
-export default function Chat() {
-  const [chatMessage, setChatMessage] = useState<string>('')
+  const queryClient = useQueryClient()
+
+  const { data: userInfo, isLoading: userLoading } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: getUserInfo,
+    enabled: !!localStorage.getItem('email'),
+  })
+
+  const { data: chatHistory, isLoading: chatLoading } = useQuery({
+    queryKey: ['chatHistory', roomName],
+    queryFn: () => getChatHistory(roomName),
+    enabled: !!roomName,
+  })
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [chatHistory])
+
+  useEffect(() => {
+    const ws = new WebSocket('ws://3.36.59.109:8080/ws/chat')
+
+    ws.onopen = () => {
+      console.log('소켓연결!!!')
+    }
+
+    ws.onmessage = (event) => {
+      const message = JSON.parse(event.data)
+      // 메시지가 현재 채팅방의 메시지인지 확인
+      if (message.roomId === roomName) {
+        queryClient.invalidateQueries({ queryKey: ['chatHistory', roomName] })
+      }
+    }
+
+    ws.onclose = () => {
+      console.log('소켓연결 끊겼음!')
+    }
+
+    socketRef.current = ws
+
+    return () => {
+      ws.close()
+    }
+  }, [roomName, queryClient])
+
   const isValid = (): boolean => chatMessage.trim().length > 0
 
-  const handleChangeChat = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeChat = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChatMessage(e.target.value)
   }
 
-  const handleSendChat = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    if (isValid()) {
-      console.log('Message sent:', chatMessage)
+  const handleSendChat = () => {
+    if (isValid() && socketRef.current && chatMessage.trim() !== '') {
+      const newMessage = {
+        roomName,
+        memberId: userInfo?.memberId,
+        message: chatMessage,
+      }
+      socketRef.current.send(JSON.stringify(newMessage))
       setChatMessage('')
+
+      queryClient.invalidateQueries({ queryKey: ['chatHistory', roomName] })
     }
+  }
+
+  if (userLoading || chatLoading) {
+    return <div>Loading...</div>
   }
 
   return (
@@ -63,16 +92,17 @@ export default function Chat() {
         imageUrl="/image/coffee.jpg"
       />
       <div className="w-full h-full flex flex-col gap-5 overflow-auto">
-        {dummy.map((chat) => (
+        {chatHistory?.messages.map((chat) => (
           <ChatBubble
             key={crypto.randomUUID()}
-            senderName={chat.sender}
-            senderProfile={chat.profileImg}
-            isMine={chat.senderId === 2}
+            senderName={chat.memberNickName}
+            senderProfile={Number(chat.image)}
+            isMine={chat.memberId === userInfo?.memberId}
             message={chat.message}
-            timeStamp={chat.timeStamp}
+            timeStamp={chat.createdAt}
           />
         ))}
+        <div ref={bottomRef} />
       </div>
       <div className="flex items-center w-full gap-2">
         <input
