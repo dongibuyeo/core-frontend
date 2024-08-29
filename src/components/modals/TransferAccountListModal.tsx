@@ -49,7 +49,7 @@ export default function TransferAccountListModal() {
   return (
     <div className="w-full h-full bg-white px-2 py-6 rounded-t-[2rem]">
       <h1 className="text-lg font-medium p-4 pt-0">
-        {TRANSFER_TEXT[transferType].ACCONT_LIST_TITLE}
+        {TRANSFER_TEXT[transferType].ACCOUNT_LIST_TITLE}
       </h1>
       <ul className="overflow-auto max-h-[50dvh] min-h-[12dvh]">
         {accountList?.map((account) => (

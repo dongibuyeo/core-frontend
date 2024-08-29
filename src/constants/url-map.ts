@@ -4,7 +4,7 @@ type UrlMap = {
   goBack?: boolean
 }
 
-export const URL_WITHOUT_MENU = ['/signup']
+export const URL_WITHOUT_MENU = ['/signup', '/transfer']
 
 export const URL_WITHOUT_NAV = ['/push', '/home']
 
