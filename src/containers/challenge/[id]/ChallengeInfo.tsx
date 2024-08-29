@@ -19,9 +19,9 @@ import { challengeTypeToLabel } from '@/constants/challengeType-map'
 import { Challenge, ChallengeType } from '@/types/Challenge'
 import { formatDate } from '@/utils/formatDate'
 import { getUserInfo } from '@/services/auth'
-import { User } from '@/types/User'
 import { getAccount } from '@/services/account'
 import { getSpentMoney } from '@/services/consume'
+import { UserInfo } from '@/types/user'
 
 export default function ChallengeInfo() {
   const pathname = usePathname()
@@ -29,7 +29,7 @@ export default function ChallengeInfo() {
   const [isFailModalOpen, setIsFailModalOpen] = useState(false)
   const challengeId = pathname.split('/')[2]
 
-  const { data: user } = useQuery<User>({
+  const { data: user } = useQuery<UserInfo>({
     queryKey: ['user'],
     queryFn: getUserInfo,
     enabled: !!localStorage.getItem('email'),
