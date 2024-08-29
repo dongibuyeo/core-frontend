@@ -30,7 +30,7 @@ export const postTransfer: (
 export const getSavingsSevenAccounts: (
   memberId: string,
 ) => Promise<Account[]> = async (memberId) => {
-  const response = await instance.get(`/account/all/${memberId}`)
+  const response = await instance.get(`/savings/all/${memberId}`)
   const allAccounts: Account[] = response.data
   const savingsSevenAccounts = allAccounts.filter((account) =>
     account.accountName.startsWith('SAVINGS_SEVEN'),

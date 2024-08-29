@@ -19,19 +19,11 @@ export default function Mypage() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
-  const [isLocalStorageAvailable, setIsLocalStorageAvailable] = useState(false)
-
-  // 클라이언트에서만 localStorage 사용 가능 여부를 설정
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      setIsLocalStorageAvailable(true)
-    }
-  }, [])
 
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserInfo,
-    enabled: !!localStorage.getItem('email'),
+    enabled: typeof window !== 'undefined' && !!localStorage.getItem('email'),
   })
 
   const { data: challengeAccount } = useQuery({
@@ -54,6 +46,8 @@ export default function Mypage() {
     enabled: !!userInfo,
   })
 
+  const accounts = [challengeAccount, ...(savingsSevenAccounts || [])]
+
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return
@@ -61,11 +55,15 @@ export default function Mypage() {
       const { scrollLeft, clientWidth } = containerRef.current
       const scrollRatio = scrollLeft / clientWidth
 
-      if (scrollRatio > currentIndex + 0.5) {
-        setCurrentIndex((prevIndex) => prevIndex + 1)
-      } else if (scrollRatio < currentIndex - 0.5) {
-        setCurrentIndex((prevIndex) => prevIndex - 1)
-      }
+      setCurrentIndex((prevIndex) => {
+        if (scrollRatio > prevIndex + 0.5) {
+          return Math.min(prevIndex + 1, accounts.length - 1)
+        }
+        if (scrollRatio < prevIndex - 0.5) {
+          return Math.max(prevIndex - 1, 0)
+        }
+        return prevIndex
+      })
     }
 
     const container = containerRef.current
@@ -74,7 +72,7 @@ export default function Mypage() {
     return () => {
       container?.removeEventListener('scroll', handleScroll)
     }
-  }, [currentIndex])
+  }, [accounts.length])
 
   useEffect(() => {
     if (containerRef.current) {
@@ -84,16 +82,6 @@ export default function Mypage() {
       })
     }
   }, [currentIndex])
-
-  useEffect(() => {
-    if (isLocalStorageAvailable) {
-      localStorage.setItem('email', 'shinhanKim@dongibuyeo-test.com') // email 값을 새로운 값으로 설정
-      console.log(
-        'Updated email in local storage to:',
-        'shinhanKim@dongibuyeo-test.com',
-      )
-    }
-  }, [isLocalStorageAvailable])
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
@@ -139,29 +127,35 @@ export default function Mypage() {
             ref={containerRef}
             className="flex overflow-x-auto space-x-2 snap-x snap-mandatory scrollbar-hide"
           >
-            <AccountCard
-              account={challengeAccount?.accountNo || ''}
-              balance={Number(challengeAccount?.accountBalance) || 0}
-              accountType="deposit"
-            />
-          </div>
-          <div className="w-full overflow-hidden mt-8">
-            <div className="mb-4">
-              <SectionTitle
-                icon={<MoneyBag />}
-                label="SAVINGS_SEVEN 적금 계좌"
-              />
-            </div>
-            <div className="flex overflow-x-auto space-x-2 snap-x snap-mandatory scrollbar-hide">
-              {savingsSevenAccounts?.map((account) => (
+            {accounts.map((account, index) => (
+              <div
+                key={account?.accountNo}
+                className="w-full flex-shrink-0 snap-center"
+                style={{ scrollSnapAlign: 'center' }}
+              >
                 <AccountCard
-                  key={account.accountNo}
-                  account={account.accountNo}
-                  balance={Number(account.accountBalance) || 0}
-                  accountType="saving"
+                  account={account?.accountNo || ''}
+                  balance={
+                    index === 0
+                      ? Number(account?.accountBalance) || 0
+                      : Number(account?.totalBalance) || 0
+                  }
+                  accountType={index === 0 ? 'deposit' : 'saving'}
                 />
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-center mt-3">
+            {accounts.map((account, index) => (
+              <div
+                key={account?.accountNo}
+                className={`rounded-full ${
+                  currentIndex === index
+                    ? 'w-4 h-2 bg-_grey-200'
+                    : 'w-2 h-2 bg-_grey-200/40'
+                } mx-[.125rem] transition-all duration-300`}
+              />
+            ))}
           </div>
         </div>
       </div>
