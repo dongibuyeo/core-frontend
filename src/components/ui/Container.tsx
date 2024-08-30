@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 'use client'
 
 import { useMenuState } from '@/hooks/useMenuState'
@@ -15,7 +17,7 @@ export default function Container({
 
   return (
     <div
-      className={`relative w-full ${navState ? 'pt-[3.75rem]' : ''} ${menuState ? 'pb-[4.5rem]' : ''} ${pathname.includes('/challenge/') ? '' : 'px-5'}`}
+      className={`relative w-full ${navState ? 'pt-[3.75rem]' : ''} ${menuState ? 'pb-[4.5rem]' : ''} ${pathname.includes('/challenge/') ? '' : pathname === '/' ? '' : 'px-5'}`}
     >
       {children}
     </div>

@@ -52,7 +52,7 @@ export default function ChallengeDetailPage() {
           <div className="aspect-4-3" />
         </div>
         <div
-          className={`relative z-50 w-full ${currentTab === 'info' && 'rounded-t-[2rem]'} bg-white`}
+          className={`relative z-30 w-full ${currentTab === 'info' && 'rounded-t-[2rem]'} bg-white`}
         >
           <div className="flex">
             <button

@@ -37,6 +37,7 @@ import MoneyStack from './money-stack.svg'
 import OneFinger from './one-finger.svg'
 import TwoFinger from './two-finger.svg'
 import Prohibition from './prohibition.svg'
+import LandingLogo from './landing-logo.svg'
 import Document from './document.svg'
 
 export {
@@ -79,5 +80,6 @@ export {
   OneFinger,
   TwoFinger,
   Prohibition,
+  LandingLogo,
   Document,
 }
