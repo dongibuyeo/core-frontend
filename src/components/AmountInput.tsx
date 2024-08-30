@@ -9,6 +9,7 @@ interface Props {
   hasFullAmountOption?: boolean
   balance: number
   errorMessage: string
+  isDepositType?: boolean
 }
 
 export default function AmountInput({
@@ -17,6 +18,7 @@ export default function AmountInput({
   hasFullAmountOption,
   balance,
   errorMessage,
+  isDepositType,
 }: Props) {
   const { amount, setAmount } = useAmountStore()
   const [isOverBalance, setIsOverBalance] = useState(false)
@@ -52,7 +54,6 @@ export default function AmountInput({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value.replace(/,/g, ''), 10) || 0
-
     if (isOverBalance && value > balance) {
       return
     }
@@ -62,6 +63,16 @@ export default function AmountInput({
       setIsOverBalance(true)
     } else {
       setIsOverBalance(false)
+    }
+  }
+
+  const handleBlur = () => {
+    if (isDepositType && amount !== null) {
+      const adjustedAmount = Math.floor(amount / 10000) * 10000
+
+      if (amount < 10000) {
+        setAmount(10000)
+      } else setAmount(adjustedAmount)
     }
   }
 
@@ -79,6 +90,7 @@ export default function AmountInput({
           type="text"
           value={amount !== null && amount > 0 ? amount.toLocaleString() : ''}
           onChange={handleInputChange}
+          onBlur={handleBlur}
           className={`w-full h-14 border-b-2 text-3xl text-center outline-none ${
             isOverBalance
               ? 'text-_red border-_red animate-shake'
