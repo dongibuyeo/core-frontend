@@ -10,6 +10,7 @@ import { getChallenge } from '@/services/challenges'
 import { Challenge, ChallengeType } from '@/types/Challenge'
 import ChallengeInfoConsumption from '@/containers/challenge/[id]/ChallengeInfoConsumption'
 import ChallengeInfoSaving from '@/containers/challenge/[id]/ChallengeInfoSaving'
+import ChallengeInfoQuiz from '@/containers/challenge/[id]/ChallengeInfoQuiz'
 
 export default function ChallengeDetailPage() {
   const router = useRouter()
@@ -60,7 +61,7 @@ export default function ChallengeDetailPage() {
           <div className="flex">
             <button
               type="button"
-              className="w-1/2 py-5 font-medium"
+              className="w-full py-5 font-medium"
               onClick={() => {
                 setCurrentTab('info')
                 window.scrollTo(0, 0)
@@ -72,20 +73,22 @@ export default function ChallengeDetailPage() {
                 챌린지 정보
               </span>
             </button>
-            <button
-              type="button"
-              className="w-1/2 py-5 font-normal"
-              onClick={() => {
-                setCurrentTab('ranking')
-                window.scrollTo(0, 0)
-              }}
-            >
-              <span
-                className={`${currentTab === 'ranking' && 'border-b-2 border-black font-medium'} leading-5`}
+            {challengeType.startsWith('CONSUMPTION') && (
+              <button
+                type="button"
+                className="w-full py-5 font-normal"
+                onClick={() => {
+                  setCurrentTab('ranking')
+                  window.scrollTo(0, 0)
+                }}
               >
-                현재랭킹
-              </span>
-            </button>
+                <span
+                  className={`${currentTab === 'ranking' && 'border-b-2 border-black font-medium'} leading-5`}
+                >
+                  현재랭킹
+                </span>
+              </button>
+            )}
           </div>
           <div className="px-5">
             {currentTab === 'info' &&
@@ -94,6 +97,9 @@ export default function ChallengeDetailPage() {
               )}
             {currentTab === 'info' && challengeType === 'SAVINGS_SEVEN' && (
               <ChallengeInfoSaving />
+            )}
+            {currentTab === 'info' && challengeType === 'QUIZ_SOLBEING' && (
+              <ChallengeInfoQuiz />
             )}
             {currentTab === 'ranking' && <ChallengeRanking />}
           </div>
