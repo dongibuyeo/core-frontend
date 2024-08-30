@@ -60,7 +60,7 @@ export default function MyChallengePage() {
             type={challenge?.type}
           />
         ))}
-        {!isPending && filteredChallengeList?.length === 0 && (
+        {!isPending && !filteredChallengeList && (
           <div className="flex flex-col gap-7 justify-center items-center h-96">
             <Image
               src="/gif/crying-face.gif"
