@@ -38,6 +38,8 @@ import OneFinger from './one-finger.svg'
 import TwoFinger from './two-finger.svg'
 import Prohibition from './prohibition.svg'
 import Document from './document.svg'
+import Correct from './correct.svg'
+import Incorrect from './incorrect.svg'
 
 export {
   Arrow,
@@ -80,4 +82,6 @@ export {
   TwoFinger,
   Prohibition,
   Document,
+  Correct,
+  Incorrect,
 }
