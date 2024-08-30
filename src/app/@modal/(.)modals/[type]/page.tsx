@@ -1,6 +1,7 @@
 'use client'
 
 import { BottomModalContainer } from '@/components/modals/BottomModalContainer'
+import EnrollConfirmModal from '@/components/modals/EnrollConfirmModal'
 import ExampleModal from '@/components/modals/ExampleModal'
 import { ModalLayout } from '@/components/modals/ModalLayout'
 import TransferAccountListModal from '@/components/modals/TransferAccountListModal'
@@ -18,6 +19,12 @@ export default function ModalPage({ params }: { params: { type: string } }) {
         return (
           <BottomModalContainer>
             <TransferAccountListModal />
+          </BottomModalContainer>
+        )
+      case 'enroll-confirm':
+        return (
+          <BottomModalContainer>
+            <EnrollConfirmModal />
           </BottomModalContainer>
         )
       default:
