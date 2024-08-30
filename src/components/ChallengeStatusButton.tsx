@@ -2,7 +2,11 @@
 
 'use client'
 
+import { getUserInfo } from '@/services/auth'
+import { getMyChallengeList } from '@/services/challenges'
 import { ChallengeStatus } from '@/types/ChallengeStatus'
+import { MyChallengeList } from '@/types/MyChallenge'
+import { useQuery } from '@tanstack/react-query'
 import { Dispatch, SetStateAction } from 'react'
 
 interface Props {
@@ -15,6 +19,18 @@ export default function ChallengeStatusButton({
   setChallengeStatus,
   tabType,
 }: Props) {
+  const { data: user } = useQuery({
+    queryKey: ['user'],
+    queryFn: () => getUserInfo(),
+    enabled: !!localStorage.getItem('email'),
+  })
+
+  const { data: myChallengeList } = useQuery<MyChallengeList>({
+    queryKey: ['myChallengeList'],
+    queryFn: () => getMyChallengeList(user?.memberId as string),
+    enabled: !!user?.memberId,
+  })
+
   return (
     <div
       className={`relative z-10 w-full grid ${tabType === 'main' ? 'grid-cols-2' : 'grid-cols-3'} bg-[#EDEDED] px-2 py-[.375rem] rounded-3xl mb-9 text-lg`}
@@ -43,7 +59,12 @@ export default function ChallengeStatusButton({
         className={`${challengeStatus === 'COMPLETED' ? 'font-medium' : 'font-normal text-_grey-300'} relative bg-transparent rounded-[1.3125rem] px-5 py-2 transition-colors duration-300 min-w-max`}
         onClick={() => setChallengeStatus('COMPLETED')}
       >
-        마감
+        {tabType === 'main' ? '마감' : '완료'}
+        {!!myChallengeList?.totalCalculatedNum && (
+          <div className="bg-_red rounded-full w-6 h-6 absolute -top-2 right-1/4 z-10 flex justify-center items-center font-medium text-white">
+            {myChallengeList?.totalCalculatedNum}
+          </div>
+        )}
       </button>
     </div>
   )

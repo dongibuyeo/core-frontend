@@ -1,5 +1,12 @@
 import { instance } from '@/services/config/axios'
-import { Account, TransferReq, TransferRes } from '@/types/account'
+import {
+  Account,
+  CreateFreeAccountRes,
+  CreateSavingAccountReq,
+  CreateSavingAccountRes,
+  TransferReq,
+  TransferRes,
+} from '@/types/account'
 
 export const getAccount = async (memberId: string) => {
   const response = await instance.get(`/account/all/${memberId}`)

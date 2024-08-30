@@ -53,3 +53,25 @@ export type ChallengeResult = {
   successRate: number
   successNum: number
 }
+
+export type EstimateRewardRes = {
+  totalReward: number
+  interestEarned: number
+  remainDeposit: number
+  top10PercentRewardPerUnit: number
+  lower90PercentRewardPerUnit: number
+  top10PercentMemberNum: number
+  lower90PercentMemberNum: number
+}
+
+export type ChallengeJoinReq = {
+  challengeId: string
+  memberId: string
+  deposit: number
+}
+
+export type ChallengeJoinRes = {
+  challengeId: string
+  memberId: string
+  deposit: number
+}

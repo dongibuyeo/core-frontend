@@ -15,6 +15,7 @@ import {
   getSavingsSevenAccounts,
 } from '@/services/account'
 
+
 export default function Mypage() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)

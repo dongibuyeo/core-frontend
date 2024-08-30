@@ -3,7 +3,7 @@ import { URL_WITHOUT_MENU } from '@/constants/url-map'
 import { usePathname } from 'next/navigation'
 
 function shouldShowMenu(pathname: string): boolean {
-  if (pathname === '/challenge/list') {
+  if (pathname === '/challenge/list' || pathname === '/challenge/my') {
     return true
   }
 
@@ -24,6 +24,7 @@ const useMenuState = () => {
     pathSegments.some((segment) => URL_WITHOUT_MENU.includes(`/${segment}`)) ||
     pathSegments.length === 0
 
+  if (pathname === '/challenge/my') return true
   if (isPathWithoutMenu) return false
 
   return true

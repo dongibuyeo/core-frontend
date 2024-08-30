@@ -4,12 +4,14 @@ export type ChatMessageReq = {
   memberId: string
   message: string
 }
-export type ChatMessageRes = {
+
+export type ChatMessage = {
   memberId: string
-  memberNickName: string
+  roomName: ChatRoomType
   message: string
   image: string
-  createdAt: string
+  sendAt: string
+  nickName: string
 }
 
 export type ChatHistory = {
@@ -17,5 +19,5 @@ export type ChatHistory = {
     roomId: string
     roomName: ChatRoomType
   }
-  messages: ChatMessageRes[]
+  messages: ChatMessage[]
 }

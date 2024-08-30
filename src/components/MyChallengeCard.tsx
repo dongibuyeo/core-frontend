@@ -3,6 +3,8 @@
 import Image from 'next/image'
 import { calculateDday } from '@/utils/calculateDday'
 import { ArrowRight } from '@/public/svg'
+import { formatDate } from '@/utils/formatDate'
+import { useRouter } from 'next/navigation'
 import ChallengeButton from './ChallengeButton'
 
 interface Props {
@@ -10,8 +12,10 @@ interface Props {
   startDate: string
   endDate: string
   imageUrl: string
-  isChallengeSuccessful?: boolean
-  isSettled?: boolean
+  status?: string
+  memberStatus?: string
+  challengeId?: string
+  type?: string
 }
 
 export default function MyChallengeCard({
@@ -19,12 +23,15 @@ export default function MyChallengeCard({
   startDate,
   endDate,
   imageUrl,
-  isChallengeSuccessful,
-  isSettled,
+  status,
+  memberStatus,
+  challengeId,
+  type,
 }: Props) {
+  const router = useRouter()
   const today = new Date()
-  const start = new Date(startDate)
-  const end = new Date(endDate)
+  const start = new Date(formatDate(startDate))
+  const end = new Date(formatDate(endDate))
 
   const challengeStatus: '참여 예정' | '진행중' | '완료' | '정산필요' = (() => {
     if (today < start) {
@@ -33,8 +40,8 @@ export default function MyChallengeCard({
     if (today >= start && today <= end) {
       return '진행중'
     }
-    if (isChallengeSuccessful) {
-      return isSettled ? '완료' : '정산필요'
+    if (status === 'COMPLETED') {
+      return memberStatus === 'REWARDED' ? '완료' : '정산필요'
     }
     return '완료'
   })()
@@ -58,34 +65,45 @@ export default function MyChallengeCard({
   return (
     <div className="w-full bg-white rounded-2xl px-4 items-center border border_grey-200/50 divide-y divide-_grey-200/50">
       <div className="flex items-center w-full py-4">
-        <div className="flex w-[3.75rem] h-[3.75rem] overflow-hidden rounded-lg mr-3">
+        <div className="flex min-w-[3.75rem] h-[3.75rem] overflow-hidden rounded-lg mr-3">
           <Image
-            src={imageUrl}
+            src={`/image/challenge/${imageUrl}.jpg`}
             alt="Challenge Image"
             height={60}
             width={60}
             className="object-cover"
           />
         </div>
-        <div className="flex flex-col">
-          <span className={`text-xs font-medium ${statusColor}`}>
-            {challengeStatus === '참여 예정' || challengeStatus === '진행중'
-              ? calculateDday(startDate)
-              : challengeStatus}
-          </span>
-          <div className="flex flex-col justify-start">
-            <span className="text-lg font-medium text-black">{title}</span>
-            <span className="text-sm text-_grey-300">
-              {startDate} ~ {endDate}
+        <div
+          role="presentation"
+          className="w-full flex justify-between items-center cursor-pointer"
+          onClick={() => router.push(`/challenge/${challengeId}`)}
+        >
+          <div className="flex flex-col">
+            <span className={`text-xs font-medium ${statusColor}`}>
+              {challengeStatus === '참여 예정' || challengeStatus === '진행중'
+                ? calculateDday(formatDate(startDate))
+                : challengeStatus}
             </span>
+            <div className="flex flex-col justify-start">
+              <span className="text-lg font-medium text-black">{title}</span>
+              <span className="text-sm text-_grey-300">
+                {formatDate(startDate)} ~ {formatDate(endDate)}
+              </span>
+            </div>
           </div>
+          <button type="button" className="ml-auto" aria-label="View details">
+            <ArrowRight />
+          </button>
         </div>
-        <button type="button" className="ml-auto" aria-label="View details">
-          <ArrowRight />
-        </button>
       </div>
       <div className="w-full">
-        <ChallengeButton status={mappedStatus} detailPage={false} />
+        <ChallengeButton
+          status={mappedStatus}
+          detailPage={false}
+          type={type}
+          challengeId={challengeId}
+        />
       </div>
     </div>
   )
