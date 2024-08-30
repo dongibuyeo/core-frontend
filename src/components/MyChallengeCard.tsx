@@ -77,7 +77,7 @@ export default function MyChallengeCard({
         <div
           role="presentation"
           className="w-full flex justify-between items-center cursor-pointer"
-          onClick={() => router.push(`/challenge/${challengeId}`)}
+          onClick={() => router.push(`/challenge/my/${challengeId}`)}
         >
           <div className="flex flex-col">
             <span className={`text-xs font-medium ${statusColor}`}>
