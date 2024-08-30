@@ -41,6 +41,10 @@ export default function ChallengeCard({
     }
   }
 
+  const handleClickResult = () => {
+    router.push(`/challenge/result/${challengeId}`)
+  }
+
   return (
     <div
       className={`w-full flex flex-col cursor-pointer relative rounded-2xl bg-slate-100 ${isChallengeEnded ? 'pointer-events-none' : ''}`}
@@ -57,7 +61,7 @@ export default function ChallengeCard({
           <Button
             text="결과보기"
             className="text-white pointer-events-auto"
-            url={`/challenge/result/${challengeId}`}
+            onClick={handleClickResult}
           />
         </div>
       )}
