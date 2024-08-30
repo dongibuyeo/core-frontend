@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable @typescript-eslint/no-redeclare */
 
 import ChallengeRankingCard from '@/containers/challenge/[id]/ChallengeRankingCard'
@@ -9,7 +10,8 @@ import Image from 'next/image'
 
 export default function ChallengeRanking() {
   const pathname = usePathname()
-  const challengeId = pathname.split('/')[2]
+  const pathList = pathname.split('/')
+  const challengeId = pathList[pathList?.length - 1]
 
   const { data: challengeRanking, isPending } = useQuery<ChallengeRanking>({
     queryKey: ['challengeRanking', challengeId],
