@@ -24,7 +24,7 @@ export default function PushStep() {
       localStorage.setItem('email', email)
       localStorage.removeItem('signupState')
       toast.success('회원가입 되었습니다.')
-      router.push('/home')
+      router.replace('/enroll?type=free')
     },
     onError: (error) => {
       console.error('회원가입 중 에러가 발생했습니다.', error)

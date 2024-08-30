@@ -1,5 +1,12 @@
 import { instance } from '@/services/config/axios'
-import { Account, TransferReq, TransferRes } from '@/types/account'
+import {
+  Account,
+  CreateFreeAccountRes,
+  CreateSavingAccountReq,
+  CreateSavingAccountRes,
+  TransferReq,
+  TransferRes,
+} from '@/types/account'
 
 export const getAccount = async (memberId: string) => {
   const response = await instance.get(`/account/all/${memberId}`)
@@ -27,3 +34,18 @@ export const postTransfer: (
   return response.data
 }
 
+export const postCreateFreeAccount: (
+  memberId: string,
+) => Promise<CreateFreeAccountRes> = async (memberId) => {
+  const response = await instance.post('/challenges/member/account', {
+    memberId,
+  })
+  return response.data
+}
+
+export const postCreateSavingAccount: (
+  payload: CreateSavingAccountReq,
+) => Promise<CreateSavingAccountRes> = async (payload) => {
+  const response = await instance.post('/account/personal', payload)
+  return response.data
+}
