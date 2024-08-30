@@ -39,6 +39,7 @@ import TwoFinger from './two-finger.svg'
 import Prohibition from './prohibition.svg'
 import LandingLogo from './landing-logo.svg'
 import Document from './document.svg'
+import ScoreDetail from './score-detail.svg'
 
 export {
   Arrow,
@@ -82,4 +83,5 @@ export {
   Prohibition,
   LandingLogo,
   Document,
+  ScoreDetail,
 }
