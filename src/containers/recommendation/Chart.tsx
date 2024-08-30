@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Bar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -13,12 +13,9 @@ import {
   ChartData,
   ChartOptions,
 } from 'chart.js'
-import { fetchSpendingData } from '@/services/recommendation'
 
 type Props = {
-  challengeType: string
-  memberId: string
-  accountTypeUniqueNo: string
+  challengeLabel: string
   spendingData?: number[]
 }
 
@@ -41,27 +38,13 @@ const generateLabels = (): string[] => {
   return labels
 }
 
-function MyChart({
-  challengeType,
-  memberId,
-  accountTypeUniqueNo,
-  spendingData,
-}: Props) {
-  const [chartData, setChartData] = useState<number[]>(spendingData || [])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchSpendingData(memberId, accountTypeUniqueNo)
-      setChartData(data)
-    }
-
-    fetchData()
-  }, [memberId, accountTypeUniqueNo])
+function MyChart({ challengeLabel, spendingData }: Props) {
+  const [chartData] = useState<number[]>(spendingData as number[])
 
   let datasetLabel
-  if (challengeType === '술값 줄이기 챌린지') {
+  if (challengeLabel === '술값 줄이기 챌린지') {
     datasetLabel = '유흥비'
-  } else if (challengeType === '커피 줄이기 챌린지') {
+  } else if (challengeLabel === '커피 줄이기 챌린지') {
     datasetLabel = '카페'
   } else {
     datasetLabel = '배달음식'
@@ -72,8 +55,8 @@ function MyChart({
     datasets: [
       {
         label: datasetLabel,
-        data: chartData,
-        backgroundColor: chartData.map((_, index) =>
+        data: chartData?.map((dat) => dat / 500),
+        backgroundColor: chartData?.map((_, index) =>
           index === 5 ? 'rgba(0, 70, 255, 1)' : 'rgba(217, 217, 217, 1)',
         ),
         borderColor: ['rgba(0, 0, 0, 0)'],

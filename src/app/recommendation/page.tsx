@@ -2,69 +2,60 @@
 
 import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import {
-  fetchTotalConsumption,
-  fetchHistoryData,
-} from '@/services/recommendation'
 import Loader from '@/components/Loader'
 import RecommendTo from '@/containers/recommendation/RecommendTo'
 import ChartSummary from '@/containers/recommendation/ChartSummary'
 import Button from '@/components/ui/Button'
 import { getUserInfo } from '@/services/auth'
+import { fetchHistoryData, getSpentMoney } from '@/services/consume'
+import { ChallengeType } from '@/types/Challenge'
 
-interface RecommendationPageProps {
-  challengeType:
-    | 'CONSUMPTION_COFFEE'
-    | 'CONSUMPTION_DRINK'
-    | 'CONSUMPTION_DELIVERY'
-  memberEmail: string
-  accountNo: string
-  startDate: string
-  endDate: string
-  transactionType: string
-  orderByType: string
-  accountTypeUniqueNo: string
-}
-
-export default function RecommendationPage({
-  challengeType,
-  memberEmail,
-  accountNo,
-  startDate,
-  endDate,
-  transactionType,
-  orderByType,
-  accountTypeUniqueNo,
-}: RecommendationPageProps) {
+export default function RecommendationPage() {
   const [lastMonthChange, setLastMonthChange] = useState<number>(0)
   const [sixMonthsChange, setSixMonthsChange] = useState<number>(0)
+  const [type, setType] = useState<ChallengeType>('CONSUMPTION_COFFEE')
+  const [mounted, setMounted] = useState<boolean>(false)
 
-  const { data: userInfo, isLoading: userLoading } = useQuery({
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    const types: ChallengeType[] = [
+      'CONSUMPTION_COFFEE',
+      'CONSUMPTION_DELIVERY',
+      'CONSUMPTION_DRINK',
+    ]
+    const randomType = types[Math.floor(Math.random() * types.length)]
+    setType(randomType)
+  }, [])
+
+  let email
+  if (typeof window !== 'undefined') {
+    email = localStorage.getItem('email')
+  }
+  let challengeLabel
+
+  const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserInfo,
-    enabled: !!localStorage.getItem('email'),
+    enabled: !!email,
   })
 
-  const { data: totalSpent = 0, isLoading: isTotalLoading } = useQuery({
-    queryKey: ['totalConsumption', memberEmail],
-    queryFn: () =>
-      fetchTotalConsumption(
-        memberEmail,
-        accountNo,
-        startDate,
-        endDate,
-        transactionType,
-        orderByType,
-      ),
+  const { data: totalSpent, isLoading: isTotalLoading } = useQuery({
+    queryKey: ['totalConsumption'],
+    queryFn: () => getSpentMoney(user?.memberId ?? '', type),
+    enabled: !!user,
   })
 
-  const { data: spendingData = [], isLoading: isHistoryLoading } = useQuery({
-    queryKey: ['historyData', memberEmail],
-    queryFn: () => fetchHistoryData(memberEmail, accountTypeUniqueNo),
+  const { data: spendingData, isLoading: isHistoryLoading } = useQuery({
+    queryKey: ['historyData'],
+    queryFn: () => fetchHistoryData(user?.memberId ?? '', type),
+    enabled: !!user,
   })
 
   useEffect(() => {
-    if (!isHistoryLoading && spendingData.length > 0) {
+    if (!isHistoryLoading && spendingData && spendingData.length > 0) {
       const calculatedLastMonthChange =
         ((spendingData[5] - spendingData[4]) / spendingData[4]) * 100
       const calculatedSixMonthsChange =
@@ -77,31 +68,38 @@ export default function RecommendationPage({
 
   const isLoading = userLoading || isTotalLoading || isHistoryLoading
 
-  if (isLoading) {
-    return <Loader />
+  if (mounted && isLoading) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <Loader />
+      </div>
+    )
   }
 
   let expenseLabel
-  if (challengeType === 'CONSUMPTION_DRINK') {
+  if (type === 'CONSUMPTION_DRINK') {
     expenseLabel = '유흥비'
-  } else if (challengeType === 'CONSUMPTION_COFFEE') {
+    challengeLabel = '술값 줄이기 챌린지'
+  } else if (type === 'CONSUMPTION_COFFEE') {
     expenseLabel = '카페'
+    challengeLabel = '커피 줄이기 챌린지'
   } else {
     expenseLabel = '배달음식'
+    challengeLabel = '배달음식 줄이기 챌린지'
   }
 
   return (
     <div className="w-full h-full flex flex-col justify-center p-4">
-      <RecommendTo name={userInfo?.name || ''} challengeType={challengeType} />
+      <RecommendTo name={user?.name || ''} challengeLabel={challengeLabel} />
       <ChartSummary
-        challengeType={challengeType}
-        spendingData={spendingData}
+        challengeLabel={challengeLabel}
+        spendingData={spendingData as number[]}
         totalSpent={totalSpent}
         lastMonthChange={lastMonthChange}
         sixMonthsChange={sixMonthsChange}
         expenseLabel={expenseLabel}
       />
-      <Button text={`${challengeType} 바로가기`} />
+      <Button text={`${challengeLabel} 바로가기`} />
     </div>
   )
 }

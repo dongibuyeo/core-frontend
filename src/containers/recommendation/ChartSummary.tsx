@@ -2,7 +2,7 @@ import MyChart from '@/containers/recommendation/Chart'
 import { DollarsFlying, ChartUp } from '@/public/svg/index'
 
 type Props = {
-  challengeType: string
+  challengeLabel: string
   spendingData: number[]
   totalSpent: number
   lastMonthChange: number
@@ -11,7 +11,7 @@ type Props = {
 }
 
 export default function ChartSummary({
-  challengeType,
+  challengeLabel,
   spendingData,
   totalSpent,
   lastMonthChange,
@@ -20,12 +20,7 @@ export default function ChartSummary({
 }: Props) {
   return (
     <div>
-      <MyChart
-        challengeType={challengeType}
-        spendingData={spendingData}
-        memberId=""
-        accountTypeUniqueNo=""
-      />
+      <MyChart challengeLabel={challengeLabel} spendingData={spendingData} />
       <div className="text-left mt-16">
         <p className="mb-10">
           지난 6개월 간
@@ -37,8 +32,9 @@ export default function ChartSummary({
           <p>
             지난 6개월 간 {expenseLabel}에 소비한 돈{' '}
             <span className="font-medium text-primary">
-              {totalSpent.toLocaleString()}원
+              {totalSpent?.toLocaleString()}
             </span>
+            원
           </p>
         </h2>
         <h2 className="flex gap-1 items-center mb-3">
