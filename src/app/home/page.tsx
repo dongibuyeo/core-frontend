@@ -24,7 +24,9 @@ export default function Home() {
       <div className="w-full min-h-[3.75rem] flex items-center">
         <h1 className="text-2xl font-bold text-primary/80">돈기부여</h1>
       </div>
-      {isBannerOpen && <Banner setIsBannerOpen={setIsBannerOpen} />}
+      {isBannerOpen && (
+        <Banner setIsBannerOpen={setIsBannerOpen} type="recommend" />
+      )}
       <SavingsRecommendCard />
       <div className="flex justify-between items-center mt-8">
         <h1 className="text-xl font-medium">인기 챌린지</h1>

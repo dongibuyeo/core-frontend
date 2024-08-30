@@ -1,11 +1,15 @@
+'use client'
+
 import { Close } from '@/public/svg/index'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 interface Props {
   setIsBannerOpen: (value: boolean) => void
 }
 
 export default function QuizBanner({ setIsBannerOpen }: Props) {
+  const router = useRouter()
   return (
     <div className="px-6 py-4 bg-_grey-100 rounded-2xl flex mt-3 mb-5">
       <div className="w-full flex items-center justify-between">
@@ -24,6 +28,9 @@ export default function QuizBanner({ setIsBannerOpen }: Props) {
             <button
               type="button"
               className="leading-5 text-sm font-normal text-primary"
+              onClick={() =>
+                router.push('/challenge/01919c73-92c8-58ff-d55a-7c25e20dca49')
+              }
             >
               SOL-ving 퀴즈 챌린지 참여하기 &gt;
             </button>
