@@ -10,10 +10,9 @@ export type Account = {
   accountExpiryDate: string
   dailyTransferLimit: string
   oneTimeTransferLimit: string
-  accountBalance: string | number
+  accountBalance: string
   lastTransactionDate: string
   currency: string
-  totalBalance?: number
 }
 
 export type TransferReq = {

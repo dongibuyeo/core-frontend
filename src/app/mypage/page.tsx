@@ -24,18 +24,12 @@ export default function Mypage() {
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserInfo,
-    enabled: typeof window !== 'undefined' && !!localStorage.getItem('email'),
+    enabled: !!localStorage.getItem('email'),
   })
 
   const { data: challengeAccount } = useQuery({
     queryKey: ['account', 'challenge'],
     queryFn: () => getChallengeAccount(userInfo?.memberId as string),
-    enabled: !!userInfo?.memberId,
-  })
-
-  const { data: savingsSevenAccounts } = useQuery({
-    queryKey: ['account', 'savingsSeven'],
-    queryFn: () => getSavingsSevenAccounts(userInfo?.memberId as string),
     enabled: !!userInfo?.memberId,
   })
 
@@ -47,8 +41,6 @@ export default function Mypage() {
     enabled: !!userInfo,
   })
 
-  const accounts = [challengeAccount, ...(savingsSevenAccounts || [])]
-
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return
@@ -56,15 +48,11 @@ export default function Mypage() {
       const { scrollLeft, clientWidth } = containerRef.current
       const scrollRatio = scrollLeft / clientWidth
 
-      setCurrentIndex((prevIndex) => {
-        if (scrollRatio > prevIndex + 0.5) {
-          return Math.min(prevIndex + 1, accounts.length - 1)
-        }
-        if (scrollRatio < prevIndex - 0.5) {
-          return Math.max(prevIndex - 1, 0)
-        }
-        return prevIndex
-      })
+      if (scrollRatio > currentIndex + 0.5) {
+        setCurrentIndex((prevIndex) => prevIndex + 1)
+      } else if (scrollRatio < currentIndex - 0.5) {
+        setCurrentIndex((prevIndex) => prevIndex - 1)
+      }
     }
 
     const container = containerRef.current
@@ -73,7 +61,7 @@ export default function Mypage() {
     return () => {
       container?.removeEventListener('scroll', handleScroll)
     }
-  }, [accounts.length])
+  }, [currentIndex])
 
   useEffect(() => {
     if (containerRef.current) {
@@ -148,19 +136,7 @@ export default function Mypage() {
                   <AccountEmptyCard />
                 )}
               </div>
-            ))}
-          </div>
-          <div className="flex justify-center mt-3">
-            {accounts.map((account, index) => (
-              <div
-                key={account?.accountNo}
-                className={`rounded-full ${
-                  currentIndex === index
-                    ? 'w-4 h-2 bg-_grey-200'
-                    : 'w-2 h-2 bg-_grey-200/40'
-                } mx-[.125rem] transition-all duration-300`}
-              />
-            ))}
+            )}
           </div>
         </div>
       </div>
