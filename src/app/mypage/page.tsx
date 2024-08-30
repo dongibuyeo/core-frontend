@@ -14,7 +14,7 @@ import {
   getChallengeAccount,
   getSavingsSevenAccounts,
 } from '@/services/account'
-
+import AccountEmptyCard from '@/containers/mypage/AccountEmptyCard'
 
 export default function Mypage() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -134,15 +134,19 @@ export default function Mypage() {
                 className="w-full flex-shrink-0 snap-center"
                 style={{ scrollSnapAlign: 'center' }}
               >
-                <AccountCard
-                  account={account?.accountNo || ''}
-                  balance={
-                    index === 0
-                      ? Number(account?.accountBalance) || 0
-                      : Number(account?.totalBalance) || 0
-                  }
-                  accountType={index === 0 ? 'deposit' : 'saving'}
-                />
+                {account ? (
+                  <AccountCard
+                    account={account?.accountNo || ''}
+                    balance={
+                      index === 0
+                        ? Number(account?.accountBalance) || 0
+                        : Number(account?.totalBalance) || 0
+                    }
+                    accountType={index === 0 ? 'deposit' : 'saving'}
+                  />
+                ) : (
+                  <AccountEmptyCard />
+                )}
               </div>
             ))}
           </div>
