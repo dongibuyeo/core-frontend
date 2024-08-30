@@ -151,14 +151,14 @@ export default function ChallengeInfo() {
             </p>
             <p className="mt-1">
               <span className="text-xl font-bold text-primary">
-                {spentMoney?.totalConsumption}
+                {spentMoney?.totalConsumption ?? '0'}
               </span>{' '}
               원
             </p>
             <p className="mt-5">
               다음 달 &lt;카페&gt; 소비가{' '}
               <span className="text-medium text-primary">
-                {spentMoney?.totalConsumption}
+                {spentMoney?.totalConsumption ?? '0'}
               </span>
               원 미만이면 성공이에요!
             </p>
