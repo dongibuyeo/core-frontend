@@ -33,10 +33,15 @@ export default function ChallengeInfo() {
   const [scoreMessages, setScoreMessages] = useState<string[]>()
   const [successCondition, setSuccessCondition] = useState<string>()
 
+  let email
+  if (typeof window !== 'undefined') {
+    email = localStorage.getItem('email')
+  }
+
   const { data: user } = useQuery<UserInfo>({
     queryKey: ['user'],
     queryFn: getUserInfo,
-    enabled: !!localStorage.getItem('email'),
+    enabled: !!email,
   })
 
   const { data: accountList } = useQuery({

@@ -12,7 +12,8 @@ import LottieComponent from '@/components/LottieComponent'
 
 export default function Home() {
   const router = useRouter()
-  const email = localStorage.getItem('email')
+  let email
+  if (typeof window !== 'undefined') email = localStorage.getItem('email')
 
   const { data: user } = useQuery({
     queryKey: ['user'],

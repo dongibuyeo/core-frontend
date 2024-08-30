@@ -21,8 +21,10 @@ export default function PushStep() {
       signupUser(email, username, nickname, { current: token.current }),
 
     onSuccess: () => {
-      localStorage.setItem('email', email)
-      localStorage.removeItem('signupState')
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('email', email)
+        localStorage.removeItem('signupState')
+      }
       toast.success('회원가입 되었습니다.')
       router.replace('/enroll?type=free')
     },

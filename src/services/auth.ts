@@ -2,7 +2,11 @@ import { instance } from '@/services/config/axios'
 import { UserInfo } from '@/types/user'
 
 export const getUserInfo: () => Promise<UserInfo> = async () => {
-  const email = localStorage.getItem('email') as string
+  let email
+  if (typeof window !== 'undefined') {
+    email = localStorage.getItem('email') as string
+  }
+
   const response = await instance.get(`/members/email/${email}`)
   return response.data
 }

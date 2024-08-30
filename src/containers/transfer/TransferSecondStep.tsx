@@ -21,10 +21,15 @@ export default function TransferSecondStep({
 }: Props) {
   const router = useRouter()
   const amount = useAmountStore((state) => state.amount)
+  let email
+  if (typeof window !== 'undefined') {
+    email = localStorage.getItem('email')
+  }
+
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserInfo,
-    enabled: !!localStorage.getItem('email'),
+    enabled: !!email,
   })
 
   const mutation = useMutation({

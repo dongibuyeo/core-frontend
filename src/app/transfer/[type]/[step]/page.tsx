@@ -13,10 +13,14 @@ import { useParams, useRouter } from 'next/navigation'
 export default function Transfer() {
   const router = useRouter()
   const params = useParams<{ type: TransferType; step: string }>()
+
+  let email
+  if (typeof window !== 'undefined') email = localStorage.getItem('email')
+
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserInfo,
-    enabled: !!localStorage.getItem('email'),
+    enabled: !!email,
   })
   const { type, step } = params
   const { data: myChallengeAccount } = useQuery({

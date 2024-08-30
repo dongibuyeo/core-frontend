@@ -15,10 +15,15 @@ export default function TransferAccountListModal() {
   const searchParams = useSearchParams()
   const transferType = searchParams.get('type') as TransferType
 
+  let email
+  if (typeof window !== 'undefined') {
+    email = localStorage.getItem('email')
+  }
+
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserInfo,
-    enabled: !!localStorage.getItem('email'),
+    enabled: !!email,
   })
 
   const { data: challengeAccount } = useQuery({

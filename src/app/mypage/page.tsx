@@ -22,10 +22,13 @@ export default function Mypage() {
   const containerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
 
+  let email
+  if (typeof window !== 'undefined') email = localStorage.getItem('email')
+
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserInfo,
-    enabled: !!localStorage.getItem('email'),
+    enabled: !!email,
   })
 
   const { data: challengeAccount } = useQuery({

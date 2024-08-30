@@ -1,12 +1,9 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { AccountType, CreateSavingAccountReq } from '@/types/account'
+import { AccountType } from '@/types/account'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import {
-  postCreateFreeAccount,
-  postCreateSavingAccount,
-} from '@/services/account'
+import { postCreateFreeAccount } from '@/services/account'
 import { getUserInfo } from '@/services/auth'
 import Button from '../ui/Button'
 
@@ -15,10 +12,15 @@ export default function EnrollConfirmModal() {
   const type = searchParams.get('type') as AccountType
   const router = useRouter()
 
+  let email
+  if (typeof window !== 'undefined') {
+    email = localStorage.getItem('email')
+  }
+
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserInfo,
-    enabled: !!localStorage.getItem('email'),
+    enabled: !!email,
   })
 
   const freeAccountMutation = useMutation({

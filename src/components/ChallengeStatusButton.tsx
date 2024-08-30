@@ -19,7 +19,8 @@ export default function ChallengeStatusButton({
   setChallengeStatus,
   tabType,
 }: Props) {
-  const email = localStorage.getItem('email')
+  let email
+  if (typeof window !== 'undefined') email = localStorage.getItem('email')
 
   const { data: user } = useQuery({
     queryKey: ['user'],

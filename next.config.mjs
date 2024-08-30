@@ -14,6 +14,9 @@ const nextConfig = withPWA({
 
     return config
   },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 })
 
 export default nextConfig

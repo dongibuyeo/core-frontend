@@ -14,10 +14,15 @@ export default function SignupPage() {
   const router = useRouter()
   const pathname = usePathname()
 
+  let email
+  if (typeof window !== 'undefined') {
+    email = localStorage.getItem('email') as string
+  }
+
   const { data: user } = useQuery({
     queryKey: ['user'],
     queryFn: getUserInfo,
-    enabled: !!localStorage.getItem('email'),
+    enabled: !!email,
   })
 
   if (user) {
