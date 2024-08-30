@@ -9,6 +9,7 @@ import ChallengeCard from '@/components/ChallengeCard'
 import { useQuery } from '@tanstack/react-query'
 import { getAllChallenge } from '@/services/challenges'
 import { Challenge } from '@/types/Challenge'
+import MyChallengeFinalRefund from '@/containers/mychallenge/MyChallengeFinalRefund'
 
 export default function Home() {
   const router = useRouter()
@@ -51,6 +52,12 @@ export default function Home() {
             />
           ))}
       </div>
+      <MyChallengeFinalRefund
+        depositAmount={50000}
+        top10PercentRewardPerUnit={250}
+        lower90PercentRewardPerUnit={50}
+        isSuccess
+      />
     </div>
   )
 }
