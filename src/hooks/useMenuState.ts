@@ -24,6 +24,7 @@ const useMenuState = () => {
     pathSegments.some((segment) => URL_WITHOUT_MENU.includes(`/${segment}`)) ||
     pathSegments.length === 0
 
+  if (pathname === '/challenge/my') return true
   if (isPathWithoutMenu) return false
 
   return true
