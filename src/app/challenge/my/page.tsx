@@ -38,7 +38,6 @@ export default function MyChallengePage() {
         (challenge) => challenge?.status === challengeStatus,
       )
     setFilteredChallengeList(filteredList)
-    console.log(filteredList)
   }, [challengeStatus, myChallengeList])
 
   return (
@@ -61,25 +60,24 @@ export default function MyChallengePage() {
             type={challenge?.type}
           />
         ))}
-        {!isPending &&
-          (!filteredChallengeList || filteredChallengeList?.length === 0) && (
-            <div className="flex flex-col gap-7 justify-center items-center h-96">
-              <Image
-                src="/gif/crying-face.gif"
-                alt="not-found"
-                width={80}
-                height={80}
-              />
-              <p className="text-center font-medium text-_grey-400">
-                {challengeStatus === 'SCHEDULED'
-                  ? '참여예정인'
-                  : challengeStatus === 'IN_PROGRESS'
-                    ? '참여중인'
-                    : '완료한'}{' '}
-                챌린지가 없습니다!
-              </p>
-            </div>
-          )}
+        {!isPending && filteredChallengeList?.length === 0 && (
+          <div className="flex flex-col gap-7 justify-center items-center h-96">
+            <Image
+              src="/gif/crying-face.gif"
+              alt="not-found"
+              width={80}
+              height={80}
+            />
+            <p className="text-center font-medium text-_grey-400">
+              {challengeStatus === 'SCHEDULED'
+                ? '참여예정인'
+                : challengeStatus === 'IN_PROGRESS'
+                  ? '참여중인'
+                  : '완료한'}{' '}
+              챌린지가 없습니다!
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )
