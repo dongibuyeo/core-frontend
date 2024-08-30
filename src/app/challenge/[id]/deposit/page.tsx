@@ -1,17 +1,12 @@
 'use client'
 
-import AmountInput from '@/components/AmountInput'
 import FundCard from '@/components/FundCard'
 import Button from '@/components/ui/Button'
 import SectionTitle from '@/components/ui/SectionTitle'
-import { DEPOSIT_QUICK_AMOUNT_LIST } from '@/constants/transfer'
-import { MoneyStack, OneFinger, Prohibition, TwoFinger } from '@/public/svg'
+import ConsumptionDepositSection from '@/containers/challenge/deposit/ConsumptionDepositSection'
+import { MoneyStack, Prohibition } from '@/public/svg'
 import { getUserInfo } from '@/services/auth'
-import {
-  getChallenge,
-  getEstimateReward,
-  postChallengeJoin,
-} from '@/services/challenges'
+import { getChallenge, postChallengeJoin } from '@/services/challenges'
 import useAmountStore from '@/store/amountStore'
 import { Challenge, ChallengeJoinReq } from '@/types/Challenge'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -33,11 +28,6 @@ export default function Deposit({ params }: { params: { id: string } }) {
     enabled: !!localStorage.getItem('email'),
   })
 
-  const { data: estimateReward } = useQuery({
-    queryKey: ['estimateReward'],
-    queryFn: () => getEstimateReward(params.id),
-  })
-
   const mutation = useMutation({
     mutationFn: (payload: ChallengeJoinReq) => postChallengeJoin(payload),
     onSuccess: () => {
@@ -56,11 +46,19 @@ export default function Deposit({ params }: { params: { id: string } }) {
   )
 
   const handleChallengeJoin = () => {
-    mutation.mutate({
-      challengeId: params.id,
-      memberId: userInfo?.memberId as string,
-      deposit: amount || 0,
-    })
+    if (challenge?.type === 'SAVINGS_SEVEN') {
+      mutation.mutate({
+        challengeId: params.id,
+        memberId: userInfo?.memberId as string,
+        deposit: 70000,
+      })
+    } else {
+      mutation.mutate({
+        challengeId: params.id,
+        memberId: userInfo?.memberId as string,
+        deposit: amount || 0,
+      })
+    }
   }
   return (
     <div className="px-5 flex flex-col gap-16">
@@ -83,58 +81,26 @@ export default function Deposit({ params }: { params: { id: string } }) {
       </div>
       <div>
         <SectionTitle icon={<MoneyStack />} label="예치금" />
-        <div className="mt-4 flex flex-col gap-2 mb-10">
-          <div className="flex gap-2">
-            <OneFinger className="w-5" />
-            <p>예치금 1~20만원까지 1만원 단위로 참여할 수 있어요!</p>
-          </div>
-          <div className="flex gap-2">
-            <TwoFinger className="w-5" />
-            <p>더 많은 예치금을 걸수록 더 많은 상금을 분배받아요!</p>
-          </div>
-        </div>
-        <AmountInput
-          placeholder="도전금액"
-          quickAmounts={DEPOSIT_QUICK_AMOUNT_LIST}
-          balance={200000}
-          errorMessage="최대 20만원까지 걸 수 있어요!"
-          isDepositType
-        />
-        <div className="bg-_grey-100 p-4 rounded-xl mt-10 flex flex-col gap-3 text-center">
-          {amount ? (
-            <>
-              <p className="flex justify-between">
-                <span>성공(상위10%)</span>
-                <span>
-                  (예상){' '}
-                  {(
-                    amount +
-                    (amount / 10000) *
-                      (estimateReward?.top10PercentRewardPerUnit || 0)
-                  ).toLocaleString()}
+        {challenge?.type === 'SAVINGS_SEVEN' ? (
+          <div className="py-6 px-4 rounded-2xl mt-4 bg-_grey-100 flex flex-col gap-4">
+            <p className="text-3xl font-bold text-center">70,000원</p>
+            <div className="text-center">
+              <p>777매일 적금 챌린지는 예치금이 7만원으로 고정이에요!</p>
+              <p>
+                <span className="text-primary font-medium">
+                  성공여부와 상관없이 챌린지 종료후 전액 환급
                 </span>
+                됩니다.
               </p>
-              <p className="flex justify-between">
-                <span>성공(하위90%)</span>
-                <span>
-                  (예상){' '}
-                  {(
-                    amount +
-                    (amount / 10000) *
-                      (estimateReward?.lower90PercentRewardPerUnit || 0)
-                  ).toLocaleString()}
-                </span>
-              </p>
-              <p className="flex justify-between">
-                <span>실패</span>
-                <span>성공률만큼 일부 환급</span>
-              </p>
-            </>
-          ) : (
-            <p>금액을 입력하시면 예상 환급금을 조회해드려요!</p>
-          )}
-        </div>
+            </div>
+          </div>
+        ) : (
+          <ConsumptionDepositSection
+            challengeId={challenge?.challengeId as string}
+          />
+        )}
       </div>
+
       <div>
         <SectionTitle icon={<Prohibition />} label="환불 정책" />
         <div className="flex flex-col gap-8 mt-5">
@@ -165,13 +131,11 @@ export default function Deposit({ params }: { params: { id: string } }) {
           </div>
         </div>
       </div>
-      <div className="bottom-0 left-0 w-full">
-        <Button
-          onClick={handleChallengeJoin}
-          text="참여하기"
-          className="text-white"
-        />
-      </div>
+      <Button
+        onClick={handleChallengeJoin}
+        text="참여하기"
+        className="text-white mb-8"
+      />
     </div>
   )
 }

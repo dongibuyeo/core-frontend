@@ -1,20 +1,23 @@
 'use client'
 
 import ChallengeRanking from '@/containers/challenge/[id]/ChallengeRanking'
-import ChallengeInfo from '@/containers/challenge/[id]/ChallengeInfo'
 import { Arrow } from '@/public/svg/index'
 import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getChallenge } from '@/services/challenges'
-import { Challenge } from '@/types/Challenge'
+import { Challenge, ChallengeType } from '@/types/Challenge'
+import ChallengeInfoConsumption from '@/containers/challenge/[id]/ChallengeInfoConsumption'
+import ChallengeInfoSaving from '@/containers/challenge/[id]/ChallengeInfoSaving'
 
 export default function ChallengeDetailPage() {
   const router = useRouter()
   const pathname = usePathname()
   const [currentTab, setCurrentTab] = useState('info')
   const challengeId = pathname.split('/')[2]
+  const searchParams = useSearchParams()
+  const challengeType = searchParams.get('type') as ChallengeType
 
   const { data: challenge } = useQuery<Challenge>({
     queryKey: ['challenge', challengeId],
@@ -85,7 +88,13 @@ export default function ChallengeDetailPage() {
             </button>
           </div>
           <div className="px-5">
-            {currentTab === 'info' && <ChallengeInfo />}
+            {currentTab === 'info' &&
+              challengeType.startsWith('CONSUMPTION') && (
+                <ChallengeInfoConsumption />
+              )}
+            {currentTab === 'info' && challengeType === 'SAVINGS_SEVEN' && (
+              <ChallengeInfoSaving />
+            )}
             {currentTab === 'ranking' && <ChallengeRanking />}
           </div>
         </div>

@@ -47,7 +47,7 @@ export const postCreateFreeAccount: (
 export const postCreateSavingAccount: (
   payload: CreateSavingAccountReq,
 ) => Promise<CreateSavingAccountRes> = async (payload) => {
-  const response = await instance.post('/account/personal', payload)
+  const response = await instance.post('/savings/account/seven', payload)
   return response.data
 }
 

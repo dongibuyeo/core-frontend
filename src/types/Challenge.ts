@@ -1,6 +1,6 @@
 export type Challenge = {
   challengeId: string
-  type?: string
+  type?: ChallengeType
   status?: string
   accountNo?: string
   startDate: string
