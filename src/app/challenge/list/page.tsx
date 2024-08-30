@@ -60,6 +60,7 @@ export default function ChallengeListPage() {
               totalDeposit={challenge?.totalDeposit}
               image={challenge?.image}
               status={challenge?.status}
+              type={challenge?.type}
             />
           ))}
           {!isPending && filteredChallengeList?.length === 0 && (

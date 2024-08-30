@@ -19,6 +19,7 @@ export default function ChallengeCard({
   totalDeposit,
   image,
   status,
+  type,
 }: Challenge) {
   const router = useRouter()
 
@@ -31,7 +32,7 @@ export default function ChallengeCard({
 
   const handleClick = () => {
     if (!isChallengeEnded) {
-      router.push(`/challenge/${challengeId}`)
+      router.push(`/challenge/${challengeId}?type=${type}`)
     }
   }
 
