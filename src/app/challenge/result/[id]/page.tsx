@@ -90,7 +90,7 @@ export default function ChallengeResultPage() {
                   <div className="absolute -left-12 bottom-1/2">
                     <p className="text-primary font-bold">
                       <span className="text-2xl">
-                        {challengeResult?.successNum}
+                        {challengeResult?.successRate}
                       </span>
                       %
                     </p>

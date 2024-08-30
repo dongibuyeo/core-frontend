@@ -2,9 +2,16 @@ type UrlMap = {
   path: string
   label?: string
   goBack?: boolean
+  bg?: string
 }
 
-export const URL_WITHOUT_MENU = ['/signup', '/transfer', '/challenge']
+export const URL_WITHOUT_MENU = [
+  '/signup',
+  '/transfer',
+  '/challenge',
+  '/enroll',
+  '/modals',
+]
 
 export const URL_WITHOUT_NAV = ['/push', '/home']
 
@@ -63,5 +70,11 @@ export const URL_LABEL_MAP: UrlMap[] = [
     label: ' ',
     goBack: true,
   },
-  { path: '/challenge/deposit', label: '예치금 등록', goBack: true },
+  {
+    path: '/challenge/deposit',
+    label: '예치금 등록',
+    goBack: true,
+    bg: 'bg-white',
+  },
+  { path: '/enroll', label: ' ', goBack: true },
 ]

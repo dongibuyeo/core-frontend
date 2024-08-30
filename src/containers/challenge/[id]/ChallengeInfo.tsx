@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -11,9 +13,8 @@ import {
   Trophy,
 } from '@/public/svg/index'
 import FundCard from '@/components/FundCard'
-import Button from '@/components/ui/Button'
 import { useQuery } from '@tanstack/react-query'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { getChallenge } from '@/services/challenges'
 import { challengeTypeToLabel } from '@/constants/challengeType-map'
 import { Challenge, ChallengeType } from '@/types/Challenge'
@@ -22,9 +23,9 @@ import { getUserInfo } from '@/services/auth'
 import { getAccount } from '@/services/account'
 import { getSpentMoney } from '@/services/consume'
 import { UserInfo } from '@/types/user'
-import Link from 'next/link'
 
 export default function ChallengeInfo() {
+  const router = useRouter()
   const pathname = usePathname()
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [isFailModalOpen, setIsFailModalOpen] = useState(false)
@@ -107,7 +108,7 @@ export default function ChallengeInfo() {
   }, [challenge])
 
   return (
-    <div className="flex flex-col gap-[3.75rem] pb-24">
+    <div className="flex flex-col gap-[3.75rem] pb-24 relative">
       <div className="mt-7">
         <div className="text-sm font-normal">
           {challenge?.type === 'QUIZ_SOLBEING'
@@ -150,14 +151,14 @@ export default function ChallengeInfo() {
             </p>
             <p className="mt-1">
               <span className="text-xl font-bold text-primary">
-                {spentMoney?.totalConsumption}
+                {spentMoney?.totalConsumption ?? '0'}
               </span>{' '}
               원
             </p>
             <p className="mt-5">
               다음 달 &lt;카페&gt; 소비가{' '}
               <span className="text-medium text-primary">
-                {spentMoney?.totalConsumption}
+                {spentMoney?.totalConsumption ?? '0'}
               </span>
               원 미만이면 성공이에요!
             </p>
@@ -287,7 +288,7 @@ export default function ChallengeInfo() {
               <div className="font-normal">일일 기본 점수</div>
               <div className="font-medium text-primary">+ 10</div>
             </div>
-            {scoreMessages?.map((message, index) => {
+            {scoreMessages?.map((message) => {
               const parts = message.split(', ')
               const description = parts[0]
               const time = parts.length === 3 ? parts[1] : ''
@@ -313,15 +314,17 @@ export default function ChallengeInfo() {
             })}
           </div>
         </div>
-      </div>
-      <Link
-        href={`/challenge/${challengeId}/deposit`}
-        className="fixed bottom-0 left-0 px-5 w-full pb-9"
-      >
       )}
-      <div className="fixed bottom-0 left-0 px-5 w-full pb-9">
-        <Button text="참여하기" className="text-white" />
-      </Link>
+      {/* CSS 적용이 안되는중 */}
+      <div className="w-full px-5 z-50 fixed bottom-9 left-0">
+        <button
+          type="button"
+          className="py-3 text-sm font-medium rounded-xl bg-_blue-300 text-white w-full"
+          onClick={() => router.push(`/challenge/${challengeId}/deposit`)}
+        >
+          참여하기
+        </button>
+      </div>
     </div>
   )
 }
