@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useRouter } from 'next/navigation'
-import { Home, Challenge, Chat, Profile } from '@/public/svg/index'
+import { Home, Challenge, Profile, Bookmark } from '@/public/svg/index'
 import { useMenuState } from '@/hooks/useMenuState'
 
 const getIconColor = (path: string, currentPath: string) =>
@@ -9,8 +9,8 @@ const getIconColor = (path: string, currentPath: string) =>
 
 const MenuDetails = [
   { path: 'home', component: Home, label: '홈' },
-  { path: `challenge/my`, component: Challenge, label: '챌린지' },
-  { path: 'chat', component: Chat, label: '채팅' },
+  { path: 'challenge/list', component: Challenge, label: '챌린지' },
+  { path: 'challenge/my', component: Bookmark, label: '내 챌린지' },
   { path: 'mypage', component: Profile, label: '마이페이지' },
 ]
 
