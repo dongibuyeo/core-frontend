@@ -29,7 +29,9 @@ export default function Navbar() {
   const isSettingsPage = pathname === '/mypage'
 
   return (
-    <nav className="bg-transparent z-20 fixed top-0 left-0 flex items-center justify-between h-[3.75rem] w-full px-[.625rem]">
+    <nav
+      className={`bg-transparent z-20 fixed top-0 left-0 flex items-center justify-between h-[3.75rem] w-full px-[.625rem] ${currentMapping?.bg}`}
+    >
       <div className="flex items-center space-x-[.625rem]">
         {currentMapping?.goBack && (
           <Arrow
