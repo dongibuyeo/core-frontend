@@ -41,6 +41,8 @@ import LandingLogo from './landing-logo.svg'
 import Document from './document.svg'
 import ScoreDetail from './score-detail.svg'
 import Bookmark from './Bookmark.svg'
+import Correct from './correct.svg'
+import Incorrect from './incorrect.svg'
 
 export {
   Arrow,
@@ -86,4 +88,6 @@ export {
   Document,
   ScoreDetail,
   Bookmark,
+  Correct,
+  Incorrect,
 }
