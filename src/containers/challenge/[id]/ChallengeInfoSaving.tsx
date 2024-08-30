@@ -130,7 +130,9 @@ export default function ChallengeInfoSaving() {
         <button
           type="button"
           className="py-3 text-sm font-medium rounded-xl bg-_blue-300 text-white w-full"
-          onClick={() => router.push(`/challenge/${challengeId}/deposit`)}
+          onClick={() =>
+            router.push(`/enroll?type=saving&challengeId=${challengeId}`)
+          }
         >
           참여하기
         </button>

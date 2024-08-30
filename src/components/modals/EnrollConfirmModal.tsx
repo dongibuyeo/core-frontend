@@ -1,26 +1,39 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { AccountType } from '@/types/account'
+import { AccountType, CreateSavingAccountReq } from '@/types/account'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { postCreateFreeAccount } from '@/services/account'
+import {
+  getChallengeAccount,
+  postCreateFreeAccount,
+  postCreateSavingAccount,
+} from '@/services/account'
 import { getUserInfo } from '@/services/auth'
+import { Challenge, ChallengeType } from '@/types/Challenge'
+import { getChallenge } from '@/services/challenges'
 import Button from '../ui/Button'
 
 export default function EnrollConfirmModal() {
   const searchParams = useSearchParams()
   const type = searchParams.get('type') as AccountType
+  const challengeId = searchParams.get('challengeId')
   const router = useRouter()
 
-  let email
-  if (typeof window !== 'undefined') {
-    email = localStorage.getItem('email')
-  }
+  const { data: challenge } = useQuery<Challenge>({
+    queryKey: ['challenge', challengeId],
+    queryFn: () => getChallenge(challengeId as string),
+    enabled: !!challengeId,
+  })
 
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserInfo,
-    enabled: !!email,
+  })
+
+  const { data: myChallengeAccount } = useQuery({
+    queryKey: ['account', 'challenge'],
+    queryFn: () => getChallengeAccount(userInfo?.memberId as string),
+    enabled: !!userInfo?.memberId,
   })
 
   const freeAccountMutation = useMutation({
@@ -28,26 +41,27 @@ export default function EnrollConfirmModal() {
     onSuccess: () => router.replace('/home'),
   })
 
-  // const savingAccountMutation = useMutation({
-  //   mutationFn: (payload: CreateSavingAccountReq) =>
-  //     postCreateSavingAccount(payload),
-  // })
+  const savingAccountMutation = useMutation({
+    mutationFn: (payload: CreateSavingAccountReq) =>
+      postCreateSavingAccount(payload),
+    onSuccess: () => router.replace(`/challenge/${challengeId}/deposit`),
+  })
 
   const handleEnrollment = () => {
     if (type === 'free') {
       freeAccountMutation.mutate()
     }
 
-    // if (type === 'saving') {
-    //   const payload = {
-    //     // challengeType: string
-    //     // startDate: string
-    //     // memberId: string
-    //     // withdrawalAccountNo: string
-    //     // depositBalance: number
-    //   }
-    //   freeAccountMutation.mutate(payload)
-    // }
+    if (type === 'saving') {
+      const payload = {
+        challengeType: challenge?.type as ChallengeType,
+        startDate: challenge?.startDate as string,
+        memberId: userInfo?.memberId as string,
+        withdrawalAccountNo: myChallengeAccount?.accountNo as string,
+        depositBalance: 7000,
+      }
+      savingAccountMutation.mutate(payload)
+    }
   }
 
   return (

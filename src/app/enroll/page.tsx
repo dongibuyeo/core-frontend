@@ -10,13 +10,17 @@ import { useSearchParams } from 'next/navigation'
 export default function Enroll() {
   const searchParams = useSearchParams()
   const type = searchParams.get('type') as AccountType
+  const challengeId = searchParams.get('challengeId')
 
   return (
     <div className="px-2 h-[calc(100dvh-5rem)] flex flex-col">
       <Document className="w-20 mb-4 mt-28 mx-1" />
       <h1 className="text-2xl font-medium">
         상금 도전을 위해 <br />
-        챌린지 전용 통장을 개설해주세요!
+        <span className="text-_blue-300">
+          {CREATE_ACCOUNT_MESSAGE[type].ACCOUNT_NAME}
+        </span>
+        을 개설해주세요!
       </h1>
       <div className="mt-10">
         <h2 className="text-lg font-medium mb-4">
@@ -39,7 +43,10 @@ export default function Enroll() {
           <p>예금자보호법 설명 확인</p>
         </div>
       </div>
-      <Link href={`/modals/enroll-confirm/?type=${type}`} className="mt-auto">
+      <Link
+        href={`/modals/enroll-confirm/?type=${type}&challengeId=${challengeId}`}
+        className="mt-auto"
+      >
         <Button text="필수 동의하기" className=" text-white mb-4" />
       </Link>
       <Link href="/home" className="text-center text-_grey-400 p-4">

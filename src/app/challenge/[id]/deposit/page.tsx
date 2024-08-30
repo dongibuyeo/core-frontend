@@ -46,11 +46,19 @@ export default function Deposit({ params }: { params: { id: string } }) {
   )
 
   const handleChallengeJoin = () => {
-    mutation.mutate({
-      challengeId: params.id,
-      memberId: userInfo?.memberId as string,
-      deposit: amount || 0,
-    })
+    if (challenge?.type === 'SAVINGS_SEVEN') {
+      mutation.mutate({
+        challengeId: params.id,
+        memberId: userInfo?.memberId as string,
+        deposit: 70000,
+      })
+    } else {
+      mutation.mutate({
+        challengeId: params.id,
+        memberId: userInfo?.memberId as string,
+        deposit: amount || 0,
+      })
+    }
   }
   return (
     <div className="px-5 flex flex-col gap-16">
