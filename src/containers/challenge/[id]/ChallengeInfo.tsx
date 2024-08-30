@@ -52,12 +52,7 @@ export default function ChallengeInfo() {
 
   const { data: spentMoney } = useQuery({
     queryKey: ['spentMoney'],
-    queryFn: () =>
-      getSpentMoney(
-        user?.memberId ?? '',
-        challenge?.type ?? '',
-        accountList[0].accountNo,
-      ),
+    queryFn: () => getSpentMoney(user?.memberId ?? '', challenge?.type ?? ''),
     enabled: !!accountList?.length,
   })
 

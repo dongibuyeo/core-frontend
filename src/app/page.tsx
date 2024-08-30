@@ -12,10 +12,12 @@ import LottieComponent from '@/components/LottieComponent'
 
 export default function Home() {
   const router = useRouter()
+  const email = localStorage.getItem('email')
+
   const { data: user } = useQuery({
     queryKey: ['user'],
     queryFn: getUserInfo,
-    enabled: !!localStorage.getItem('email'),
+    enabled: !!email,
   })
 
   const handleRedirect = () => {

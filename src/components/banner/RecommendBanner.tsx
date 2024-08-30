@@ -1,11 +1,16 @@
+'use client'
+
 import { Close } from '@/public/svg/index'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 interface Props {
   setIsBannerOpen: (value: boolean) => void
 }
 
 export default function RecommendBanner({ setIsBannerOpen }: Props) {
+  const router = useRouter()
+
   return (
     <div className="px-6 py-4 bg-_grey-100 rounded-2xl flex mt-3 mb-5">
       <div className="w-full flex items-center justify-between">
@@ -24,6 +29,7 @@ export default function RecommendBanner({ setIsBannerOpen }: Props) {
             <button
               type="button"
               className="leading-5 text-sm font-normal text-primary"
+              onClick={() => router.push('/recommendation')}
             >
               내 소비패턴에 따른 챌린지 추천받기 &gt;
             </button>

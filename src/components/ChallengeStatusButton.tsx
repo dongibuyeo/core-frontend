@@ -19,10 +19,12 @@ export default function ChallengeStatusButton({
   setChallengeStatus,
   tabType,
 }: Props) {
+  const email = localStorage.getItem('email')
+
   const { data: user } = useQuery({
     queryKey: ['user'],
     queryFn: () => getUserInfo(),
-    enabled: !!localStorage.getItem('email'),
+    enabled: !!email,
   })
 
   const { data: myChallengeList } = useQuery<MyChallengeList>({
@@ -60,7 +62,7 @@ export default function ChallengeStatusButton({
         onClick={() => setChallengeStatus('COMPLETED')}
       >
         {tabType === 'main' ? '마감' : '완료'}
-        {!!myChallengeList?.totalCalculatedNum && (
+        {tabType === 'my' && !!myChallengeList?.totalCalculatedNum && (
           <div className="bg-_red rounded-full w-6 h-6 absolute -top-2 right-1/4 z-10 flex justify-center items-center font-medium text-white">
             {myChallengeList?.totalCalculatedNum}
           </div>
