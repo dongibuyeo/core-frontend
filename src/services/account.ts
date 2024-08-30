@@ -34,18 +34,13 @@ export const postTransfer: (
   return response.data
 }
 
-export const postCreateFreeAccount: (
+export const getSavingsSevenAccounts: (
   memberId: string,
-) => Promise<CreateFreeAccountRes> = async (memberId) => {
-  const response = await instance.post('/challenges/member/account', {
-    memberId,
-  })
-  return response.data
-}
-
-export const postCreateSavingAccount: (
-  payload: CreateSavingAccountReq,
-) => Promise<CreateSavingAccountRes> = async (payload) => {
-  const response = await instance.post('/account/personal', payload)
-  return response.data
+) => Promise<Account[]> = async (memberId) => {
+  const response = await instance.get(`/savings/all/${memberId}`)
+  const allAccounts: Account[] = response.data
+  const savingsSevenAccounts = allAccounts.filter((account) =>
+    account.accountName.startsWith('SAVINGS_SEVEN'),
+  )
+  return savingsSevenAccounts
 }

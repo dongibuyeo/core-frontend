@@ -10,8 +10,11 @@ import AccountCard from '@/components/AccountCard'
 import { useQuery } from '@tanstack/react-query'
 import { getChallengeStatusCount } from '@/services/mypage'
 import { getUserInfo } from '@/services/auth'
-import { getChallengeAccount } from '@/services/account'
-import Button from '@/components/ui/Button'
+import {
+  getChallengeAccount,
+  getSavingsSevenAccounts,
+} from '@/services/account'
+
 
 export default function Mypage() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -21,12 +24,18 @@ export default function Mypage() {
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserInfo,
-    enabled: !!localStorage.getItem('email'),
+    enabled: typeof window !== 'undefined' && !!localStorage.getItem('email'),
   })
 
   const { data: challengeAccount } = useQuery({
     queryKey: ['account', 'challenge'],
     queryFn: () => getChallengeAccount(userInfo?.memberId as string),
+    enabled: !!userInfo?.memberId,
+  })
+
+  const { data: savingsSevenAccounts } = useQuery({
+    queryKey: ['account', 'savingsSeven'],
+    queryFn: () => getSavingsSevenAccounts(userInfo?.memberId as string),
     enabled: !!userInfo?.memberId,
   })
 
@@ -38,6 +47,8 @@ export default function Mypage() {
     enabled: !!userInfo,
   })
 
+  const accounts = [challengeAccount, ...(savingsSevenAccounts || [])]
+
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return
@@ -45,11 +56,15 @@ export default function Mypage() {
       const { scrollLeft, clientWidth } = containerRef.current
       const scrollRatio = scrollLeft / clientWidth
 
-      if (scrollRatio > currentIndex + 0.5) {
-        setCurrentIndex((prevIndex) => prevIndex + 1)
-      } else if (scrollRatio < currentIndex - 0.5) {
-        setCurrentIndex((prevIndex) => prevIndex - 1)
-      }
+      setCurrentIndex((prevIndex) => {
+        if (scrollRatio > prevIndex + 0.5) {
+          return Math.min(prevIndex + 1, accounts.length - 1)
+        }
+        if (scrollRatio < prevIndex - 0.5) {
+          return Math.max(prevIndex - 1, 0)
+        }
+        return prevIndex
+      })
     }
 
     const container = containerRef.current
@@ -58,7 +73,7 @@ export default function Mypage() {
     return () => {
       container?.removeEventListener('scroll', handleScroll)
     }
-  }, [currentIndex])
+  }, [accounts.length])
 
   useEffect(() => {
     if (containerRef.current) {
@@ -113,22 +128,35 @@ export default function Mypage() {
             ref={containerRef}
             className="flex overflow-x-auto space-x-2 snap-x snap-mandatory scrollbar-hide"
           >
-            {challengeAccount ? (
-              <AccountCard
-                account={challengeAccount.accountNo}
-                balance={Number(challengeAccount.accountBalance)}
-                accountType="deposit"
-              />
-            ) : (
-              <div className="flex flex-col w-full bg-_grey-100 rounded-xl p-6 items-center justify-center gap-4 min-h-48">
-                <p>챌린지에 참여하려면 전용통장이 필요해요!</p>
-                <Button
-                  text="쏠편한 챌린지통장 만들기"
-                  className="text-white"
-                  onClick={() => router.push('/enroll?type=free')}
+            {accounts.map((account, index) => (
+              <div
+                key={account?.accountNo}
+                className="w-full flex-shrink-0 snap-center"
+                style={{ scrollSnapAlign: 'center' }}
+              >
+                <AccountCard
+                  account={account?.accountNo || ''}
+                  balance={
+                    index === 0
+                      ? Number(account?.accountBalance) || 0
+                      : Number(account?.totalBalance) || 0
+                  }
+                  accountType={index === 0 ? 'deposit' : 'saving'}
                 />
               </div>
-            )}
+            ))}
+          </div>
+          <div className="flex justify-center mt-3">
+            {accounts.map((account, index) => (
+              <div
+                key={account?.accountNo}
+                className={`rounded-full ${
+                  currentIndex === index
+                    ? 'w-4 h-2 bg-_grey-200'
+                    : 'w-2 h-2 bg-_grey-200/40'
+                } mx-[.125rem] transition-all duration-300`}
+              />
+            ))}
           </div>
         </div>
       </div>
