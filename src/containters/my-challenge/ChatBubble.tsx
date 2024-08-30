@@ -4,7 +4,7 @@ interface Props {
   isMine: boolean
   message: string
   senderName: string
-  senderProfile: number
+  senderProfile: string
   timeStamp: string
 }
 
@@ -26,9 +26,11 @@ export default function ChatBubble({
 
   return (
     <div className={`flex gap-2 ${isMine && 'self-end flex-row-reverse'}`}>
-      {!isMine && senderProfile && (
+      {!isMine && (
         <div className="w-10 h-10 rounded-3xl bg-gray-100 shrink-0 overflow-hidden">
-          <div className="w-10 h-10">{getProfileImage(senderProfile)}</div>
+          <div className="w-10 h-10 object-contain flex justify-center items-center">
+            {getProfileImage(senderProfile)}
+          </div>
         </div>
       )}
       <div className="flex flex-col gap-1">

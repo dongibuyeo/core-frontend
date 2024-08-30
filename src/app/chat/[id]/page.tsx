@@ -5,17 +5,22 @@ import ChatBubble from '@/containters/my-challenge/ChatBubble'
 import { ArrowSend } from '@/public/svg'
 import { getUserInfo } from '@/services/auth'
 import { getChatHistory } from '@/services/chat'
-import { ChatRoomType } from '@/types/chat'
+import { ChatMessage, ChatRoomType } from '@/types/chat'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState, useRef, useEffect } from 'react'
+import Loader from '@/components/Loader'
+import { Client } from '@stomp/stompjs'
 
 export default function Chat({ params }: { params: { id: ChatRoomType } }) {
   const [chatMessage, setChatMessage] = useState('')
-  const socketRef = useRef<WebSocket | null>(null)
+  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const socketRef = useRef<Client | null>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const roomName = params.id
-
   const queryClient = useQueryClient()
+  const isFirst = useRef(true)
+
+  const isValid = (): boolean => chatMessage.trim().length > 0
 
   const { data: userInfo, isLoading: userLoading } = useQuery({
     queryKey: ['userInfo'],
@@ -30,36 +35,37 @@ export default function Chat({ params }: { params: { id: ChatRoomType } }) {
   })
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (chatHistory && isFirst.current) {
+      setMessages(chatHistory.messages)
+      isFirst.current = false
+    }
   }, [chatHistory])
 
   useEffect(() => {
-    const ws = new WebSocket('ws://3.36.59.109:8080/ws/chat')
+    const stompClient = new Client({
+      brokerURL: 'ws:////3.36.59.109:8080/ws',
+      reconnectDelay: 5000,
+      onConnect: () => {
+        stompClient.subscribe(`/sub/chat/${roomName}`, (message) => {
+          const newMessage = JSON.parse(message.body)
+          setMessages((prevMessages) => [...prevMessages, newMessage])
+        })
+      },
+    })
 
-    ws.onopen = () => {
-      console.log('소켓연결!!!')
-    }
-
-    ws.onmessage = (event) => {
-      const message = JSON.parse(event.data)
-      // 메시지가 현재 채팅방의 메시지인지 확인
-      if (message.roomId === roomName) {
-        queryClient.invalidateQueries({ queryKey: ['chatHistory', roomName] })
-      }
-    }
-
-    ws.onclose = () => {
-      console.log('소켓연결 끊겼음!')
-    }
-
-    socketRef.current = ws
+    stompClient.activate()
+    socketRef.current = stompClient
 
     return () => {
-      ws.close()
+      if (socketRef.current) {
+        socketRef.current.deactivate()
+      }
     }
-  }, [roomName, queryClient])
+  }, [roomName])
 
-  const isValid = (): boolean => chatMessage.trim().length > 0
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
 
   const handleChangeChat = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChatMessage(e.target.value)
@@ -71,8 +77,16 @@ export default function Chat({ params }: { params: { id: ChatRoomType } }) {
         roomName,
         memberId: userInfo?.memberId,
         message: chatMessage,
+        image: userInfo?.profileImage,
+        sendAt: new Date().toISOString(),
+        nickName: userInfo?.nickname,
       }
-      socketRef.current.send(JSON.stringify(newMessage))
+
+      socketRef.current.publish({
+        destination: '/pub/chat',
+        body: JSON.stringify(newMessage),
+      })
+
       setChatMessage('')
 
       queryClient.invalidateQueries({ queryKey: ['chatHistory', roomName] })
@@ -80,7 +94,7 @@ export default function Chat({ params }: { params: { id: ChatRoomType } }) {
   }
 
   if (userLoading || chatLoading) {
-    return <div>Loading...</div>
+    return <Loader />
   }
 
   return (
@@ -92,14 +106,14 @@ export default function Chat({ params }: { params: { id: ChatRoomType } }) {
         imageUrl="/image/coffee.jpg"
       />
       <div className="w-full h-full flex flex-col gap-5 overflow-auto">
-        {chatHistory?.messages.map((chat) => (
+        {messages.map((chat) => (
           <ChatBubble
             key={crypto.randomUUID()}
-            senderName={chat.memberNickName}
-            senderProfile={Number(chat.image)}
+            senderName={chat.nickName}
+            senderProfile={chat.image}
             isMine={chat.memberId === userInfo?.memberId}
             message={chat.message}
-            timeStamp={chat.createdAt}
+            timeStamp={chat.sendAt}
           />
         ))}
         <div ref={bottomRef} />
@@ -114,6 +128,11 @@ export default function Chat({ params }: { params: { id: ChatRoomType } }) {
         <button
           type="button"
           onClick={handleSendChat}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSendChat()
+            }
+          }}
           aria-label="send-chat"
           disabled={!isValid()}
         >
