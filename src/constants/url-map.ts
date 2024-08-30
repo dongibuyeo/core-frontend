@@ -5,7 +5,13 @@ type UrlMap = {
   bg?: string
 }
 
-export const URL_WITHOUT_MENU = ['/signup', '/transfer', '/challenge']
+export const URL_WITHOUT_MENU = [
+  '/signup',
+  '/transfer',
+  '/challenge',
+  '/enroll',
+  '/modals',
+]
 
 export const URL_WITHOUT_NAV = ['/push', '/home']
 
@@ -70,4 +76,5 @@ export const URL_LABEL_MAP: UrlMap[] = [
     goBack: true,
     bg: 'bg-white',
   },
+  { path: '/enroll', label: ' ', goBack: true },
 ]
