@@ -66,7 +66,8 @@ export default function ChallengeInfoSaving() {
               1
             </div>
             <p>
-              챌린지 성공한 사람 중 7명 추첨해서
+              챌린지 성공한 사람 중{' '}
+              <span className="font-medium text-primary">7명</span> 추첨해서
               <span className="font-medium text-primary"> 상금을 분배</span>
               해요!
             </p>

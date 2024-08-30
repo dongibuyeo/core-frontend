@@ -10,6 +10,7 @@ import { getChallenge } from '@/services/challenges'
 import { Challenge, ChallengeType } from '@/types/Challenge'
 import ChallengeInfoConsumption from '@/containers/challenge/[id]/ChallengeInfoConsumption'
 import ChallengeInfoSaving from '@/containers/challenge/[id]/ChallengeInfoSaving'
+import ChallengeInfoQuiz from '@/containers/challenge/[id]/ChallengeInfoQuiz'
 
 export default function ChallengeDetailPage() {
   const router = useRouter()
@@ -94,6 +95,9 @@ export default function ChallengeDetailPage() {
               )}
             {currentTab === 'info' && challengeType === 'SAVINGS_SEVEN' && (
               <ChallengeInfoSaving />
+            )}
+            {currentTab === 'info' && challengeType === 'QUIZ_SOLBEING' && (
+              <ChallengeInfoQuiz />
             )}
             {currentTab === 'ranking' && <ChallengeRanking />}
           </div>

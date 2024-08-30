@@ -19,13 +19,11 @@ export default function Deposit({ params }: { params: { id: string } }) {
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserInfo,
-    enabled: !!localStorage.getItem('email'),
   })
 
   const { data: challenge } = useQuery<Challenge>({
     queryKey: ['challenge', params.id],
     queryFn: () => getChallenge(params.id),
-    enabled: !!localStorage.getItem('email'),
   })
 
   const mutation = useMutation({
