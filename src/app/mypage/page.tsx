@@ -15,6 +15,7 @@ import {
   getSavingsSevenAccounts,
 } from '@/services/account'
 import AccountEmptyCard from '@/containers/mypage/AccountEmptyCard'
+import { Account, SavingAccount } from '@/types/account'
 
 export default function Mypage() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -33,6 +34,12 @@ export default function Mypage() {
     enabled: !!userInfo?.memberId,
   })
 
+  const { data: savingsSevenAccounts } = useQuery({
+    queryKey: ['account', 'savingsSeven'],
+    queryFn: () => getSavingsSevenAccounts(userInfo?.memberId as string),
+    enabled: !!userInfo?.memberId,
+  })
+
   const {
     data: challengeStatus = { SCHEDULED: 0, IN_PROGRESS: 0, COMPLETED: 0 },
   } = useQuery({
@@ -41,18 +48,17 @@ export default function Mypage() {
     enabled: !!userInfo,
   })
 
+  const accounts = [challengeAccount, ...(savingsSevenAccounts || [])]
+  const isAccount = (account: Account | SavingAccount): account is Account =>
+    (account as Account).accountBalance !== undefined
+
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return
 
       const { scrollLeft, clientWidth } = containerRef.current
-      const scrollRatio = scrollLeft / clientWidth
-
-      if (scrollRatio > currentIndex + 0.5) {
-        setCurrentIndex((prevIndex) => prevIndex + 1)
-      } else if (scrollRatio < currentIndex - 0.5) {
-        setCurrentIndex((prevIndex) => prevIndex - 1)
-      }
+      const newIdx = Math.round(scrollLeft / clientWidth)
+      setCurrentIndex(newIdx)
     }
 
     const container = containerRef.current
@@ -60,15 +66,6 @@ export default function Mypage() {
 
     return () => {
       container?.removeEventListener('scroll', handleScroll)
-    }
-  }, [currentIndex])
-
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTo({
-        left: containerRef.current.clientWidth * currentIndex,
-        behavior: 'smooth',
-      })
     }
   }, [currentIndex])
 
@@ -126,7 +123,7 @@ export default function Mypage() {
                   <AccountCard
                     account={account?.accountNo || ''}
                     balance={
-                      index === 0
+                      isAccount(account)
                         ? Number(account?.accountBalance) || 0
                         : Number(account?.totalBalance) || 0
                     }
@@ -136,7 +133,19 @@ export default function Mypage() {
                   <AccountEmptyCard />
                 )}
               </div>
-            )}
+            ))}
+          </div>
+          <div className="flex justify-center mt-3">
+            {accounts.map((account, index) => (
+              <div
+                key={account?.accountNo}
+                className={`rounded-full ${
+                  currentIndex === index
+                    ? 'w-4 h-2 bg-_grey-200'
+                    : 'w-2 h-2 bg-_grey-200/40'
+                } mx-[.125rem] transition-all duration-300`}
+              />
+            ))}
           </div>
         </div>
       </div>

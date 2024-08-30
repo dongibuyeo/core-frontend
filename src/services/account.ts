@@ -4,6 +4,7 @@ import {
   CreateFreeAccountRes,
   CreateSavingAccountReq,
   CreateSavingAccountRes,
+  SavingAccount,
   TransferReq,
   TransferRes,
 } from '@/types/account'
@@ -48,4 +49,15 @@ export const postCreateSavingAccount: (
 ) => Promise<CreateSavingAccountRes> = async (payload) => {
   const response = await instance.post('/account/personal', payload)
   return response.data
+}
+
+export const getSavingsSevenAccounts: (
+  memberId: string,
+) => Promise<SavingAccount[]> = async (memberId) => {
+  const response = await instance.get(`/savings/all/${memberId}`)
+  const allAccounts: SavingAccount[] = response.data
+  const savingsSevenAccounts = allAccounts.filter((account) =>
+    account.accountName.startsWith('SAVINGS_SEVEN'),
+  )
+  return savingsSevenAccounts
 }

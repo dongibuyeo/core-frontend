@@ -61,3 +61,22 @@ export type CreateSavingAccountRes = {
   accountCreateDate: string
   accountExpiryDate: string
 }
+
+export type SavingAccount = {
+  bankCode: string
+  bankName: string
+  userName: string
+  accountNo: string
+  accountName: string
+  accountDescription: string
+  withdrawalBankCode: string
+  withdrawalBankName: string
+  withdrawalAccountNo: string
+  subscriptionPeriod: string
+  depositBalance: number
+  interestRate: number
+  installmentNumber: string
+  totalBalance: number
+  accountCreateDate: number
+  accountExpiryDate: number
+}
