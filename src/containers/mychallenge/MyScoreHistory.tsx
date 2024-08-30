@@ -14,12 +14,20 @@ interface Props {
 export default function ScoreHistory({ scores }: Props) {
   return (
     <div className="w-full">
-      <div className="flex mb-4 justify-between">
+      <div className="flex p-4 mb-4 items-center justify-between">
         <SectionTitle icon={<ScoreDetail />} label="챌린지 점수내역" />
         <ArrowRight />
       </div>
       <div>
-        <ScoreCard />
+        {scores.map((scoreDetail) => (
+          <ScoreCard
+            key={`${scoreDetail.date}-${scoreDetail.score}`}
+            score={scoreDetail.score}
+            description={scoreDetail.description}
+            date={new Date(scoreDetail.date).toLocaleDateString('ko-KR')}
+            additionalScore={scoreDetail.additionalScore}
+          />
+        ))}
       </div>
     </div>
   )
