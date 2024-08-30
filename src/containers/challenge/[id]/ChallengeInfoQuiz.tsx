@@ -2,7 +2,7 @@
 
 import { Calendar, Flag, MoneyBag } from '@/public/svg/index'
 import FundCard from '@/components/FundCard'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { usePathname, useRouter } from 'next/navigation'
 import { getChallenge, postChallengeJoin } from '@/services/challenges'
 
@@ -14,6 +14,7 @@ import { getUserInfo } from '@/services/auth'
 
 export default function ChallengeInfoQuiz() {
   const router = useRouter()
+  const queryClient = useQueryClient()
   const pathname = usePathname()
   const challengeId = pathname.split('/')[2]
 
@@ -31,6 +32,7 @@ export default function ChallengeInfoQuiz() {
     mutationFn: (payload: ChallengeJoinReq) => postChallengeJoin(payload),
     onSuccess: () => {
       alert('참여가 완료되었습니다!')
+      queryClient.invalidateQueries({ queryKey: ['myChallengeList'] })
       router.replace('/challenge/my')
     },
     onError: (error: AxiosError) => {

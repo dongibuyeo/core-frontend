@@ -9,12 +9,13 @@ import { getUserInfo } from '@/services/auth'
 import { getChallenge, postChallengeJoin } from '@/services/challenges'
 import useAmountStore from '@/store/amountStore'
 import { Challenge, ChallengeJoinReq } from '@/types/Challenge'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 
 export default function Deposit({ params }: { params: { id: string } }) {
   const router = useRouter()
+  const queryClient = useQueryClient()
   const amount = useAmountStore((state) => state.amount)
   const { data: userInfo } = useQuery({
     queryKey: ['userInfo'],
@@ -30,6 +31,7 @@ export default function Deposit({ params }: { params: { id: string } }) {
     mutationFn: (payload: ChallengeJoinReq) => postChallengeJoin(payload),
     onSuccess: () => {
       alert('참여가 완료되었습니다!')
+      queryClient.invalidateQueries({ queryKey: ['myChallengeList'] })
       router.replace('/challenge/my')
     },
     onError: (error: AxiosError) => {
