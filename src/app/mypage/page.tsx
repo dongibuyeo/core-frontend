@@ -11,6 +11,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getChallengeStatusCount } from '@/services/mypage'
 import { getUserInfo } from '@/services/auth'
 import { getChallengeAccount } from '@/services/account'
+import Button from '@/components/ui/Button'
 
 export default function Mypage() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -112,11 +113,22 @@ export default function Mypage() {
             ref={containerRef}
             className="flex overflow-x-auto space-x-2 snap-x snap-mandatory scrollbar-hide"
           >
-            <AccountCard
-              account={challengeAccount?.accountNo || ''}
-              balance={Number(challengeAccount?.accountBalance) || 0}
-              accountType="deposit"
-            />
+            {challengeAccount ? (
+              <AccountCard
+                account={challengeAccount.accountNo}
+                balance={Number(challengeAccount.accountBalance)}
+                accountType="deposit"
+              />
+            ) : (
+              <div className="flex flex-col w-full bg-_grey-100 rounded-xl p-6 items-center justify-center gap-4 min-h-48">
+                <p>챌린지에 참여하려면 전용통장이 필요해요!</p>
+                <Button
+                  text="쏠편한 챌린지통장 만들기"
+                  className="text-white"
+                  onClick={() => router.push('/enroll?type=free')}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

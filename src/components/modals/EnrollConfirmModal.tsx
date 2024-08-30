@@ -1,10 +1,53 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { AccountType, CreateSavingAccountReq } from '@/types/account'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import {
+  postCreateFreeAccount,
+  postCreateSavingAccount,
+} from '@/services/account'
+import { getUserInfo } from '@/services/auth'
 import Button from '../ui/Button'
 
 export default function EnrollConfirmModal() {
+  const searchParams = useSearchParams()
+  const type = searchParams.get('type') as AccountType
   const router = useRouter()
+
+  const { data: userInfo } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: getUserInfo,
+    enabled: !!localStorage.getItem('email'),
+  })
+
+  const freeAccountMutation = useMutation({
+    mutationFn: () => postCreateFreeAccount(userInfo?.memberId || ''),
+    onSuccess: () => router.replace('/home'),
+  })
+
+  // const savingAccountMutation = useMutation({
+  //   mutationFn: (payload: CreateSavingAccountReq) =>
+  //     postCreateSavingAccount(payload),
+  // })
+
+  const handleEnrollment = () => {
+    if (type === 'free') {
+      freeAccountMutation.mutate()
+    }
+
+    // if (type === 'saving') {
+    //   const payload = {
+    //     // challengeType: string
+    //     // startDate: string
+    //     // memberId: string
+    //     // withdrawalAccountNo: string
+    //     // depositBalance: number
+    //   }
+    //   freeAccountMutation.mutate(payload)
+    // }
+  }
+
   return (
     <div className="bg-white px-6 py-10 rounded-t-3xl">
       <h1 className="text-lg font-medium">상품 내용을 충분히 이해하셨나요?</h1>
@@ -23,7 +66,7 @@ export default function EnrollConfirmModal() {
           className="bg-_blue-300/[8%] text-_blue-300"
           onClick={() => router.back()}
         />
-        <Button text="상품 가입" />
+        <Button text="상품 가입" onClick={handleEnrollment} />
       </div>
     </div>
   )

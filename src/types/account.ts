@@ -31,3 +31,33 @@ export type TransferRes = {
   transactionTypeName: string
   transactionAccountNo: string
 }
+
+export type AccountType = 'free' | 'saving'
+
+export type CreateFreeAccountRes = {
+  accountId: string
+  accountNo: string
+  accountType: 'CHALLENGE'
+}
+
+export type CreateSavingAccountReq = {
+  challengeType: string
+  startDate: string
+  memberId: string
+  withdrawalAccountNo: string
+  depositBalance: number
+}
+
+export type CreateSavingAccountRes = {
+  bankCode: string
+  bankName: string
+  accountNo: string
+  accountName: string
+  withdrawalBankCode: string
+  withdrawalAccountNo: string
+  subscriptionPeriod: string
+  depositBalance: number
+  interestRate: number
+  accountCreateDate: string
+  accountExpiryDate: string
+}
