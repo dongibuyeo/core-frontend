@@ -96,7 +96,7 @@ export default function Mypage() {
               type="button"
               className="flex items-center"
               onClick={() => {
-                router.push('/target-path')
+                router.push('/challenge/my')
               }}
               aria-label="내 챌린지 현황으로 이동"
             >

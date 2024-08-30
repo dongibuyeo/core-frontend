@@ -17,21 +17,19 @@ export const updateUserProfile = async (profileData: {
 }
 
 export const getChallengeStatusCount = async (memberId: string) => {
-  const response = await instance.get<
-    { status: ChallengeStatus; count: number }[]
-  >(`/challenges/member/status-count`, {
+  const response = await instance.get<{
+    scheduledCount: number
+    inProgressCount: number
+    completedCount: number
+  }>(`/challenges/member/status-count`, {
     params: { memberId },
   })
 
   const challengeStatusCounts: ChallengeStatusCounts = {
-    SCHEDULED: 0,
-    IN_PROGRESS: 0,
-    COMPLETED: 0,
+    SCHEDULED: response.data.scheduledCount,
+    IN_PROGRESS: response.data.inProgressCount,
+    COMPLETED: response.data.completedCount,
   }
-
-  response.data.forEach((item) => {
-    challengeStatusCounts[item.status] = item.count
-  })
 
   return challengeStatusCounts
 }
