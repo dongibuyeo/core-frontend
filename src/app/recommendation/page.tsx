@@ -6,13 +6,13 @@ import {
   fetchTotalConsumption,
   fetchHistoryData,
 } from '@/services/recommendation'
-import Button from '@/components/ui/Button'
-import MyChart from '@/containers/Chart'
-import { DollarsFlying, ChartUp } from '@/public/svg/index'
 import Loader from '@/components/Loader'
+import RecommendTo from '@/containers/recommendation/RecommendTo'
+import ChartSummary from '@/containers/recommendation/ChartSummary'
+import Button from '@/components/ui/Button'
 import { getUserInfo } from '@/services/auth'
 
-type Props = {
+interface RecommendationPageProps {
   challengeType:
     | 'CONSUMPTION_COFFEE'
     | 'CONSUMPTION_DRINK'
@@ -26,7 +26,7 @@ type Props = {
   accountTypeUniqueNo: string
 }
 
-function RecommendationPage({
+export default function RecommendationPage({
   challengeType,
   memberEmail,
   accountNo,
@@ -35,7 +35,7 @@ function RecommendationPage({
   transactionType,
   orderByType,
   accountTypeUniqueNo,
-}: Props) {
+}: RecommendationPageProps) {
   const [lastMonthChange, setLastMonthChange] = useState<number>(0)
   const [sixMonthsChange, setSixMonthsChange] = useState<number>(0)
 
@@ -92,61 +92,16 @@ function RecommendationPage({
 
   return (
     <div className="w-full h-full flex flex-col justify-center p-4">
-      <h1 className="text-left text-xl mt-8 mb-2">
-        <span className="font-medium">{userInfo?.name}</span>
-        <span>님,</span>
-      </h1>
-      <h2 className="text-left mb-20">
-        <span className="text-2xl font-medium text-primary">
-          {challengeType}
-        </span>
-        <span className="text-xl"> 어떠세요?</span>
-      </h2>
-      <MyChart
+      <RecommendTo name={userInfo?.name || ''} challengeType={challengeType} />
+      <ChartSummary
         challengeType={challengeType}
         spendingData={spendingData}
-        memberId=""
-        accountTypeUniqueNo=""
+        totalSpent={totalSpent}
+        lastMonthChange={lastMonthChange}
+        sixMonthsChange={sixMonthsChange}
+        expenseLabel={expenseLabel}
       />
-      <div className="text-left mt-16">
-        <p className="mb-10">
-          지난 6개월 간
-          <span className="font-medium text-primary"> [{expenseLabel}]</span>{' '}
-          지출이 크게 늘었습니다!
-        </p>
-        <h2 className="flex gap-1 items-center mb-3">
-          <DollarsFlying className="w-5 h-5" />
-          <p>
-            지난 6개월 간 {expenseLabel}에 소비한 돈{' '}
-            <span className="font-medium text-primary">
-              {totalSpent.toLocaleString()}원
-            </span>
-          </p>
-        </h2>
-        <h2 className="flex gap-1 items-center mb-3">
-          <ChartUp className="w-5 h-5" />
-          <p>
-            지난 달 대비 {expenseLabel} 소비{' '}
-            <span className="font-medium text-primary">
-              {lastMonthChange.toFixed(1)}%
-            </span>{' '}
-            증가
-          </p>
-        </h2>
-        <h2 className="flex gap-1 items-center mb-16">
-          <ChartUp className="w-5 h-5" />
-          <p>
-            6개월 전 대비 {expenseLabel} 소비{' '}
-            <span className="font-medium text-primary">
-              {sixMonthsChange.toFixed(1)}%
-            </span>{' '}
-            증가
-          </p>
-        </h2>
-      </div>
       <Button text={`${challengeType} 바로가기`} />
     </div>
   )
 }
-
-export default RecommendationPage
