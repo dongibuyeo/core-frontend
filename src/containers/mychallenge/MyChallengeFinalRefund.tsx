@@ -6,6 +6,7 @@ interface Props {
   top10PercentRewardPerUnit: number
   lower90PercentRewardPerUnit: number
   isSuccess: boolean
+  isTop10Percent?: boolean
   top10PercentMemberNum?: number
   lower90PercentMemberNum?: number
   lastMonthIncreaseRate?: number
@@ -16,18 +17,29 @@ export default function MyChallengeFinalRefund({
   top10PercentRewardPerUnit,
   lower90PercentRewardPerUnit,
   isSuccess,
+  isTop10Percent,
   lastMonthIncreaseRate,
   top10PercentMemberNum,
   lower90PercentMemberNum,
 }: Props) {
-  const refundAmountSuccess =
+  const refundAmountTop10PercentSuccess =
+    depositAmount + (depositAmount / 10000) * top10PercentRewardPerUnit
+  const refundAmountLower90PercentSuccess =
     depositAmount + (depositAmount / 10000) * lower90PercentRewardPerUnit
+
   const refundAmountFailure =
     lastMonthIncreaseRate !== undefined
       ? depositAmount - depositAmount * lastMonthIncreaseRate
       : 0
 
-  const refundAmount = isSuccess ? refundAmountSuccess : refundAmountFailure
+  const refundAmount = (() => {
+    if (isSuccess) {
+      return isTop10Percent
+        ? refundAmountTop10PercentSuccess
+        : refundAmountLower90PercentSuccess
+    }
+    return refundAmountFailure
+  })()
 
   return (
     <div className="w-full">
@@ -82,20 +94,45 @@ export default function MyChallengeFinalRefund({
               <div className="text-sm mb-2">
                 환급액 = 예치금+(예치금/10,000 * 단위상금)
               </div>
-              <div className="text-sm text-_grey-400">
-                단위상금 = {lower90PercentRewardPerUnit.toLocaleString('ko-KR')}
-                원
-              </div>
-              <div className="flex">
-                <div className="text-sm text-_grey-400">
-                  환급액 = {depositAmount.toLocaleString('ko-KR')}원 + (
-                  {(depositAmount / 10000).toFixed(0)} *{' '}
-                  {lower90PercentRewardPerUnit.toLocaleString('ko-KR')}원) ={' '}
-                </div>
-                <div className="text-sm text-_blue-300 fint-bold">
-                  {refundAmountSuccess.toLocaleString('ko-KR')}원
-                </div>
-              </div>
+              {isTop10Percent ? (
+                <>
+                  <div className="text-sm text-_grey-400">
+                    단위상금 ={' '}
+                    {top10PercentRewardPerUnit.toLocaleString('ko-KR')}원
+                  </div>
+                  <div className="flex">
+                    <div className="text-sm text-_grey-400">
+                      환급액 = {depositAmount.toLocaleString('ko-KR')}원 + (
+                      {(depositAmount / 10000).toFixed(0)} *{' '}
+                      {top10PercentRewardPerUnit.toLocaleString('ko-KR')}원) ={' '}
+                    </div>
+                    <div className="text-sm text-_blue-300 font-bold">
+                      {refundAmountTop10PercentSuccess.toLocaleString('ko-KR')}
+                      원
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="text-sm text-_grey-400">
+                    단위상금 ={' '}
+                    {lower90PercentRewardPerUnit.toLocaleString('ko-KR')}원
+                  </div>
+                  <div className="flex">
+                    <div className="text-sm text-_grey-400">
+                      환급액 = {depositAmount.toLocaleString('ko-KR')}원 + (
+                      {(depositAmount / 10000).toFixed(0)} *{' '}
+                      {lower90PercentRewardPerUnit.toLocaleString('ko-KR')}원) ={' '}
+                    </div>
+                    <div className="text-sm text-_blue-300 font-bold">
+                      {refundAmountLower90PercentSuccess.toLocaleString(
+                        'ko-KR',
+                      )}
+                      원
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         ) : (
@@ -119,7 +156,7 @@ export default function MyChallengeFinalRefund({
                   : '0'}
                 ) ={' '}
               </div>
-              <div className="text-sm text-_blue-300 fint-bold">
+              <div className="text-sm text-_blue-300 font-bold">
                 {refundAmountFailure.toLocaleString('ko-KR')}원
               </div>
             </div>
