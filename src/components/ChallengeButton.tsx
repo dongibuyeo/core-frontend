@@ -165,25 +165,53 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
         case '참여예정':
         case '참여중':
           return (
-            <div className="flex gap-3">
-              <button
-                type="button"
-                className={blueButton}
-                onClick={() =>
-                  router.push(`/challenge/${challengeId}?type=${type}`)
-                }
-              >
-                챌린지 상세보기
-              </button>
-              <button
-                type="button"
-                className={blueButton}
-                onClick={() =>
-                  router.push(`/chat/${convertTransferType(type as string)}`)
-                }
-              >
-                채팅
-              </button>
+            <div>
+              {type === 'QUIZ_SOLBEING' ? (
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    className={blueButton}
+                    onClick={() => router.push('/modals/quiz-modal')}
+                    disabled={isAreadySolved}
+                  >
+                    오늘의 문제풀기
+                  </button>
+                  <button
+                    type="button"
+                    className={blueButton}
+                    onClick={() =>
+                      router.push(
+                        `/chat/${convertTransferType(type as string)}`,
+                      )
+                    }
+                  >
+                    채팅
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    className={blueButton}
+                    onClick={() =>
+                      router.push(`/challenge/${challengeId}?type=${type}`)
+                    }
+                  >
+                    챌린지 상세보기
+                  </button>
+                  <button
+                    type="button"
+                    className={blueButton}
+                    onClick={() =>
+                      router.push(
+                        `/chat/${convertTransferType(type as string)}`,
+                      )
+                    }
+                  >
+                    채팅
+                  </button>
+                </div>
+              )}
             </div>
           )
         case '정산필요':
