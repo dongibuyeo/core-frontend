@@ -20,9 +20,9 @@ export default function Home() {
   })
 
   return (
-    <div className="w-full h-full flex flex-col pb-7">  
+    <div className="w-full h-full flex flex-col pb-7">
       <div className="w-full min-h-[3.75rem] flex items-center my-4">
-        <MainLogo className="h-[5rem]" />
+        <MainLogo className="h-14" />
       </div>
       {isBannerOpen && (
         <Banner setIsBannerOpen={setIsBannerOpen} type="recommend" />
