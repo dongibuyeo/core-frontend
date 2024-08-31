@@ -4,12 +4,14 @@ import { getUserInfo } from '@/services/auth'
 import { instance } from '@/services/config/axios'
 import { convertTransferType } from '@/utils/convertTransferType'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getCheckSolved } from '@/services/challenges'
+import { ChallengeType } from '@/types/Challenge'
 import { useRouter } from 'next/navigation'
 
 interface Props {
   status: '참여예정' | '참여중' | '정산필요' | '완료'
   detailPage: boolean
-  type?: string
+  type?: ChallengeType
   challengeId?: string
 }
 
@@ -37,6 +39,7 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
     },
   })
 
+
   const rewardChallenge = useMutation({
     mutationFn: async () => {
       await instance.post(`/challenges/member/reward`, {
@@ -51,6 +54,10 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
     onError: () => {
       console.error('에러 발생')
     },
+
+  const { data: isAreadySolved } = useQuery({
+    queryKey: ['checkSolved'],
+    queryFn: () => getCheckSolved(user?.memberId as string),
   })
 
   function renderButtons() {
@@ -85,15 +92,41 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
           )
         case '참여중':
           return (
-            <button
-              type="button"
-              className={blueButton}
-              onClick={() =>
-                router.push(`/chat/${convertTransferType(type as string)}`)
-              }
-            >
-              채팅
-            </button>
+            <div>
+              {type === 'QUIZ_SOLBEING' ? (
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    className={blueButton}
+                    onClick={() => router.push('/quiz')}
+                    disabled={isAreadySolved}
+                  >
+                    오늘의 문제풀기
+                  </button>
+                  <button
+                    type="button"
+                    className={blueButton}
+                    onClick={() =>
+                      router.push(
+                        `/chat/${convertTransferType(type as string)}`,
+                      )
+                    }
+                  >
+                    채팅
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  className={blueButton}
+                  onClick={() =>
+                    router.push(`/chat/${convertTransferType(type as string)}`)
+                  }
+                >
+                  채팅
+                </button>
+              )}
+            </div>
           )
         case '정산필요':
           return (
@@ -136,7 +169,9 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
               <button
                 type="button"
                 className={blueButton}
-                onClick={() => router.push(`/challenge/${challengeId}`)}
+                onClick={() =>
+                  router.push(`/challenge/${challengeId}?type=${type}`)
+                }
               >
                 챌린지 상세보기
               </button>
