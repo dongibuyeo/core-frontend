@@ -88,7 +88,7 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
               <button
                 type="button"
                 className={blueButton}
-                onClick={() => router.push(`/challenge/my/${challengeId}`)}
+                onClick={() => router.push(`/challenge/${challengeId}`)}
               >
                 챌린지 상세보기
               </button>
