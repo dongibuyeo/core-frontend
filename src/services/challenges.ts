@@ -5,6 +5,8 @@ import {
   ChallengeRanking,
   ChallengeResult,
   EstimateRewardRes,
+  SolvedQuizReq,
+  SolvedQuizRes,
 } from '@/types/Challenge'
 
 export const getAllChallenge = async () => {
@@ -84,4 +86,26 @@ export const getMyScores = async (
     deposit,
   })
   return response.data.dailyScores
+}
+
+export const getCheckSolved = async (memberId: string) => {
+  const response = await instance.get(`/quiz/aadelry /${memberId}`)
+  return response.data
+}
+
+export const getRandomQuiz: (memberId: string) => Promise<{
+  id: string
+  question: string
+  answer: boolean
+  description: string
+}> = async (memberId) => {
+  const response = await instance.get(`/quiz/${memberId}`)
+  return response.data
+}
+
+export const postSolvedQuiz: (
+  payload: SolvedQuizReq,
+) => Promise<SolvedQuizRes> = async (payload) => {
+  const response = await instance.post('/quiz/solve', payload)
+  return response.data
 }
