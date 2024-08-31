@@ -1,6 +1,8 @@
 'use client'
 
+import { scoreLabelMap } from '@/constants/score-label-map'
 import { ScoreUp, ScoreDown } from '@/public/svg'
+import { formatDate } from '@/utils/formatDate'
 
 interface Props {
   score: number
@@ -34,7 +36,7 @@ export default function ScoreCard({
         <div className="ml-3">
           <span>{score}점</span>
           <div className="text-sm text-_grey-400">
-            {description} ・ {date}
+            {scoreLabelMap[description]} ・ {formatDate(date)}
           </div>
         </div>
       </div>

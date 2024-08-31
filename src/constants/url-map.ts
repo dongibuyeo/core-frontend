@@ -11,6 +11,8 @@ export const URL_WITHOUT_MENU = [
   '/challenge',
   '/enroll',
   '/modals',
+  '/quiz',
+  '/chat',
 ]
 
 export const URL_WITHOUT_NAV = ['/push', '/home']
@@ -30,6 +32,7 @@ export const URL_LABEL_MAP: UrlMap[] = [
     path: '/challenge/my',
     label: ' ',
     goBack: true,
+    bg: 'bg-white',
   },
   {
     path: '/challenge',
@@ -77,4 +80,5 @@ export const URL_LABEL_MAP: UrlMap[] = [
     bg: 'bg-white',
   },
   { path: '/enroll', label: ' ', goBack: true },
+  { path: '/quiz', label: ' ', goBack: true },
 ]

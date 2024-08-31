@@ -1,20 +1,24 @@
 'use client'
 
 import ChallengeRanking from '@/containers/challenge/[id]/ChallengeRanking'
-import ChallengeInfo from '@/containers/challenge/[id]/ChallengeInfo'
 import { Arrow } from '@/public/svg/index'
 import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getChallenge } from '@/services/challenges'
-import { Challenge } from '@/types/Challenge'
+import { Challenge, ChallengeType } from '@/types/Challenge'
+import ChallengeInfoConsumption from '@/containers/challenge/[id]/ChallengeInfoConsumption'
+import ChallengeInfoSaving from '@/containers/challenge/[id]/ChallengeInfoSaving'
+import ChallengeInfoQuiz from '@/containers/challenge/[id]/ChallengeInfoQuiz'
 
 export default function ChallengeDetailPage() {
   const router = useRouter()
   const pathname = usePathname()
   const [currentTab, setCurrentTab] = useState('info')
   const challengeId = pathname.split('/')[2]
+  const searchParams = useSearchParams()
+  const challengeType = searchParams.get('type') as ChallengeType
 
   const { data: challenge } = useQuery<Challenge>({
     queryKey: ['challenge', challengeId],
@@ -57,7 +61,7 @@ export default function ChallengeDetailPage() {
           <div className="flex">
             <button
               type="button"
-              className="w-1/2 py-5 font-medium"
+              className="w-full py-5 font-medium"
               onClick={() => {
                 setCurrentTab('info')
                 window.scrollTo(0, 0)
@@ -69,23 +73,34 @@ export default function ChallengeDetailPage() {
                 챌린지 정보
               </span>
             </button>
-            <button
-              type="button"
-              className="w-1/2 py-5 font-normal"
-              onClick={() => {
-                setCurrentTab('ranking')
-                window.scrollTo(0, 0)
-              }}
-            >
-              <span
-                className={`${currentTab === 'ranking' && 'border-b-2 border-black font-medium'} leading-5`}
+            {challengeType.startsWith('CONSUMPTION') && (
+              <button
+                type="button"
+                className="w-full py-5 font-normal"
+                onClick={() => {
+                  setCurrentTab('ranking')
+                  window.scrollTo(0, 0)
+                }}
               >
-                현재랭킹
-              </span>
-            </button>
+                <span
+                  className={`${currentTab === 'ranking' && 'border-b-2 border-black font-medium'} leading-5`}
+                >
+                  현재랭킹
+                </span>
+              </button>
+            )}
           </div>
           <div className="px-5">
-            {currentTab === 'info' && <ChallengeInfo />}
+            {currentTab === 'info' &&
+              challengeType.startsWith('CONSUMPTION') && (
+                <ChallengeInfoConsumption />
+              )}
+            {currentTab === 'info' && challengeType === 'SAVINGS_SEVEN' && (
+              <ChallengeInfoSaving />
+            )}
+            {currentTab === 'info' && challengeType === 'QUIZ_SOLBEING' && (
+              <ChallengeInfoQuiz />
+            )}
             {currentTab === 'ranking' && <ChallengeRanking />}
           </div>
         </div>

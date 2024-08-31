@@ -4,9 +4,9 @@ import { useState } from 'react'
 import ToggleSettingItem from '@/containers/ToggleSettingItem'
 
 export default function NotificationPage() {
-  const [isChallengeAlertEnabled, setIsChallengeAlertEnabled] = useState(false)
+  const [isChallengeAlertEnabled, setIsChallengeAlertEnabled] = useState(true)
   const [isMarketingConsentEnabled, setIsMarketingConsentEnabled] =
-    useState(false)
+    useState(true)
 
   return (
     <div className="w-full mt-5">

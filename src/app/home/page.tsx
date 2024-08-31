@@ -1,6 +1,6 @@
 'use client'
 
-import { Arrow } from '@/public/svg/index'
+import { Arrow, MainLogo } from '@/public/svg/index'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Banner from '@/components/banner'
@@ -20,9 +20,9 @@ export default function Home() {
   })
 
   return (
-    <div className="w-full h-full flex flex-col pb-7">
-      <div className="w-full min-h-[3.75rem] flex items-center">
-        <h1 className="text-2xl font-bold text-primary/80">돈기부여</h1>
+    <div className="w-full h-full flex flex-col pb-7">  
+      <div className="w-full min-h-[3.75rem] flex items-center my-4">
+        <MainLogo className="h-[5rem]" />
       </div>
       {isBannerOpen && (
         <Banner setIsBannerOpen={setIsBannerOpen} type="recommend" />
@@ -50,6 +50,7 @@ export default function Home() {
               totalDeposit={challenge?.totalDeposit}
               image={challenge?.image}
               status={challenge?.status}
+              type={challenge?.type}
             />
           ))}
       </div>

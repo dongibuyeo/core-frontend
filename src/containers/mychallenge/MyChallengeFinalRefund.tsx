@@ -5,7 +5,7 @@ interface Props {
   depositAmount: number
   top10PercentRewardPerUnit: number
   lower90PercentRewardPerUnit: number
-  isSuccess: boolean
+  success: boolean
   isTop10Percent?: boolean
   top10PercentMemberNum?: number
   lower90PercentMemberNum?: number
@@ -16,7 +16,7 @@ export default function MyChallengeFinalRefund({
   depositAmount,
   top10PercentRewardPerUnit,
   lower90PercentRewardPerUnit,
-  isSuccess,
+  success,
   isTop10Percent,
   lastMonthIncreaseRate,
   top10PercentMemberNum,
@@ -33,7 +33,7 @@ export default function MyChallengeFinalRefund({
       : 0
 
   const refundAmount = (() => {
-    if (isSuccess) {
+    if (success) {
       return isTop10Percent
         ? refundAmountTop10PercentSuccess
         : refundAmountLower90PercentSuccess
@@ -52,7 +52,7 @@ export default function MyChallengeFinalRefund({
       </div>
 
       <div className="px-4 bg-_grey-100 rounded-xl">
-        {isSuccess ? (
+        {success ? (
           <div className="pt-5">
             <div className="flex justify-between">
               <div>
@@ -102,7 +102,7 @@ export default function MyChallengeFinalRefund({
                   </div>
                   <div className="flex">
                     <div className="text-sm text-_grey-400">
-                      환급액 = {depositAmount.toLocaleString('ko-KR')}원 + (
+                      환급액 = {depositAmount?.toLocaleString('ko-KR')}원 + (
                       {(depositAmount / 10000).toFixed(0)} *{' '}
                       {top10PercentRewardPerUnit.toLocaleString('ko-KR')}원) ={' '}
                     </div>

@@ -3,8 +3,9 @@
 import Image from 'next/image'
 import { calculateDday } from '@/utils/calculateDday'
 import { ArrowRight } from '@/public/svg'
-import { formatDate } from '@/utils/formatDate'
 import { useRouter } from 'next/navigation'
+import { formatDate } from '@/utils/formatDate'
+import { ChallengeType } from '@/types/Challenge'
 import ChallengeButton from './ChallengeButton'
 
 interface Props {
@@ -15,7 +16,7 @@ interface Props {
   status?: string
   memberStatus?: string
   challengeId?: string
-  type?: string
+  type?: ChallengeType
 }
 
 export default function MyChallengeCard({
@@ -32,6 +33,7 @@ export default function MyChallengeCard({
   const today = new Date()
   const start = new Date(formatDate(startDate))
   const end = new Date(formatDate(endDate))
+  end.setDate(end.getDate() + 1)
 
   const challengeStatus: '참여 예정' | '진행중' | '완료' | '정산필요' = (() => {
     if (today < start) {
@@ -77,7 +79,10 @@ export default function MyChallengeCard({
         <div
           role="presentation"
           className="w-full flex justify-between items-center cursor-pointer"
-          onClick={() => router.push(`/challenge/${challengeId}`)}
+          onClick={() =>
+            !(type === 'QUIZ_SOLBEING' && challengeStatus === '참여 예정') &&
+            router.push(`/challenge/my/${challengeId}`)
+          }
         >
           <div className="flex flex-col">
             <span className={`text-xs font-medium ${statusColor}`}>
@@ -92,9 +97,12 @@ export default function MyChallengeCard({
               </span>
             </div>
           </div>
-          <button type="button" className="ml-auto" aria-label="View details">
-            <ArrowRight />
-          </button>
+          {type === 'QUIZ_SOLBEING' &&
+          challengeStatus === '참여 예정' ? null : (
+            <button type="button" className="ml-auto" aria-label="View details">
+              <ArrowRight />
+            </button>
+          )}
         </div>
       </div>
       <div className="w-full">

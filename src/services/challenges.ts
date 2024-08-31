@@ -5,6 +5,8 @@ import {
   ChallengeRanking,
   ChallengeResult,
   EstimateRewardRes,
+  SolvedQuizReq,
+  SolvedQuizRes,
 } from '@/types/Challenge'
 
 export const getAllChallenge = async () => {
@@ -24,10 +26,27 @@ export const getChallengeRanking = async (
   return response.data
 }
 
+export const getMyRanking = async (memberId: string, challengeId: string) => {
+  const response = await instance.get(`/challenges/rank/my-challenge`, {
+    params: { memberId, challengeId },
+  })
+  return response.data
+}
+
 export const getChallengeResult = async (
   challengeId: string,
 ): Promise<ChallengeResult> => {
   const response = await instance.get(`/challenges/result/${challengeId}`)
+  return response.data
+}
+
+export const getMyChallengeResult = async (
+  memberId: string,
+  challengeId: string,
+) => {
+  const response = await instance.get(`/challenges/result/my-challenge`, {
+    params: { memberId, challengeId },
+  })
   return response.data
 }
 
@@ -56,3 +75,37 @@ export const getMyChallengeList = async (memberId: string) => {
   return response.data
 }
 
+export const getMyScores = async (
+  memberId: string,
+  challengeId: string,
+  deposit: number,
+) => {
+  const response = await instance.post(`/challenges/member/score-details`, {
+    memberId,
+    challengeId,
+    deposit,
+  })
+  return response.data.dailyScores
+}
+
+export const getCheckSolved = async (memberId: string) => {
+  const response = await instance.get(`/quiz/aadelry /${memberId}`)
+  return response.data
+}
+
+export const getRandomQuiz: (memberId: string) => Promise<{
+  id: string
+  question: string
+  answer: boolean
+  description: string
+}> = async (memberId) => {
+  const response = await instance.get(`/quiz/${memberId}`)
+  return response.data
+}
+
+export const postSolvedQuiz: (
+  payload: SolvedQuizReq,
+) => Promise<SolvedQuizRes> = async (payload) => {
+  const response = await instance.post('/quiz/solve', payload)
+  return response.data
+}

@@ -2,16 +2,16 @@
 
 import Image from 'next/image'
 import { calculateDday } from '@/utils/calculateDday'
+import { formatDate } from '@/utils/formatDate'
 
 interface Props {
   title: string
   startDate?: string
   endDate?: string
   imageUrl: string
-  isChallengeSuccessful?: boolean
-  isSettled?: boolean
   isChatPage?: boolean
   participantCount?: number
+  memberStatus?: string
 }
 
 export default function MiniChallengeCard({
@@ -19,25 +19,25 @@ export default function MiniChallengeCard({
   startDate,
   endDate,
   imageUrl,
-  isChallengeSuccessful,
-  isSettled,
+  memberStatus,
   isChatPage = false,
   participantCount = 0,
 }: Props) {
   const today = new Date()
-  const start = new Date(startDate as string)
-  const end = new Date(endDate as string)
+  const start = new Date(formatDate(startDate as string))
+  const end = new Date(formatDate(endDate as string))
+  end.setDate(end.getDate() + 1)
 
   const challengeStatus = (() => {
     switch (true) {
       case today < start:
         return '참여 예정'
-      case today >= start && today <= end:
+      case today >= start && today < end:
         return '진행중'
-      case isChallengeSuccessful && !isSettled:
-        return '정산필요'
-      default:
+      case memberStatus === 'REWARDED':
         return '완료'
+      default:
+        return '정산필요'
     }
   })()
 
@@ -50,7 +50,7 @@ export default function MiniChallengeCard({
     <div className="flex items-center bg-white w-full py-4">
       <div className="flex w-[3.75rem] h-[3.75rem] overflow-hidden rounded-lg mr-4">
         <Image
-          src={imageUrl}
+          src={`/image/challenge/${imageUrl}.jpg`}
           alt="Challenge Image"
           height={60}
           width={60}
@@ -62,7 +62,7 @@ export default function MiniChallengeCard({
           {!isChatPage && (
             <span className={`text-lg font-medium mr-1 ${statusColor}`}>
               {challengeStatus === '참여 예정' || challengeStatus === '진행중'
-                ? calculateDday(startDate as string)
+                ? calculateDday(formatDate(startDate as string))
                 : challengeStatus}
             </span>
           )}
@@ -73,7 +73,7 @@ export default function MiniChallengeCard({
         >
           {isChatPage
             ? `현재 ${formattedParticipantCount}명 채팅 참여중`
-            : `${startDate} ~ ${endDate}`}
+            : `${formatDate(startDate as string)} ~ ${formatDate(endDate as string)}`}
         </span>
       </div>
     </div>

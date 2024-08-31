@@ -40,6 +40,10 @@ import Prohibition from './prohibition.svg'
 import LandingLogo from './landing-logo.svg'
 import Document from './document.svg'
 import ScoreDetail from './score-detail.svg'
+import Bookmark from './Bookmark.svg'
+import Correct from './correct.svg'
+import Incorrect from './incorrect.svg'
+import MainLogo from './main-logo.svg'
 
 export {
   Arrow,
@@ -84,4 +88,8 @@ export {
   LandingLogo,
   Document,
   ScoreDetail,
+  Bookmark,
+  Correct,
+  Incorrect,
+  MainLogo,
 }

@@ -24,7 +24,7 @@ import { getAccount } from '@/services/account'
 import { getSpentMoney } from '@/services/consume'
 import { UserInfo } from '@/types/user'
 
-export default function ChallengeInfo() {
+export default function ChallengeInfoConsumption() {
   const router = useRouter()
   const pathname = usePathname()
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
@@ -33,15 +33,9 @@ export default function ChallengeInfo() {
   const [scoreMessages, setScoreMessages] = useState<string[]>()
   const [successCondition, setSuccessCondition] = useState<string>()
 
-  let email
-  if (typeof window !== 'undefined') {
-    email = localStorage.getItem('email')
-  }
-
   const { data: user } = useQuery<UserInfo>({
     queryKey: ['user'],
     queryFn: getUserInfo,
-    enabled: !!email,
   })
 
   const { data: accountList } = useQuery({
@@ -88,11 +82,11 @@ export default function ChallengeInfo() {
   const getCategoryMessage = (challengeType: string): string => {
     switch (challengeType) {
       case 'SAVINGS_SEVEN':
-        return '49일 동안 매일 납입하면'
+        return '7주동안 매일 7천원 납입하면 7명 추첨해서 상금드려요!'
       case 'QUIZ_SOLBEING':
-        return ''
+        return '매일 한 문제씩 풀고 정답이면 추첨권이 쌓여요!'
       default:
-        return '카테고리 소비가 지난 달 대비 줄어들면'
+        return '카테고리 소비가 지난 달 대비 줄어들면 성공!'
     }
   }
 
@@ -122,7 +116,7 @@ export default function ChallengeInfo() {
         {successCondition && (
           <div className="text-base font-normal mt-6">
             [{challengeTypeToLabel[challenge?.type as ChallengeType]}]{' '}
-            {successCondition} 성공!
+            {successCondition}
           </div>
         )}
       </div>
@@ -185,90 +179,81 @@ export default function ChallengeInfo() {
           participants={challenge?.participants}
           fund={challenge?.totalDeposit ?? ''}
         />
-      </div>
-      <div>
-        <div className="flex space-x-1 items-center">
-          <MoneyBag />
-          <span className="text-lg font-medium">챌린지 누적 기금</span>
-        </div>
-        <p className="text-base font-normal mt-3 mb-5">
-          챌린지에 성공하면{' '}
-          <span className="font-medium text-primary">상금을 분배</span>
-          받을 수 있어요!
-        </p>
-        <div
-          role="presentation"
-          className="bg-_blue-300/10 w-full p-4 mt-4 rounded-xl cursor-pointer"
-          onClick={() => setIsSuccessModalOpen((prev) => !prev)}
-        >
-          <div className="w-full flex flex-col items-center">
-            <div className="w-full flex justify-between items-center">
-              <div className="flex flex-col gap-2">
-                <div className="font-medium">챌린지 성공 시</div>
-                <div className="text-sm font-normal">
-                  예치금 전액 환급 +{' '}
-                  <span className="text-primary font-medium">상금</span>
+        <div>
+          <div
+            role="presentation"
+            className="bg-_blue-300/10 w-full p-4 mt-4 rounded-xl cursor-pointer"
+            onClick={() => setIsSuccessModalOpen((prev) => !prev)}
+          >
+            <div className="w-full flex flex-col items-center">
+              <div className="w-full flex justify-between items-center">
+                <div className="flex flex-col gap-2">
+                  <div className="font-medium">챌린지 성공 시</div>
+                  <div className="text-sm font-normal">
+                    예치금 전액 환급 +{' '}
+                    <span className="text-primary font-medium">상금</span>
+                  </div>
                 </div>
+                <ArrowDown
+                  className={`w-5 h-5 transition-transform duration-300 ${isSuccessModalOpen && 'rotate-180'}`}
+                />
               </div>
-              <ArrowDown
-                className={`w-5 h-5 transition-transform duration-300 ${isSuccessModalOpen && 'rotate-180'}`}
-              />
-            </div>
-            <div
-              className={`w-auto flex flex-col gap-2 overflow-hidden transition-max-height duration-300 ease-in-out ${
-                isSuccessModalOpen ? 'max-h-screen' : 'max-h-0'
-              }`}
-            >
-              <div className="text-sm font-normal mt-5">
-                상금 = 예치금 이자 + 실패한 인원의 예치금
-              </div>
-              <div className="text-xs font-normal">
-                상금의 50%는 상위 10%에게,
-                <br />
-                나머지 50%는 하위 90%에게 1/n로 분배됩니다!
-              </div>
-              <div className="w-full flex justify-center">
-                <SuccessModalChart className="w-3/4 object-cover" />
+              <div
+                className={`w-auto flex flex-col gap-2 overflow-hidden transition-max-height duration-300 ease-in-out ${
+                  isSuccessModalOpen ? 'max-h-screen' : 'max-h-0'
+                }`}
+              >
+                <div className="text-sm font-normal mt-5">
+                  상금 = 예치금 이자 + 실패한 인원의 예치금
+                </div>
+                <div className="text-xs font-normal">
+                  상금의 50%는 상위 10%에게,
+                  <br />
+                  나머지 50%는 하위 90%에게 1/n로 분배됩니다!
+                </div>
+                <div className="w-full flex justify-center">
+                  <SuccessModalChart className="w-3/4 object-cover" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          role="presentation"
-          className="bg-[#EA4141]/10 w-full p-4 mt-4 rounded-xl cursor-pointer"
-          onClick={() => setIsFailModalOpen((prev) => !prev)}
-        >
-          <div className="w-full flex flex-col items-center">
-            <div className="w-full flex justify-between items-center">
-              <div className="flex flex-col gap-2">
-                <div className="font-medium">챌린지 실패 시</div>
-                <div className="text-sm font-normal">
-                  지난 달 소비액 대비 증가율만큼 예치금 차감
+          <div
+            role="presentation"
+            className="bg-[#EA4141]/10 w-full p-4 mt-4 rounded-xl cursor-pointer"
+            onClick={() => setIsFailModalOpen((prev) => !prev)}
+          >
+            <div className="w-full flex flex-col items-center">
+              <div className="w-full flex justify-between items-center">
+                <div className="flex flex-col gap-2">
+                  <div className="font-medium">챌린지 실패 시</div>
+                  <div className="text-sm font-normal">
+                    지난 달 소비액 대비 증가율만큼 예치금 차감
+                  </div>
                 </div>
+                <ArrowDown
+                  className={`w-5 h-5 transition-transform duration-300 ${isFailModalOpen && 'rotate-180'}`}
+                />
               </div>
-              <ArrowDown
-                className={`w-5 h-5 transition-transform duration-300 ${isFailModalOpen && 'rotate-180'}`}
-              />
-            </div>
-            <div
-              className={`w-auto flex flex-col gap-2 overflow-hidden transition-max-height duration-300 ease-in-out ${
-                isFailModalOpen ? 'max-h-screen' : 'max-h-0'
-              }`}
-            >
-              <div className="text-sm font-normal mt-5">
-                환급액 = 예치금 - (예치금 * 증가율)
-              </div>
-              <div className="text-xs font-normal text-_grey-400">
-                <span className="font-medium">예시</span>
-                <br />
-                지난 달 소비액 10,000원
-                <br />
-                이번 달 소비액 12,000원
-                <br />
-                증가율 = 20%
-                <br />
-                <br />
-                환급액 = 10,000원 - (10,000원 * 0.2) = 8,000원
+              <div
+                className={`w-auto flex flex-col gap-2 overflow-hidden transition-max-height duration-300 ease-in-out ${
+                  isFailModalOpen ? 'max-h-screen' : 'max-h-0'
+                }`}
+              >
+                <div className="text-sm font-normal mt-5">
+                  환급액 = 예치금 - (예치금 * 증가율)
+                </div>
+                <div className="text-xs font-normal text-_grey-400">
+                  <span className="font-medium">예시</span>
+                  <br />
+                  지난 달 소비액 10,000원
+                  <br />
+                  이번 달 소비액 12,000원
+                  <br />
+                  증가율 = 20%
+                  <br />
+                  <br />
+                  환급액 = 10,000원 - (10,000원 * 0.2) = 8,000원
+                </div>
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 export type Challenge = {
   challengeId: string
-  type?: string
+  type?: ChallengeType
   status?: string
   accountNo?: string
   startDate: string
@@ -74,4 +74,13 @@ export type ChallengeJoinRes = {
   challengeId: string
   memberId: string
   deposit: number
+}
+
+export type SolvedQuizReq = {
+  quizId: string
+  memberId: string
+}
+export type SolvedQuizRes = {
+  quizMemberId: string
+  solvedAt: string
 }

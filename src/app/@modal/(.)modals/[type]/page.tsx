@@ -4,6 +4,7 @@ import { BottomModalContainer } from '@/components/modals/BottomModalContainer'
 import EnrollConfirmModal from '@/components/modals/EnrollConfirmModal'
 import ExampleModal from '@/components/modals/ExampleModal'
 import { ModalLayout } from '@/components/modals/ModalLayout'
+import QuizModal from '@/components/modals/QuizModal'
 import TransferAccountListModal from '@/components/modals/TransferAccountListModal'
 
 export default function ModalPage({ params }: { params: { type: string } }) {
@@ -25,6 +26,12 @@ export default function ModalPage({ params }: { params: { type: string } }) {
         return (
           <BottomModalContainer>
             <EnrollConfirmModal />
+          </BottomModalContainer>
+        )
+      case 'quiz-modal':
+        return (
+          <BottomModalContainer>
+            <QuizModal />
           </BottomModalContainer>
         )
       default:
