@@ -1,6 +1,8 @@
+import { ChallengeType } from './Challenge'
+
 export type MemberChallengeDetail = {
   challengeId: string
-  type: string
+  type: ChallengeType
   status: string
   accountNo: string
   startDate: string
