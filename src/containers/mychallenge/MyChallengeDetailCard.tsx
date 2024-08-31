@@ -50,8 +50,6 @@ export default function MyChallengeDetailCard({
         startDate={startDate}
         endDate={endDate}
         imageUrl={imageUrl}
-        isChallengeSuccessful={isChallengeSuccessful}
-        isSettled={isSettled}
         isChatPage={isChatPage}
         participantCount={participantCount}
       />

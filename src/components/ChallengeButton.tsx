@@ -23,7 +23,7 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
     queryFn: () => getUserInfo(),
   })
 
-  const mutation = useMutation({
+  const cancelChallenge = useMutation({
     mutationFn: async () => {
       await instance.post(`/challenges/member/cancel`, {
         memberId: user?.memberId,
@@ -38,6 +38,22 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
       console.error('에러 발생')
     },
   })
+
+
+  const rewardChallenge = useMutation({
+    mutationFn: async () => {
+      await instance.post(`/challenges/member/reward`, {
+        memberId: user?.memberId,
+        challengeId,
+      })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myChallengeList'] })
+      router.push('/challenge/my')
+    },
+    onError: () => {
+      console.error('에러 발생')
+    },
 
   const { data: isAreadySolved } = useQuery({
     queryKey: ['checkSolved'],
@@ -59,7 +75,7 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
               <button
                 type="button"
                 className={redButton}
-                onClick={() => mutation.mutate()}
+                onClick={() => cancelChallenge.mutate()}
               >
                 포기하기
               </button>
@@ -122,7 +138,11 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
               >
                 챌린지 전체 결과보기
               </button>
-              <button type="button" className={redButton}>
+              <button
+                type="button"
+                className={redButton}
+                onClick={() => rewardChallenge.mutate()}
+              >
                 정산받기
               </button>
             </div>
