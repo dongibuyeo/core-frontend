@@ -80,7 +80,7 @@ export default function MyChallengeCard({
           role="presentation"
           className="w-full flex justify-between items-center cursor-pointer"
           onClick={() =>
-            type !== 'QUIZ_SOLBEING' &&
+            !(type === 'QUIZ_SOLBEING' && challengeStatus === '참여 예정') &&
             router.push(`/challenge/my/${challengeId}`)
           }
         >
@@ -97,7 +97,8 @@ export default function MyChallengeCard({
               </span>
             </div>
           </div>
-          {type === 'QUIZ_SOLBEING' ? null : (
+          {type === 'QUIZ_SOLBEING' &&
+          challengeStatus === '참여 예정' ? null : (
             <button type="button" className="ml-auto" aria-label="View details">
               <ArrowRight />
             </button>

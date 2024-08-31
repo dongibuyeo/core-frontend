@@ -20,23 +20,27 @@ export default function Quiz() {
   const { data: quiz } = useQuery({
     queryKey: ['todayQuiz'],
     queryFn: () => getRandomQuiz(userInfo?.memberId as string),
+    enabled: !!userInfo,
   })
 
   const answerMutation = useMutation({
     mutationFn: (payload: SolvedQuizReq) => postSolvedQuiz(payload),
-    onSuccess: () => {
-      router.replace('/challenge/my')
-    },
   })
 
   const handleAnswer = (selectedAnswer: boolean) => {
     setShowAnswer(true)
+
     if (quiz && selectedAnswer === quiz.answer) {
+      alert('정답입니다!')
       const payload = {
         quizId: quiz.id as string,
         memberId: userInfo?.memberId as string,
       }
       answerMutation.mutate(payload)
+    }
+
+    if (quiz && selectedAnswer !== quiz.answer) {
+      alert('틀렸습니다!')
     }
   }
 
@@ -71,7 +75,9 @@ export default function Quiz() {
           <p className="text-center text-lg">{quiz?.description}</p>
         </div>
       )}
-      {showAnswer && <Button text="확인" />}
+      {showAnswer && (
+        <Button text="확인" onClick={() => router.replace('/challenge/my')} />
+      )}
     </div>
   )
 }
