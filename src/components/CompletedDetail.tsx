@@ -1,11 +1,9 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import MyChallengeAchievementRate from '@/containers/mychallenge/MyChallengeAchievementRate'
-import MyChallengeFinalRefund from '@/containers/mychallenge/MyChallengeFinalRefund'
 import MyScoreHistory from '@/containers/mychallenge/MyScoreHistory'
-import { Trophy } from '@/public/svg/index'
+import { MoneyBag, Trophy } from '@/public/svg/index'
 import { getUserInfo } from '@/services/auth'
 import {
-  getEstimateReward,
   getMyChallengeResult,
   getMyRanking,
   getMyScores,
@@ -25,19 +23,14 @@ export default function CompletedDetail({
   })
 
   const { data: spentMoneyList } = useQuery({
-    queryKey: ['spentMoney'],
+    queryKey: ['spentMoney', challenge?.type],
     queryFn: () =>
       getSpentMoneyList(user?.memberId ?? '', challenge?.type ?? ''),
     enabled: !!user?.memberId,
   })
 
-  const { data: estimateReward } = useQuery({
-    queryKey: ['estimateReward'],
-    queryFn: () => getEstimateReward(challenge?.challengeId as string),
-  })
-
   const { data: myChallengeResult } = useQuery({
-    queryKey: ['myChallengeResult'],
+    queryKey: ['myChallengeResult', challenge?.challengeId],
     queryFn: () =>
       getMyChallengeResult(
         user?.memberId as string,
@@ -64,8 +57,6 @@ export default function CompletedDetail({
     enabled: !!user?.memberId && !!challenge?.memberDeposit,
   })
 
-  console.log(myChallengeResult)
-
   let lastSpentMoney
   let currentSpentMoney
   let progressPercentage
@@ -73,6 +64,9 @@ export default function CompletedDetail({
     ;[lastSpentMoney, currentSpentMoney] = spentMoneyList
 
     progressPercentage = Math.round((currentSpentMoney / lastSpentMoney) * 100)
+    if (Number.isNaN(progressPercentage)) {
+      progressPercentage = 0
+    }
   }
 
   let expenseLabel
@@ -93,7 +87,25 @@ export default function CompletedDetail({
           isSuccess
         />
       </div>
-      {/* <MyChallengeFinalRefund /> */}
+      <div>
+        <div className="flex space-x-1 items-center">
+          <MoneyBag />
+          <span className="text-lg font-medium">최종 환급금</span>
+        </div>
+        <div className="bg-_grey-100 w-full p-4 mt-4 text-center rounded-xl text-sm font-normal">
+          <p className="text-xl font-medium text-primary">
+            {myChallengeResult &&
+              (
+                myChallengeResult?.baseReward +
+                myChallengeResult?.additionalReward
+              ).toLocaleString()}
+            원
+          </p>
+          <p className="text-center mt-2 text-sm font-normal text-_grey-400">
+            환급액 = 예치금+(예치금/10,000 * 단위상금){' '}
+          </p>
+        </div>
+      </div>
       <div>
         <div className="flex space-x-1 items-center">
           <Trophy />
