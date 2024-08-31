@@ -14,7 +14,7 @@ import { getSpentMoneyList } from '@/services/consume'
 import { MemberChallengeDetail } from '@/types/MyChallenge'
 import { useQuery } from '@tanstack/react-query'
 
-export default function CompletedDetail({
+export default function NotRewardedDetail({
   challenge,
 }: {
   challenge: MemberChallengeDetail

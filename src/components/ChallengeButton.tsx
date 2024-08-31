@@ -1,6 +1,9 @@
 'use client'
 
+import { getUserInfo } from '@/services/auth'
+import { instance } from '@/services/config/axios'
 import { convertTransferType } from '@/utils/convertTransferType'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 
 interface Props {
@@ -11,7 +14,28 @@ interface Props {
 }
 
 function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
+  const queryClient = useQueryClient()
   const router = useRouter()
+  const { data: user } = useQuery({
+    queryKey: ['user'],
+    queryFn: () => getUserInfo(),
+  })
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      await instance.post(`/challenges/member/cancel`, {
+        memberId: user?.memberId,
+        challengeId,
+      })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myChallengeList'] })
+      router.push('/challenge/my')
+    },
+    onError: () => {
+      console.error('에러 발생')
+    },
+  })
 
   function renderButtons() {
     const blueButton =
@@ -25,7 +49,11 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
         case '참여예정':
           return (
             <div className="flex gap-3">
-              <button type="button" className={redButton}>
+              <button
+                type="button"
+                className={redButton}
+                onClick={() => mutation.mutate()}
+              >
                 포기하기
               </button>
               <button

@@ -3,6 +3,7 @@
 import ChallengeButton from '@/components/ChallengeButton'
 import CompletedDetail from '@/components/CompletedDetail'
 import MiniChallengeCard from '@/components/MiniChallengeCard'
+import NotRewardedDetail from '@/components/NotRewardedDetail'
 import ProgressDetail from '@/components/ProgressDetail'
 import ScheduledDetail from '@/components/ScheduledDetail'
 import { getUserInfo } from '@/services/auth'
@@ -67,7 +68,12 @@ export default function MyChallengeDetail() {
         imageUrl={challenge?.image as string}
         memberStatus={challenge?.memberStatus}
       />
-      <ChallengeButton status={status} detailPage />
+      <ChallengeButton
+        status={status}
+        type={challenge?.type as string}
+        detailPage
+        challengeId={challenge?.challengeId}
+      />
       <hr className="mt-5 mb-10" />
       {status === '참여예정' && (
         <ScheduledDetail challenge={challenge as MemberChallengeDetail} />
@@ -75,7 +81,9 @@ export default function MyChallengeDetail() {
       {status === '참여중' && (
         <ProgressDetail challenge={challenge as MemberChallengeDetail} />
       )}
-      {status === '정산필요' && <ScheduledDetail />}
+      {status === '정산필요' && (
+        <NotRewardedDetail challenge={challenge as MemberChallengeDetail} />
+      )}
       {status === '완료' && (
         <CompletedDetail challenge={challenge as MemberChallengeDetail} />
       )}

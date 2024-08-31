@@ -26,12 +26,13 @@ export default function MiniChallengeCard({
   const today = new Date()
   const start = new Date(formatDate(startDate as string))
   const end = new Date(formatDate(endDate as string))
+  end.setDate(end.getDate() + 1)
 
   const challengeStatus = (() => {
     switch (true) {
       case today < start:
         return '참여 예정'
-      case today >= start && today <= end:
+      case today >= start && today < end:
         return '진행중'
       case memberStatus === 'REWARDED':
         return '완료'
