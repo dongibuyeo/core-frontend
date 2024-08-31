@@ -5,7 +5,7 @@ import useAmountStore from '@/store/amountStore'
 import { postTransfer } from '@/services/account'
 import { Account, TransferReq } from '@/types/account'
 import { TransferType } from '@/types/transfer'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getUserInfo } from '@/services/auth'
 
 interface Props {
@@ -21,6 +21,7 @@ export default function TransferSecondStep({
 }: Props) {
   const router = useRouter()
   const amount = useAmountStore((state) => state.amount)
+  const queryClient = useQueryClient()
   let email
   if (typeof window !== 'undefined') {
     email = localStorage.getItem('email')
@@ -35,6 +36,7 @@ export default function TransferSecondStep({
   const mutation = useMutation({
     mutationFn: (payload: TransferReq) => postTransfer(payload),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['account'] })
       router.push(`/transfer/${type}/3`)
     },
   })

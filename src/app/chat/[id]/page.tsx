@@ -98,7 +98,7 @@ export default function Chat({ params }: { params: { id: ChatRoomType } }) {
   }
 
   return (
-    <div className="w-full h-main-screen flex flex-col items-center justify-center gap-4">
+    <div className="w-full h-[calc(100dvh-5rem)] flex flex-col items-center justify-center gap-4">
       <MiniChallengeCard
         title="한달 커피 소비 줄이기"
         isChatPage

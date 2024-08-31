@@ -1,7 +1,6 @@
 'use client'
 
 import { BottomModalContainer } from '@/components/modals/BottomModalContainer'
-import { CenterModalContainer } from '@/components/modals/CenterModalContainer'
 import EnrollConfirmModal from '@/components/modals/EnrollConfirmModal'
 import ExampleModal from '@/components/modals/ExampleModal'
 import { ModalLayout } from '@/components/modals/ModalLayout'

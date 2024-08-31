@@ -12,6 +12,7 @@ export const URL_WITHOUT_MENU = [
   '/enroll',
   '/modals',
   '/quiz',
+  '/chat',
 ]
 
 export const URL_WITHOUT_NAV = ['/push', '/home']

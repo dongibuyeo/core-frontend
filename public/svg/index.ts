@@ -43,6 +43,7 @@ import ScoreDetail from './score-detail.svg'
 import Bookmark from './Bookmark.svg'
 import Correct from './correct.svg'
 import Incorrect from './incorrect.svg'
+import MainLogo from './main-logo.svg'
 
 export {
   Arrow,
@@ -90,4 +91,5 @@ export {
   Bookmark,
   Correct,
   Incorrect,
+  MainLogo,
 }
