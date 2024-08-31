@@ -42,7 +42,7 @@ export default function ProgressDetail({
   })
 
   const { data: myScores } = useQuery({
-    queryKey: ['myScores'],
+    queryKey: ['myScores', challenge?.challengeId],
     queryFn: () =>
       getMyScores(
         user?.memberId as string,

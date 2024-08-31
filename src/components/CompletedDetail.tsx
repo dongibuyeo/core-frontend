@@ -47,7 +47,7 @@ export default function CompletedDetail({
   })
 
   const { data: myScores } = useQuery({
-    queryKey: ['myScores'],
+    queryKey: ['myScores', challenge?.challengeId],
     queryFn: () =>
       getMyScores(
         user?.memberId as string,

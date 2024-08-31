@@ -5,6 +5,7 @@ import { getEstimateReward } from '@/services/challenges'
 import { MemberChallengeDetail } from '@/types/MyChallenge'
 import { useQuery } from '@tanstack/react-query'
 
+
 export default function ScheduledDetail({
   challenge,
 }: {
