@@ -70,7 +70,7 @@ export default function MyChallengeDetail() {
       />
       <ChallengeButton
         status={status}
-        type={challenge?.type as string}
+        type={challenge?.type}
         detailPage
         challengeId={challenge?.challengeId}
       />

@@ -39,7 +39,6 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
     },
   })
 
-
   const rewardChallenge = useMutation({
     mutationFn: async () => {
       await instance.post(`/challenges/member/reward`, {
@@ -54,6 +53,7 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
     onError: () => {
       console.error('에러 발생')
     },
+  })
 
   const { data: isAreadySolved } = useQuery({
     queryKey: ['checkSolved'],
