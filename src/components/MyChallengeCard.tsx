@@ -32,6 +32,7 @@ export default function MyChallengeCard({
   const today = new Date()
   const start = new Date(formatDate(startDate))
   const end = new Date(formatDate(endDate))
+  end.setDate(end.getDate() + 1)
 
   const challengeStatus: '참여 예정' | '진행중' | '완료' | '정산필요' = (() => {
     if (today < start) {
