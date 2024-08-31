@@ -5,13 +5,17 @@ import SectionTitle from '@/components/ui/SectionTitle'
 interface Props {
   progressPercentage: number
   category: string
-  isSuccess: boolean
+  isSuccess?: boolean
+  currentSpentMoney?: number
+  lastSpentMoney?: number
 }
 
 export default function MyChallengeAchievementRate({
   progressPercentage,
   category,
   isSuccess,
+  currentSpentMoney,
+  lastSpentMoney,
 }: Props) {
   const diffPercentage = Math.abs(100 - progressPercentage)
   const textColor = isSuccess ? 'text-primary' : 'text-_red'
@@ -35,7 +39,7 @@ export default function MyChallengeAchievementRate({
       <div className="flex mb-4">
         <div className="w-full bg-_grey-100 rounded-full h-4 items-center">
           <div
-            className={`h-4 rounded-full ${isSuccess ? 'bg-primary' : 'bg-_red'}`}
+            className={` h-4 rounded-full ${isSuccess ? 'bg-primary' : 'bg-_red'}`}
             style={{
               width: `${progressBarWidth}%`,
               background: isSuccess
@@ -45,15 +49,21 @@ export default function MyChallengeAchievementRate({
           />
         </div>
       </div>
-      <div className="mt-5 py-5 bg-_grey-100 rounded-xl flex items-center justify-center">
+      <div className="mt-5 py-5 px-5 bg-_grey-100 rounded-xl flex items-center justify-center">
         <div>
-          <p
-            className={`${textColor} font-bold text-xl flex justify-center items-center mb-3`}
-          >
-            <span className="mr-1">{messageText}</span>
-            <Image src={emojiSrc} width={28} height={28} alt={emojiAlt} />
+          {!currentSpentMoney && (
+            <p
+              className={`${textColor} font-bold text-xl flex justify-center items-center mb-3`}
+            >
+              <span className="mr-1">{messageText}</span>
+              <Image src={emojiSrc} width={28} height={28} alt={emojiAlt} />
+            </p>
+          )}
+          <p className="whitespace-pre-wrap text-center">
+            {currentSpentMoney
+              ? `현재까지 [${category}] 카테고리 소비 ${currentSpentMoney.toLocaleString()}원\n${(lastSpentMoney ?? 0) - currentSpentMoney > 0 ? `앞으로 [${category}] 소비가 ${((lastSpentMoney ?? 0) - currentSpentMoney).toLocaleString()}원 미만이면 성공이에요` : ''}`
+              : achievementMessage}
           </p>
-          <p>{achievementMessage}</p>
         </div>
       </div>
     </div>

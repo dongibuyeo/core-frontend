@@ -103,7 +103,7 @@ export default function Chat({ params }: { params: { id: ChatRoomType } }) {
         title="한달 커피 소비 줄이기"
         isChatPage
         participantCount={1053}
-        imageUrl="/image/coffee.jpg"
+        imageUrl="coffee_challenge"
       />
       <div className="w-full h-full flex flex-col gap-5 overflow-auto">
         {messages.map((chat) => (

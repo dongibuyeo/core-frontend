@@ -30,6 +30,7 @@ export const URL_LABEL_MAP: UrlMap[] = [
     path: '/challenge/my',
     label: ' ',
     goBack: true,
+    bg: 'bg-white',
   },
   {
     path: '/challenge',

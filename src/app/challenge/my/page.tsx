@@ -50,6 +50,7 @@ export default function MyChallengePage() {
       <div className="mt-7 flex flex-col gap-4">
         {filteredChallengeList?.map((challenge) => (
           <MyChallengeCard
+            key={challenge?.challengeId}
             title={challenge?.title}
             startDate={challenge?.startDate}
             endDate={challenge?.endDate}
