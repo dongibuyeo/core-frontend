@@ -58,7 +58,9 @@ export default function ChallengeRankingCard({
           </div>
         </div>
       </div>
-      <div className="text-base font-medium text-primary">+ {score}</div>
+      <div className="text-base font-medium text-primary">
+        + {score.toLocaleString()}
+      </div>
     </div>
   )
 }

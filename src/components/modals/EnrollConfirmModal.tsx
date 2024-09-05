@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { AccountType, CreateSavingAccountReq } from '@/types/account'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   getChallengeAccount,
   postCreateFreeAccount,
@@ -18,6 +18,7 @@ export default function EnrollConfirmModal() {
   const type = searchParams.get('type') as AccountType
   const challengeId = searchParams.get('challengeId')
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   const { data: challenge } = useQuery<Challenge>({
     queryKey: ['challenge', challengeId],
@@ -44,7 +45,10 @@ export default function EnrollConfirmModal() {
   const savingAccountMutation = useMutation({
     mutationFn: (payload: CreateSavingAccountReq) =>
       postCreateSavingAccount(payload),
-    onSuccess: () => router.replace(`/challenge/${challengeId}/deposit`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['account'] })
+      router.replace(`/challenge/${challengeId}/deposit`)
+    },
   })
 
   const handleEnrollment = () => {

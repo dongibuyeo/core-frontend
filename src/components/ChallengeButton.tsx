@@ -48,6 +48,7 @@ function ChallengeButton({ status, detailPage, type, challengeId }: Props) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['myChallengeList'] })
+      queryClient.invalidateQueries({ queryKey: ['account'] })
       router.push('/challenge/my')
     },
     onError: () => {

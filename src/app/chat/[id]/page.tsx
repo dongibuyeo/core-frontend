@@ -4,7 +4,7 @@ import MiniChallengeCard from '@/components/MiniChallengeCard'
 import ChatBubble from '@/containters/my-challenge/ChatBubble'
 import { ArrowSend } from '@/public/svg'
 import { getUserInfo } from '@/services/auth'
-import { getChatHistory } from '@/services/chat'
+// import { getChatHistory } from '@/services/chat'
 import { ChatMessage, ChatRoomType } from '@/types/chat'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState, useRef, useEffect } from 'react'
@@ -18,7 +18,7 @@ export default function Chat({ params }: { params: { id: ChatRoomType } }) {
   const bottomRef = useRef<HTMLDivElement>(null)
   const roomName = params.id
   const queryClient = useQueryClient()
-  const isFirst = useRef(true)
+  // const isFirst = useRef(true)
 
   const isValid = (): boolean => chatMessage.trim().length > 0
 
@@ -28,18 +28,18 @@ export default function Chat({ params }: { params: { id: ChatRoomType } }) {
     enabled: !!localStorage.getItem('email'),
   })
 
-  const { data: chatHistory, isLoading: chatLoading } = useQuery({
-    queryKey: ['chatHistory', roomName],
-    queryFn: () => getChatHistory(roomName),
-    enabled: !!roomName,
-  })
+  // const { data: chatHistory, isLoading: chatLoading } = useQuery({
+  //   queryKey: ['chatHistory', roomName],
+  //   queryFn: () => getChatHistory(roomName),
+  //   enabled: !!roomName,
+  // })
 
-  useEffect(() => {
-    if (chatHistory && isFirst.current) {
-      setMessages(chatHistory.messages)
-      isFirst.current = false
-    }
-  }, [chatHistory])
+  // useEffect(() => {
+  //   if (chatHistory && isFirst.current) {
+  //     setMessages(chatHistory.messages)
+  //     isFirst.current = false
+  //   }
+  // }, [chatHistory])
 
   useEffect(() => {
     const stompClient = new Client({
@@ -93,7 +93,7 @@ export default function Chat({ params }: { params: { id: ChatRoomType } }) {
     }
   }
 
-  if (userLoading || chatLoading) {
+  if (userLoading) {
     return <Loader />
   }
 
@@ -129,7 +129,7 @@ export default function Chat({ params }: { params: { id: ChatRoomType } }) {
           type="button"
           onClick={handleSendChat}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && isValid()) {
               handleSendChat()
             }
           }}

@@ -24,7 +24,7 @@ export default function ChallengeResultPage() {
   return (
     <div className="w-full h-full">
       <Image
-        src="/image/coffee.jpg"
+        src="/image/challenge/coffee_challenge.jpg"
         alt="챌린지 썸네일"
         height={400}
         width={400}
@@ -71,7 +71,7 @@ export default function ChallengeResultPage() {
               <div className="bg-_grey-100 w-full py-5 mt-4 text-center rounded-xl">
                 <p className="text-base font-medium text-_grey-400">
                   <span className="text-xl font-bold text-primary">
-                    {challengeResult?.participants}
+                    {challengeResult?.participants?.toLocaleString()}
                   </span>{' '}
                   명
                 </p>
@@ -90,16 +90,16 @@ export default function ChallengeResultPage() {
                   <div className="absolute -left-12 bottom-1/2">
                     <p className="text-primary font-bold">
                       <span className="text-2xl">
-                        {challengeResult?.successRate}
+                        {challengeResult?.successRate.toLocaleString()}
                       </span>
                       %
                     </p>
                   </div>
                 </div>
                 <p className="font-medium text-_grey-400 mt-8">
-                  참여자 {challengeResult?.participants}명 중{' '}
+                  참여자 {challengeResult?.participants.toLocaleString()}명 중{' '}
                   <span className="text-primary">
-                    {challengeResult?.successNum}명
+                    {challengeResult?.successNum.toLocaleString()}명
                   </span>
                   이 성공했어요!
                 </p>
@@ -118,24 +118,27 @@ export default function ChallengeResultPage() {
                 <h2 className="text-base font-medium flex space-x-3">
                   <span>총 상금</span>
                   <span className="text-primary">
-                    {challengeResult?.totalReward}원
+                    {challengeResult?.totalReward.toLocaleString()}원
                   </span>
                 </h2>
                 <p className="mt-1 text-sm font-normal">
-                  이자 {challengeResult?.interestEarned}원 + 실패 예치금{' '}
-                  {challengeResult?.remainDeposit}원
+                  이자 {challengeResult?.interestEarned.toLocaleString()}원 +
+                  실패 예치금 {challengeResult?.remainDeposit.toLocaleString()}
+                  원
                 </p>
                 <div className="flex justify-between items-center mt-5">
                   <h3 className="text-base font-medium">
                     상위 10%{' '}
                     <span className="text-xs font-normal">
-                      ({challengeResult?.top10PercentMemberNum}명)
+                      ({challengeResult?.top10PercentMemberNum.toLocaleString()}
+                      명)
                     </span>
                   </h3>
                   <div className="flex items-center space-x-3 min-w-36 justify-between">
                     <p className="text-xs font-normal">예치금 1만원 당 </p>
                     <span className="text-primary text-base font-normal">
-                      {challengeResult?.top10PercentRewardPerUnit}원
+                      {challengeResult?.top10PercentRewardPerUnit.toLocaleString()}
+                      원
                     </span>
                   </div>
                 </div>
@@ -143,13 +146,16 @@ export default function ChallengeResultPage() {
                   <h3 className="text-base font-medium">
                     하위 90%
                     <span className="text-xs font-normal">
-                      ({challengeResult?.lower90PercentMemberNum}명)
+                      (
+                      {challengeResult?.lower90PercentMemberNum.toLocaleString()}
+                      명)
                     </span>
                   </h3>
                   <div className="flex items-center space-x-3 min-w-36 justify-between">
                     <p className="text-xs font-normal">예치금 1만원 당 </p>
                     <span className="text-primary text-base font-normal">
-                      {challengeResult?.lower90PercentRewardPerUnit}원
+                      {challengeResult?.lower90PercentRewardPerUnit.toLocaleString()}
+                      원
                     </span>
                   </div>
                 </div>

@@ -25,7 +25,7 @@ export default function ChallengeRanking() {
           <p className="text-base">상위 10% 커트라인 점수</p>
           <p className="mt-1 text-xl">
             <span className="font-semibold text-primary">
-              {challengeRanking?.top10PercentCutoff}
+              {challengeRanking?.top10PercentCutoff.toLocaleString()}
             </span>
             점
           </p>

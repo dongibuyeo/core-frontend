@@ -84,7 +84,7 @@ export default function NotRewardedDetail({
     <div className="flex flex-col gap-[3.75rem]">
       <div>
         <MyChallengeAchievementRate
-          progressPercentage={progressPercentage as number}
+          progressPercentage={82}
           category={expenseLabel}
           isSuccess
         />
